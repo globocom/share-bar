@@ -1,5 +1,5 @@
 setup:
-    npm install
+	@npm install
 
 test:
-    grunt jasmine
+	@grunt jasmine
