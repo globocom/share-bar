@@ -1,4 +1,5 @@
-/*global glb, console */
+/*! Globo Share - v1.0.0 - 2014-06-18
+* Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
 }
