@@ -14,7 +14,11 @@ describe('glb.lightbox Test Case', function () {
 
         this.createShareContainer = function () {
             var element = document.createElement('div');
-            element.classList.add('glb-share');
+            element.className = 'glb-share';
+            element.setAttribute('data-url', 'http://globo.com');
+            element.setAttribute('data-title', 'Test title');
+            element.setAttribute('data-subtitle', 'Test subtitle');
+            element.setAttribute('data-image-url', 'http://g1.globo.com');
             document.body.appendChild(element);
             return element;
         };
@@ -47,6 +51,7 @@ describe('glb.lightbox Test Case', function () {
         });
 
         it('should set containers atribute with selected elements', function () {
+            spyOn(glb.share, 'createBars');
             glb.share.init();
             expect(glb.share.containers[0]).toEqual(this.el);
         });
@@ -86,15 +91,6 @@ describe('glb.lightbox Test Case', function () {
     });
 
     describe('createBar', function () {
-        it('should create wrapper element to share buttons', function () {
-            var wrapper = '';
-
-            glb.share.createBar(this.el);
-            wrapper = this.el.querySelector('.glb-share-wrapper');
-
-            expect(wrapper).not.toBe(null);
-        });
-
         it('should call createFacebookButton method', function () {
             var spy = spyOn(glb.share, 'createFacebookButton');
             glb.share.networks['facebook'] = glb.share.createFacebookButton;
@@ -103,15 +99,110 @@ describe('glb.lightbox Test Case', function () {
         });
     });
 
+    describe('getMetadataFromElement', function () {
+        it('should return a dictionary with metadata from element', function () {
+            var data = glb.share.getMetadataFromElement(this.el),
+                expectedData = {
+                'url': window.encodeURIComponent('http://globo.com'),
+                'title': window.encodeURIComponent('Test title'),
+                'subtitle': window.encodeURIComponent('Test subtitle'),
+                'imageUrl': window.encodeURIComponent('http://g1.globo.com')
+            };
+
+            expect(data).toEqual(expectedData);
+        });
+    });
+
+    describe('createButton', function () {
+        it('should create share button', function () {
+            glb.share.createButton(this.el, 'share-test', '<a href="test">test</a>');
+
+            expect(this.el.querySelector('.share-test a[href="test"]')).not.toBe(null);
+        });
+    });
+
     describe('createFacebookButton', function () {
         it('should create facebook button', function () {
-            var wrapper = '';
+            glb.share.createFacebookButton(this.el);
+            expect(this.el.querySelector('.share-facebook a.share-popup span')).not.toBe(null);
+        });
 
-            glb.share.createBar(this.el);
-            wrapper = this.el.querySelector('.glb-share-wrapper');
-            glb.share.createFacebookButton(wrapper);
+        it('should set link href with metadata of container', function () {
+            var link = '';
+            glb.share.createFacebookButton(this.el);
 
-            expect(wrapper.querySelector('.share-facebook')).not.toBe(null);
+            link = this.el.querySelector('.share-facebook a');
+            expect(link.href).toEqual(
+                'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fglobo.com'
+            );
+        });
+    });
+
+    describe('createTwitterButton', function () {
+        it('should create twitter button', function () {
+            glb.share.createTwitterButton(this.el);
+            expect(this.el.querySelector('.share-twitter a.share-popup span')).not.toBe(null);
+        });
+
+        it('should set link href with metadata of container', function () {
+            var link = '';
+            glb.share.createTwitterButton(this.el);
+
+            link = this.el.querySelector('.share-twitter a');
+            expect(link.href).toEqual(
+                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23globo.com'
+            );
+        });
+    });
+
+    describe('createGoogleButton', function () {
+        it('should create googleplus button', function () {
+            glb.share.createGoogleButton(this.el);
+            expect(this.el.querySelector('.share-googleplus a.share-popup span')).not.toBe(null);
+        });
+
+        it('should set link href with metadata of container', function () {
+            var link = '';
+            glb.share.createGoogleButton(this.el);
+
+            link = this.el.querySelector('.share-googleplus a');
+            expect(link.href).toEqual(
+                'https://plus.google.com/share?url=http%3A%2F%2Fglobo.com'
+            );
+        });
+    });
+
+    describe('createPinterestButton', function () {
+        it('should create pinterest button', function () {
+            glb.share.createPinterestButton(this.el);
+            expect(this.el.querySelector('.share-pinterest a.share-popup span')).not.toBe(null);
+        });
+
+        it('should set link href with metadata of container', function () {
+            var link = '';
+            glb.share.createPinterestButton(this.el);
+
+            link = this.el.querySelector('.share-pinterest a');
+            expect(link.href).toEqual(
+                'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
+            );
+        });
+    });
+
+    describe('createWhatsappButton', function () {
+        it('should create whatsapp button', function () {
+            glb.share.createWhatsappButton(this.el);
+            expect(this.el.querySelector('.share-whatsapp a.share-popup span')).not.toBe(null);
+        });
+
+        it('should set link href with metadata of container', function () {
+            var link = '';
+            glb.share.createWhatsappButton(this.el);
+
+            link = this.el.querySelector('.share-whatsapp a');
+            expect(link.href).toEqual(
+                'whatsapp://send?text=Test%20title%20http%3A%2F%2Fglobo.com'
+            );
         });
     });
 });
