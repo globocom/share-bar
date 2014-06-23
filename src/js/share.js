@@ -44,6 +44,8 @@ if (window.glb === undefined) {
                 networks: {
                     'facebook': self.createFacebookButton
                 },
+                showMoreButtonOnDevices: true,
+                numberOfNetworksBeforeMoreButton: 3,
                 // theme: 'dark',
 
                 // Callbacks
@@ -68,11 +70,12 @@ if (window.glb === undefined) {
             }
         },
 
-        createBar: function createBar(element) {
+        createBar: function createBar(element, networks) {
             var network = '';
+            networks = networks || this.networks;
 
-            for (network in this.networks) {
-                this.networks[network](element);
+            for (network in networks) {
+                networks[network](element);
             }
         },
 
@@ -87,18 +90,23 @@ if (window.glb === undefined) {
             return data;
         },
 
+        deviceIsIphone: function deviceIsIphone() {
+            return navigator.userAgent.match(/iPhone/i) !== null;
+        },
+
         createButton: function createButton(container, className, content) {
             var shareContainer = document.createElement('div');
             shareContainer.className = className;
             shareContainer.innerHTML = content;
 
             container.appendChild(shareContainer);
+            return shareContainer;
         },
 
         createFacebookButton: function createFacebookButton(container) {
             var data = this.getMetadataFromElement(container);
 
-            this.createButton(container, "share-facebook", [
+            this.createButton(container, "share-button share-facebook", [
                 '<a class="share-popup" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
                 '   <span>recomendar</span>',
                 '</a>'
@@ -108,7 +116,7 @@ if (window.glb === undefined) {
         createTwitterButton: function createTwitterButton(container) {
             var data = this.getMetadataFromElement(container);
 
-            this.createButton(container, "share-twitter", [
+            this.createButton(container, "share-button share-twitter", [
                 '<a class="share-popup" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
                 '   <span>tweetar</span>',
                 '</a>'
@@ -118,7 +126,7 @@ if (window.glb === undefined) {
         createGoogleButton: function createGoogleButton(container) {
             var data = this.getMetadataFromElement(container);
 
-            this.createButton(container, "share-googleplus", [
+            this.createButton(container, "share-button share-googleplus", [
                 '<a class="share-popup" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
                 '   <span>google+</span>',
                 '</a>'
@@ -128,7 +136,7 @@ if (window.glb === undefined) {
         createPinterestButton: function createPinterestButton(container) {
             var data = this.getMetadataFromElement(container);
 
-            this.createButton(container, "share-pinterest", [
+            this.createButton(container, "share-button share-pinterest", [
                 '<a class="share-popup" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
                 '   <span>pinterest</span>',
                 '</a>'
@@ -136,13 +144,45 @@ if (window.glb === undefined) {
         },
 
         createWhatsappButton: function createWhatsappButton(container) {
+            if (!this.deviceIsIphone()) {
+                return false;
+            }
+
             var data = this.getMetadataFromElement(container);
 
-            this.createButton(container, "share-whatsapp", [
-                '<a class="share-popup" href="whatsapp://send?text=' + data['title'] + '%20' + data['url'] + '" title="compartilhar whatsapp">',
+            this.createButton(container, "share-button share-whatsapp", [
+                '<a href="whatsapp://send?text=' + data['title'] + '%20' + data['url'] + '" title="compartilhar whatsapp">',
                 '   <span>whatsapp</span>',
                 '</a>'
             ].join(""));
+        },
+
+        createEmailButton: function createEmailButton(container) {
+            var data = this.getMetadataFromElement(container);
+
+            this.createButton(container, "share-button share-email", [
+                '<a href="mailto:?subject=' + data['title'] + '&amp;body=' + data['url'] + '" title="compartilhar email">',
+                '   <span>email</span>',
+                '</a>'
+            ].join(""));
+        },
+
+        createMoreButton: function createMoreButton(container) {
+            var moreButton = '',
+                shareButtons = '';
+
+            if (!this.showMoreButtonOnDevices) {
+                return false;
+            }
+
+            moreButton = this.createButton(container, "share-more", [
+                '<a href="#share" title="mais opções de compartilhamento">',
+                '   <span>mais opções de compartilhamento</span>',
+                '</a>'
+            ].join(""));
+
+            shareButtons = document.querySelectorAll('.share-button');
+            moreButton.parentNode.insertBefore(moreButton, shareButtons[this.numberOfNetworksBeforeMoreButton]);
         },
     };
 
