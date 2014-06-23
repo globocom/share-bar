@@ -1,5 +1,5 @@
 /*global describe, it, expect, glb, spyOn,
-         beforeEach, afterEach */
+         beforeEach, afterEach, jasmine */
 
 describe('glb.lightbox Test Case', function () {
     'use strict';
@@ -96,6 +96,19 @@ describe('glb.lightbox Test Case', function () {
             glb.share.networks['facebook'] = glb.share.createFacebookButton;
             glb.share.createBar(this.el);
             expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call method passed as parameter', function () {
+            var spy = spyOn(glb.share, 'createFacebookButton'),
+                spyNetworks = {
+                    'test': jasmine.createSpy('test')
+                };
+
+            glb.share.networks['facebook'] = glb.share.createFacebookButton;
+            glb.share.createBar(this.el, spyNetworks);
+
+            expect(spy).not.toHaveBeenCalled();
+            expect(spyNetworks['test']).toHaveBeenCalled();
         });
     });
 
