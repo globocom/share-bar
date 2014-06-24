@@ -1,0 +1,93 @@
+@import "compass";
+
+$espacamento: 4px;
+$altura: 40px;
+
+.glb-share-container {
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    margin-bottom: 15px;
+
+    .share-button {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding-left: $espacamento;
+
+        a {
+            display: block;
+            padding: 0;
+            @include border-radius(3px);
+
+            font-family: 'gicon';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            color: white;
+
+            line-height: 1;
+            letter-spacing: 0;
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            span {
+                display: none;
+            }
+        }
+
+        a:before {
+            line-height: $altura;
+            display: inline-block;
+            width: $altura;
+            vertical-align: middle;
+        }
+    }
+
+    .share-facebook {
+        padding-left: 0px;
+
+        a:before {
+            content: '\e002';
+        }
+    }
+
+    .share-twitter {
+        a:before {
+            content: '\e003';
+        }
+    }
+
+    .share-more {
+        display: none;
+        a:before {
+            content: '\e001';
+        }
+        width: 16%;
+    }
+
+    .share-googleplus {
+        a:before {
+            content: '\e005';
+        }
+    }
+
+    .share-whatsapp {
+        a:before {
+            content: '\e004';
+        }
+    }
+
+    .share-email {
+        a:before {
+            content: '\e007';
+        }
+    }
+
+    .share-pinterest {
+        a:before {
+            content: '\e006';
+        }
+    }
+}

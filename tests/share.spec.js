@@ -80,14 +80,15 @@ describe('glb.lightbox Test Case', function () {
             expect(glb.share.classPopup).toEqual('share-popup');
             expect(glb.share.networks).toEqual({
                 'facebook': glb.share.createFacebookButton,
-                    'twitter': glb.share.createTwitterButton,
-                    'google': glb.share.createGoogleButton,
-                    'pinterest': glb.share.createPinterestButton,
-                    'whatsapp': glb.share.createWhatsappButton,
-                    'email': glb.share.createEmailButton
+                'twitter': glb.share.createTwitterButton,
+                'google': glb.share.createGoogleButton,
+                'pinterest': glb.share.createPinterestButton,
+                'whatsapp': glb.share.createWhatsappButton,
+                'email': glb.share.createEmailButton
             });
             expect(glb.share.showMoreButtonOnDevices).toEqual(true);
             expect(glb.share.numberOfNetworksBeforeMoreButton).toEqual(3);
+            expect(glb.share.theme).toEqual('natural');
         });
 
         it('should merge options with defaultOptions', function () {
@@ -189,6 +190,17 @@ describe('glb.lightbox Test Case', function () {
         it('should set class glb-share-container on container element', function () {
             glb.share.createBar(this.el);
             expect(this.el.classList.contains('glb-share-container')).toBe(true);
+        });
+
+        it('should set theme default on container element', function () {
+            glb.share.createBar(this.el);
+            expect(this.el.classList.contains('share-theme-natural')).toBe(true);
+        });
+
+        it('should set customized theme on container element', function () {
+            this.el.setAttribute('data-theme', 'test');
+            glb.share.createBar(this.el);
+            expect(this.el.classList.contains('share-theme-test')).toBe(true);
         });
 
         it('should call method passed as parameter', function () {
