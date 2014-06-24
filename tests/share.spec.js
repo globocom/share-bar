@@ -186,6 +186,11 @@ describe('glb.lightbox Test Case', function () {
             expect(spy).toHaveBeenCalledWith(this.el);
         });
 
+        it('should set class glb-share-container on container element', function () {
+            glb.share.createBar(this.el);
+            expect(this.el.classList.contains('glb-share-container')).toBe(true);
+        });
+
         it('should call method passed as parameter', function () {
             var spy = spyOn(glb.share, 'createFacebookButton'),
                 spyNetworks = {
