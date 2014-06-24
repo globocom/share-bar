@@ -81,6 +81,7 @@ if (window.glb === undefined) {
             }
 
             this.createMoreButton(element);
+            element.className += " glb-share-container";
         },
 
         bindOpenPopup: function bindOpenPopup() {
