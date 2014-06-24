@@ -48,7 +48,7 @@ if (window.glb === undefined) {
                 },
                 showMoreButtonOnDevices: true,
                 numberOfNetworksBeforeMoreButton: 3,
-                // theme: 'dark',
+                theme: 'natural',
 
                 // Callbacks
                 // onCreateHTMLStructure: function(){},
@@ -73,7 +73,8 @@ if (window.glb === undefined) {
         },
 
         createBar: function createBar(element, networks) {
-            var network = '';
+            var network = '',
+                theme = ' share-theme-';
             networks = networks || this.networks;
 
             for (network in networks) {
@@ -81,7 +82,8 @@ if (window.glb === undefined) {
             }
 
             this.createMoreButton(element);
-            element.className += " glb-share-container";
+            theme += element.getAttribute('data-theme') || this.theme;
+            element.className += " glb-share-container" + theme;
         },
 
         bindOpenPopup: function bindOpenPopup() {
@@ -204,7 +206,7 @@ if (window.glb === undefined) {
                 '</a>'
             ].join(""));
 
-            shareButtons = document.querySelectorAll('.share-button');
+            shareButtons = container.querySelectorAll('.share-button');
             moreButton.parentNode.insertBefore(moreButton, shareButtons[this.numberOfNetworksBeforeMoreButton]);
         },
     };
