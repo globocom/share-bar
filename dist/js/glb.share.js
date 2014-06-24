@@ -79,6 +79,8 @@ if (window.glb === undefined) {
             for (network in networks) {
                 networks[network].call(this, element);
             }
+
+            this.createMoreButton(element);
         },
 
         bindOpenPopup: function bindOpenPopup() {

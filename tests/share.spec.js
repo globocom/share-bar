@@ -180,6 +180,12 @@ describe('glb.lightbox Test Case', function () {
             expect(spy).toHaveBeenCalled();
         });
 
+        it('should call createMoreButton method', function () {
+            var spy = spyOn(glb.share, 'createMoreButton');
+            glb.share.createBar(this.el);
+            expect(spy).toHaveBeenCalledWith(this.el);
+        });
+
         it('should call method passed as parameter', function () {
             var spy = spyOn(glb.share, 'createFacebookButton'),
                 spyNetworks = {
