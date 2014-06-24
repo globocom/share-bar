@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-06-23
+/*! Globo Share - v1.0.0 - 2014-06-24
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -7,34 +7,29 @@ if (window.glb === undefined) {
 (function (window, document) {
     'use strict';
 
-    // function preventDefault(e) {
-    //     if (e && e.preventDefault) {
-    //         e.preventDefault();
-    //     } else if (window.event) {
-    //         window.event.returnValue = false;
-    //     }
-    // }
+    function preventDefault(e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        } else if (window.event) {
+            window.event.returnValue = false;
+        }
+    }
 
-    // function stopPropagation(e) {
-    //     if (e && e.stopPropagation) {
-    //         e.stopPropagation();
-    //     }
-    // }
-
-    // function addEventListener(element, event, handler) {
-    //     if (element.addEventListener) {
-    //         return element.addEventListener(event, handler, false);
-    //     }
-    //     if (element.attachEvent) {
-    //         return element.attachEvent('on' + event, handler);
-    //     }
-    // }
+    function addEventListener(element, event, handler) {
+        if (element.addEventListener) {
+            return element.addEventListener(event, handler, false);
+        }
+        if (element.attachEvent) {
+            return element.attachEvent('on' + event, handler);
+        }
+    }
 
     glb.share = {
         init: function init(options) {
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
+            this.bindOpenPopup();
         },
 
         mergeOptions: function mergeOptions(options) {
@@ -42,6 +37,7 @@ if (window.glb === undefined) {
                 defaultOptions = {
                 // Selector to open lightbox
                 selector: '.glb-share',
+                classPopup: 'share-popup',
                 networks: {
                     'facebook': self.createFacebookButton
                 },
@@ -80,6 +76,25 @@ if (window.glb === undefined) {
             }
         },
 
+        bindOpenPopup: function bindOpenPopup() {
+            var linksPopup = document.querySelectorAll("." + this.classPopup);
+
+            for (var i=0; i < linksPopup.length; i++) {
+                addEventListener(linksPopup[i], 'click', this.openPopup);
+            }
+        },
+
+        openPopup: function openPopup(e) {
+            var win = window.open(
+                this.getAttribute("href"),
+                'popup',
+                'height=400,width=500,left=10,top=10,resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
+            );
+
+            win.focus();
+            preventDefault(e);
+        },
+
         getMetadataFromElement: function getMetadataFromElement(element) {
             var encode = window.encodeURIComponent,
                 data = {
@@ -108,7 +123,7 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
 
             this.createButton(container, "share-button share-facebook", [
-                '<a class="share-popup" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
+                '<a class="' + this.classPopup + '" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
                 '   <span>recomendar</span>',
                 '</a>'
             ].join(""));
@@ -118,7 +133,7 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
 
             this.createButton(container, "share-button share-twitter", [
-                '<a class="share-popup" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
+                '<a class="' + this.classPopup + '" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
                 '   <span>tweetar</span>',
                 '</a>'
             ].join(""));
@@ -128,7 +143,7 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
 
             this.createButton(container, "share-button share-googleplus", [
-                '<a class="share-popup" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
+                '<a class="' + this.classPopup + '" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
                 '   <span>google+</span>',
                 '</a>'
             ].join(""));
@@ -138,7 +153,7 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
 
             this.createButton(container, "share-button share-pinterest", [
-                '<a class="share-popup" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
+                '<a class="' + this.classPopup + '" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
                 '   <span>pinterest</span>',
                 '</a>'
             ].join(""));

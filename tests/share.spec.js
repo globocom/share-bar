@@ -10,6 +10,7 @@ describe('glb.lightbox Test Case', function () {
             var event = document.createEvent('MouseEvents');
             event.initMouseEvent('click', true, true, window, 1, 0, 0);
             element.dispatchEvent(event);
+            return event;
         };
 
         this.createShareContainer = function () {
@@ -19,6 +20,14 @@ describe('glb.lightbox Test Case', function () {
             element.setAttribute('data-title', 'Test title');
             element.setAttribute('data-subtitle', 'Test subtitle');
             element.setAttribute('data-image-url', 'http://g1.globo.com');
+            document.body.appendChild(element);
+            return element;
+        };
+
+        this.createPopupElement = function () {
+            var element = document.createElement('a');
+            element.className = 'share-popup';
+            element.setAttribute('href', 'http://globo.com');
             document.body.appendChild(element);
             return element;
         };
@@ -55,15 +64,26 @@ describe('glb.lightbox Test Case', function () {
             glb.share.init();
             expect(glb.share.containers[0]).toEqual(this.el);
         });
+
+        it('should call bindOpenPopup method', function () {
+            spyOn(glb.share, 'createBars');
+            var spy = spyOn(glb.share, 'bindOpenPopup');
+            glb.share.init();
+            expect(spy).toHaveBeenCalled();
+        });
     });
 
     describe('mergeOptions', function () {
         it('should create properties with defaultOptions', function () {
             glb.share.mergeOptions();
+
             expect(glb.share.selector).toEqual('.glb-share');
+            expect(glb.share.classPopup).toEqual('share-popup');
             expect(glb.share.networks).toEqual({
                 'facebook': glb.share.createFacebookButton
             });
+            expect(glb.share.showMoreButtonOnDevices).toEqual(true);
+            expect(glb.share.numberOfNetworksBeforeMoreButton).toEqual(3);
         });
 
         it('should merge options with defaultOptions', function () {
@@ -74,6 +94,64 @@ describe('glb.lightbox Test Case', function () {
         it('should not create options when not exists in defaultOptions', function () {
             glb.share.mergeOptions({'selectorEspecial': 'test'});
             expect(glb.share.selectorEspecial).toBe(undefined);
+        });
+    });
+
+    describe('bindOpenPopup', function () {
+        it('should call addEventListener function for each popup element', function () {
+            var popups = [this.createPopupElement(), this.createPopupElement()],
+                spies = [];
+
+            spies[0] = spyOn(popups[0], 'addEventListener');
+            spies[1] = spyOn(popups[1], 'addEventListener');
+
+            glb.share.bindOpenPopup();
+
+            expect(spies[0]).toHaveBeenCalledWith('click', glb.share.openPopup, false);
+            expect(spies[1]).toHaveBeenCalledWith('click', glb.share.openPopup, false);
+        });
+
+        it('should call openPopup on click in popup element', function () {
+            var popup = this.createPopupElement(),
+                spy = spyOn(glb.share, 'openPopup'),
+                eventClick = '';
+
+            glb.share.bindOpenPopup();
+            eventClick = this.click(popup);
+
+            expect(spy).toHaveBeenCalledWith(eventClick);
+        });
+    });
+
+    describe('openPopup', function () {
+        beforeEach(function() {
+            this.popup = this.createPopupElement();
+            this.eventClick = this.click(this.popup);
+            this.spyWindowsOpen = spyOn(window, 'open').andReturn(window);
+        });
+
+        it('should call window.open to open popup', function () {
+            glb.share.openPopup.call(this.popup, this.eventClick);
+
+            expect(this.spyWindowsOpen).toHaveBeenCalledWith(
+                this.popup.getAttribute("href"),
+                'popup',
+                'height=400,width=500,left=10,top=10,resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
+            );
+        });
+
+        it('should call window.focus to set focus on popup', function () {
+            var spy = spyOn(window, 'focus');
+            glb.share.openPopup.call(this.popup, this.eventClick);
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call preventDefault to prevent the browser follow the link', function () {
+            var spy = spyOn(this.eventClick, 'preventDefault');
+            glb.share.openPopup.call(this.popup, this.eventClick);
+
+            expect(spy).toHaveBeenCalled();
         });
     });
 
