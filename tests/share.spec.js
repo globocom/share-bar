@@ -18,7 +18,6 @@ describe('glb.lightbox Test Case', function () {
             element.className = 'glb-share';
             element.setAttribute('data-url', 'http://globo.com');
             element.setAttribute('data-title', 'Test title');
-            element.setAttribute('data-subtitle', 'Test subtitle');
             element.setAttribute('data-image-url', 'http://g1.globo.com');
             document.body.appendChild(element);
             return element;
@@ -80,7 +79,12 @@ describe('glb.lightbox Test Case', function () {
             expect(glb.share.selector).toEqual('.glb-share');
             expect(glb.share.classPopup).toEqual('share-popup');
             expect(glb.share.networks).toEqual({
-                'facebook': glb.share.createFacebookButton
+                'facebook': glb.share.createFacebookButton,
+                    'twitter': glb.share.createTwitterButton,
+                    'google': glb.share.createGoogleButton,
+                    'pinterest': glb.share.createPinterestButton,
+                    'whatsapp': glb.share.createWhatsappButton,
+                    'email': glb.share.createEmailButton
             });
             expect(glb.share.showMoreButtonOnDevices).toEqual(true);
             expect(glb.share.numberOfNetworksBeforeMoreButton).toEqual(3);
@@ -196,7 +200,6 @@ describe('glb.lightbox Test Case', function () {
                 expectedData = {
                 'url': window.encodeURIComponent('http://globo.com'),
                 'title': window.encodeURIComponent('Test title'),
-                'subtitle': window.encodeURIComponent('Test subtitle'),
                 'imageUrl': window.encodeURIComponent('http://g1.globo.com')
             };
 
