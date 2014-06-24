@@ -39,7 +39,12 @@ if (window.glb === undefined) {
                 selector: '.glb-share',
                 classPopup: 'share-popup',
                 networks: {
-                    'facebook': self.createFacebookButton
+                    'facebook': self.createFacebookButton,
+                    'twitter': self.createTwitterButton,
+                    'google': self.createGoogleButton,
+                    'pinterest': self.createPinterestButton,
+                    'whatsapp': self.createWhatsappButton,
+                    'email': self.createEmailButton
                 },
                 showMoreButtonOnDevices: true,
                 numberOfNetworksBeforeMoreButton: 3,
@@ -72,7 +77,7 @@ if (window.glb === undefined) {
             networks = networks || this.networks;
 
             for (network in networks) {
-                networks[network](element);
+                networks[network].call(this, element);
             }
         },
 
@@ -100,7 +105,6 @@ if (window.glb === undefined) {
                 data = {
                 'url': encode(element.getAttribute('data-url') || ''),
                 'title': encode(element.getAttribute('data-title') || ''),
-                'subtitle': encode(element.getAttribute('data-subtitle') || ''),
                 'imageUrl': encode(element.getAttribute('data-image-url') || '')
             };
             return data;
