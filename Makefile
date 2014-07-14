@@ -3,3 +3,6 @@ setup:
 
 test:
 	@grunt jasmine
+
+run:
+	@grunt connect
