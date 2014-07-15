@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-07-14
+/*! Globo Share - v1.0.0 - 2014-07-15
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -46,8 +46,6 @@ if (window.glb === undefined) {
                     'whatsapp': self.createWhatsappButton,
                     'email': self.createEmailButton
                 },
-                showMoreButtonOnDevices: true,
-                numberOfNetworksBeforeMoreButton: 3,
                 theme: 'natural',
 
                 // Callbacks
@@ -81,7 +79,6 @@ if (window.glb === undefined) {
                 networks[network].call(this, element);
             }
 
-            this.createMoreButton(element);
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += " glb-share-container" + theme;
         },
@@ -190,24 +187,6 @@ if (window.glb === undefined) {
                 '   <span>email</span>',
                 '</a>'
             ].join(""));
-        },
-
-        createMoreButton: function createMoreButton(container) {
-            var moreButton = '',
-                shareButtons = '';
-
-            if (!this.showMoreButtonOnDevices) {
-                return false;
-            }
-
-            moreButton = this.createButton(container, "share-more", [
-                '<a href="#share" title="mais opções de compartilhamento">',
-                '   <span>mais opções de compartilhamento</span>',
-                '</a>'
-            ].join(""));
-
-            shareButtons = container.querySelectorAll('.share-button');
-            moreButton.parentNode.insertBefore(moreButton, shareButtons[this.numberOfNetworksBeforeMoreButton]);
         },
     };
 

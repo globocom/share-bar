@@ -1,7 +1,7 @@
 /*global describe, it, expect, glb, spyOn,
          beforeEach, afterEach, jasmine */
 
-describe('glb.lightbox Test Case', function () {
+describe('glb.share Test Case', function () {
     'use strict';
 
     beforeEach(function () {
@@ -86,8 +86,6 @@ describe('glb.lightbox Test Case', function () {
                 'whatsapp': glb.share.createWhatsappButton,
                 'email': glb.share.createEmailButton
             });
-            expect(glb.share.showMoreButtonOnDevices).toEqual(true);
-            expect(glb.share.numberOfNetworksBeforeMoreButton).toEqual(3);
             expect(glb.share.theme).toEqual('natural');
         });
 
@@ -179,12 +177,6 @@ describe('glb.lightbox Test Case', function () {
             glb.share.networks['facebook'] = glb.share.createFacebookButton;
             glb.share.createBar(this.el);
             expect(spy).toHaveBeenCalled();
-        });
-
-        it('should call createMoreButton method', function () {
-            var spy = spyOn(glb.share, 'createMoreButton');
-            glb.share.createBar(this.el);
-            expect(spy).toHaveBeenCalledWith(this.el);
         });
 
         it('should set class glb-share-container on container element', function () {
@@ -349,40 +341,6 @@ describe('glb.lightbox Test Case', function () {
             expect(link.href).toEqual(
                 'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
             );
-        });
-    });
-
-    describe('createMoreButton', function () {
-        it('should create more button when this option is true', function () {
-            glb.share.showMoreButtonOnDevices = true;
-            glb.share.createMoreButton(this.el);
-            expect(this.el.querySelector('.share-more a span')).not.toBe(null);
-        });
-
-        it('should set link href with metadata of container', function () {
-            glb.share.showMoreButtonOnDevices = true;
-            var link = '';
-            glb.share.createMoreButton(this.el);
-
-            link = this.el.querySelector('.share-more a');
-            expect(link.getAttribute('href')).toEqual('#share');
-            expect(link.innerText).toEqual('mais opções de compartilhamento');
-        });
-
-        it('should insert more button after first element', function () {
-            glb.share.showMoreButtonOnDevices = true;
-            glb.share.numberOfNetworksBeforeMoreButton = 1;
-            this.el.innerHTML = '<div class="share-button">1</div><div class="share-button">2</div>';
-
-            glb.share.createMoreButton(this.el);
-
-            expect(this.el.querySelectorAll('div')[1].className).toEqual('share-more');
-        });
-
-        it('should not create more button when this option is false', function () {
-            glb.share.showMoreButtonOnDevices = false;
-            glb.share.createMoreButton(this.el);
-            expect(this.el.querySelector('.share-more a span')).toBe(null);
         });
     });
 });
