@@ -71,11 +71,22 @@ if (window.glb === undefined) {
 
         createBar: function createBar(element, networks) {
             var network = '',
-                theme = ' share-theme-';
+                theme = ' share-theme-',
+                count = 0,
+                result = false;
+
             networks = networks || this.networks;
 
             for (network in networks) {
-                networks[network].call(this, element);
+                result = networks[network].call(this, element);
+
+                if (result !== false) {
+                    count += 1;
+                }
+
+                if (count === 6) {
+                    break;
+                }
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
