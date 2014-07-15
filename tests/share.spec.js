@@ -179,6 +179,23 @@ describe('glb.share Test Case', function () {
             expect(spy).toHaveBeenCalled();
         });
 
+        it('should create a maximum of 6 buttons', function () {
+            var spy = jasmine.createSpy('test');
+
+            glb.share.networks = {
+                'one': spy,
+                'two': spy,
+                'three': spy,
+                'four': spy,
+                'five': spy,
+                'six': spy,
+                'seven': spy
+            };
+
+            glb.share.createBar(this.el);
+            expect(spy.calls.length).toEqual(6);
+        });
+
         it('should set class glb-share-container on container element', function () {
             glb.share.createBar(this.el);
             expect(this.el.classList.contains('glb-share-container')).toBe(true);
