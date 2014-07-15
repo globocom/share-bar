@@ -23,6 +23,7 @@ $altura: 40px;
             font-family: 'gicon';
             font-weight: normal;
             font-style: normal;
+            text-decoration: none;
             font-size: 24px;
             color: white;
 
@@ -42,6 +43,7 @@ $altura: 40px;
             display: inline-block;
             width: $altura;
             vertical-align: middle;
+            text-align: center;
         }
     }
 
