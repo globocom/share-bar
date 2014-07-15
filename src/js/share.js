@@ -17,9 +17,8 @@ if (window.glb === undefined) {
     function addEventListener(element, event, handler) {
         if (element.addEventListener) {
             return element.addEventListener(event, handler, false);
-        }
-        if (element.attachEvent) {
-            return element.attachEvent('on' + event, handler);
+        } else if (element.attachEvent) {
+            return element.attachEvent('on' + event, function() {handler.call(element);});
         }
     }
 
