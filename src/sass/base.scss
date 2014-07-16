@@ -8,7 +8,7 @@
 
     .share-button {
         display: table-cell;
-        vertical-align: middle;
+        vertical-align: bottom;
         text-align: center;
         padding-left: 4px;
 
@@ -18,9 +18,16 @@
 
         a {
             display: block;
-            padding: 8px;
+            padding: 8px 0px 10px 0px;
+            height: 16px;
             @include border-radius(3px);
             text-decoration: none;
+            @include box-shadow(rgba(0,0,0,0.25) 0 -2px 0 inset);
+
+            &:active {
+                padding-bottom: 8px;
+                @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
+            }
         }
 
 
@@ -29,6 +36,7 @@
             vertical-align: middle;
             font-size: 14px;
             color: white;
+            padding-left: 5px;
         }
 
         &.small span {
@@ -38,10 +46,8 @@
 
     .share-icon {
         fill: white;
-        max-width: 24px;
-        max-height: 24px;
-        width: 50%;
-        height: 50%;
+        max-width: 16px;
+        max-height: 16px;
         display: inline-block;
         vertical-align: middle;
     }
