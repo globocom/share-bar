@@ -153,7 +153,7 @@ module.exports = function(grunt) {
             },
             buildCSS: {
                 files: ['src/sass/*.scss'],
-                tasks: ['compass', 'concat']
+                tasks: ['compass', 'concat:css']
             },
             buildSVG: {
                 files: ['src/img/*.svg'],
