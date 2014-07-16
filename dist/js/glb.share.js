@@ -144,7 +144,7 @@ if (window.glb === undefined) {
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-facebook"></use>',
                 '   </svg>',
-                '   <span>recomendar</span>',
+                '   <span>facebook</span>',
                 '</a>'
             ].join(""));
         },
@@ -157,7 +157,7 @@ if (window.glb === undefined) {
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-twitter"></use>',
                 '   </svg>',
-                '   <span>tweetar</span>',
+                '   <span>twitter</span>',
                 '</a>'
             ].join(""));
         },

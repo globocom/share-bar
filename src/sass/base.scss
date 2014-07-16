@@ -18,22 +18,22 @@
 
         a {
             display: block;
-            padding: 0;
+            padding: 8px;
             @include border-radius(3px);
-
             text-decoration: none;
-            font-size: 24px;
-            color: white;
-
-            line-height: 1;
-            letter-spacing: 0;
-            speak: none;
-
-            span {
-                display: none;
-            }
         }
 
+
+        span {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            color: white;
+        }
+
+        &.small span {
+            display: none;
+        }
     }
 
     .share-icon {
@@ -42,6 +42,7 @@
         max-height: 24px;
         width: 50%;
         height: 50%;
-        padding: 8px;
+        display: inline-block;
+        vertical-align: middle;
     }
 }
