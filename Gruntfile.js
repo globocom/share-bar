@@ -75,6 +75,45 @@ module.exports = function(grunt) {
             }
         },
 
+        svgstore: {
+            options: {
+                prefix : 'icon-',
+            },
+            default: {
+                files: {
+                    'dist/img/icons.svg': ['src/img/*.svg'],
+                }
+            }
+        },
+
+        svgmin: {
+            options: {
+                plugins: [
+                    { removeViewBox: false },
+                    { cleanupIDs: false }
+                ]
+            },
+            dist: {
+                files: {
+                    'dist/img/icons.svg': 'dist/img/icons.svg'
+                }
+            }
+        },
+
+        'string-replace': {
+            dist: {
+                files: {
+                    'dist/js/glb.share.js': 'dist/js/glb.share.js'
+                },
+                options: {
+                    replacements: [{
+                        pattern: '<X_SVG_X>',
+                        replacement: grunt.file.read('dist/img/icons.svg'),
+                    }]
+                },
+            }
+        },
+
         jasmine: {
             share: {
                 src: 'src/js/share.js',
@@ -110,13 +149,18 @@ module.exports = function(grunt) {
             },
             buildJS: {
                 files: ['<%= concat.js.src %>'],
-                tasks: ['concat:js', 'uglify']
+                tasks: ['concat:js','string-replace', 'uglify']
             },
             buildCSS: {
                 files: ['src/sass/*.scss'],
                 tasks: ['compass', 'concat']
             },
+            buildSVG: {
+                files: ['src/img/*.svg'],
+                tasks: ['svgstore']
+            }
         },
+
         connect: {
             server: {
                options: {
@@ -136,8 +180,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-svgstore');
+    grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-svgmin');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'jasmine', 'concat', 'uglify']);
+    grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
+    grunt.registerTask('default', ['jshint', 'jasmine', 'compass', 'concat', 'makesvg', 'uglify']);
 
 };
