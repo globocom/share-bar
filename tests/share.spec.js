@@ -45,6 +45,12 @@ describe('glb.share Test Case', function () {
     });
 
     describe('init', function () {
+        it('should call createSVG method', function () {
+            var spy = spyOn(glb.share, 'createSVG');
+            glb.share.init();
+            expect(spy).toHaveBeenCalled();
+        });
+
         it('should call mergeOptions method', function () {
             var spy = spyOn(glb.share, 'mergeOptions'),
                 options = {'selector': '.test'};
@@ -358,6 +364,20 @@ describe('glb.share Test Case', function () {
             expect(link.href).toEqual(
                 'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
             );
+        });
+    });
+
+    describe('createSVG', function () {
+        it('should create svg container', function () {
+            var element = '',
+                elements = [];
+
+            glb.share.createSVG();
+            elements = document.querySelectorAll('div');
+            element = elements[elements.length - 1];
+
+            expect(element.style.display).toEqual('none');
+            expect(element.innerHTML).toEqual('[[X_SVG_X]]');
         });
     });
 });

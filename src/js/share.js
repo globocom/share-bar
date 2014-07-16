@@ -219,7 +219,8 @@ if (window.glb === undefined) {
 
         createSVG: function createSVG() {
             var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '<X_SVG_X>';
+            svgContainer.innerHTML = '[[X_SVG_X]]';
+            svgContainer.style.display = 'none';
             document.body.appendChild(svgContainer);
         }
     };
