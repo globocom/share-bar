@@ -32,22 +32,25 @@
 
 
         span {
-            display: inline-block;
-            vertical-align: middle;
-            font-size: 14px;
-            color: white;
-            padding-left: 5px;
+            display: none;
         }
 
-        &.small span {
-            display: none;
+        &.share-full{
+            min-width: 150px;
+
+            span {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 14px;
+                color: white;
+                padding-left: 5px;
+            }
         }
     }
 
     .share-icon {
         fill: white;
         max-width: 16px;
-        max-height: 16px;
         display: inline-block;
         vertical-align: middle;
     }
