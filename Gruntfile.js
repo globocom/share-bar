@@ -163,11 +163,11 @@ module.exports = function(grunt) {
 
         connect: {
             server: {
-               options: {
-                   port: 9002,
-                   base: '.',
-                   keepalive: true
-               }
+                options: {
+                    livereload: true,
+                    port: 9002,
+                    base: '.'
+                }
             }
         }
     });
@@ -187,5 +187,6 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
     grunt.registerTask('default', ['jshint', 'jasmine', 'compass', 'concat', 'makesvg', 'uglify']);
+    grunt.registerTask('server', [ 'connect:server', 'watch']);
 
 };
