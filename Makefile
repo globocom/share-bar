@@ -5,4 +5,4 @@ test:
 	@grunt jasmine
 
 run:
-	@grunt connect
+	@grunt server
