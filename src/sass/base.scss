@@ -32,15 +32,15 @@
 
 
         span {
+            display: none;
+        }
+
+        &.share-full span {
             display: inline-block;
             vertical-align: middle;
             font-size: 14px;
             color: white;
             padding-left: 5px;
-        }
-
-        &.small span {
-            display: none;
         }
     }
 
