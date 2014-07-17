@@ -380,4 +380,34 @@ describe('glb.share Test Case', function () {
             expect(element.innerHTML).toEqual('[[X_SVG_X]]');
         });
     });
+
+    describe('verifyTouch', function () {
+
+        beforeEach(function () {
+            document.querySelector('html').className = '';
+        });
+
+        it('should add class no-touch for desktop', function () {
+            var html;
+
+            spyOn(glb.share, 'isTouch').andReturn(false);
+            glb.share.verifyTouch();
+
+            html = document.querySelector('html');
+            expect(html.className).toEqual(' no-touch');
+        });
+
+        it('should add class touch for touch devices', function () {
+            var html;
+
+            spyOn(glb.share, 'isTouch').andReturn(true);
+            glb.share.verifyTouch();
+
+            html = document.querySelector('html');
+            expect(html.className).toEqual(' touch');
+        });
+
+
+    });
+
 });

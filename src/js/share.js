@@ -1,4 +1,4 @@
-/*global glb */
+/*global glb, DocumentTouch */
 if (window.glb === undefined) {
     window.glb = {};
 }
@@ -24,11 +24,41 @@ if (window.glb === undefined) {
 
     glb.share = {
         init: function init(options) {
+            this.verifyTouch();
             this.createSVG();
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
             this.bindOpenPopup();
+        },
+
+        // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
+        verifyTouch: function verifyTouch() {
+            var html = document.querySelector('html'),
+                isTouch = this.isTouch();
+
+            if (isTouch && html.className.indexOf(' touch') === -1) {
+                html.className += ' touch';
+
+            } else if (!isTouch && html.className.indexOf(' no-touch') === -1) {
+                html.className += ' no-touch';
+            }
+        },
+
+        isTouch: function isTouch() {
+            var bool = false;
+                
+            if (window.ontouchstart !== undefined || (window.DocumentTouch && document instanceof DocumentTouch)) {
+                bool = true;
+            }
+            return bool;
+        },
+
+        createSVG: function createSVG() {
+            var svgContainer = document.createElement('div');
+            svgContainer.innerHTML = '[[X_SVG_X]]';
+            svgContainer.style.display = 'none';
+            document.body.appendChild(svgContainer);
         },
 
         mergeOptions: function mergeOptions(options) {
@@ -215,13 +245,6 @@ if (window.glb === undefined) {
                 '   <span>email</span>',
                 '</a>'
             ].join(""));
-        },
-
-        createSVG: function createSVG() {
-            var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '[[X_SVG_X]]';
-            svgContainer.style.display = 'none';
-            document.body.appendChild(svgContainer);
         }
     };
 
