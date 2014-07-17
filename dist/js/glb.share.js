@@ -77,8 +77,9 @@ if (window.glb === undefined) {
                     self.createEmailButton
                 ],
                 theme: 'natural',
-                buttonWidth: 20,
-                buttonFullWidth: 100
+                buttonWidth: 50,
+                buttonFullWidth: 100,
+                buttonPadding: 4
 
                 // Callbacks
                 // onCreateHTMLStructure: function(){},
@@ -93,8 +94,38 @@ if (window.glb === undefined) {
             }
         },
 
-        setButtonsWidth: function setButtonsWidth() {
-            return false;
+        getNumberOfFullButtons: function getNumberOfFullButtons(containerWidth, numberOfButtons) {
+            var fullButtonWidth = this.buttonFullWidth + this.buttonPadding,
+                smallButtonWidth = this.buttonWidth + this.buttonPadding,
+                totalOfSmallButtons = 0,
+                totalOfFullButtons = 0,
+                result = ['', '', '', '', '', ''],
+                i = 0;
+
+            if (this.isSmallScreen()) {
+                return result;
+            }
+
+            // if (!this.deviceIsIphone()) {
+            //    numberOfButtons = numberOfButtons -1;
+            // }
+
+            if ((numberOfButtons * smallButtonWidth) > containerWidth) {
+                return result;
+            }
+
+            for (i = 1; i <= numberOfButtons; i++) {
+                totalOfFullButtons = i * fullButtonWidth;
+                totalOfSmallButtons = (numberOfButtons - i) * smallButtonWidth;
+
+                if ((totalOfSmallButtons + totalOfFullButtons) < containerWidth) {
+                    result[i-1] = ' share-full';
+                } else {
+                    break;
+                }
+            }
+
+            return result;
         },
 
         createBars: function createBars() {
@@ -107,13 +138,18 @@ if (window.glb === undefined) {
         },
 
         createBar: function createBar(element, networks) {
-            var theme = ' share-theme-';
+            var theme = ' share-theme-',
+                count = 0,
+                buttonClasses = [];
 
             networks = networks || this.networks;
             networks = networks.slice(0, 6);
 
-            for (var i = 0, count = networks.length; i < count; i++) {
-                networks[i].call(this, element);
+            count = networks.length;
+            buttonClasses = this.getNumberOfFullButtons(element.offsetWidth, count);
+
+            for (var i = 0; i < count; i++) {
+                networks[i].call(this, element, buttonClasses[i]);
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
@@ -153,8 +189,8 @@ if (window.glb === undefined) {
             return navigator.userAgent.match(/iPhone/i) !== null;
         },
 
-        isBigScreen: function isBigScreen() {
-            return window.outerWidth >= 768;
+        isSmallScreen: function isSmallScreen() {
+            return window.outerWidth < 768;
         },
 
         createButton: function createButton(container, className, content) {
@@ -166,10 +202,11 @@ if (window.glb === undefined) {
             return shareContainer;
         },
 
-        createFacebookButton: function createFacebookButton(container) {
+        createFacebookButton: function createFacebookButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-facebook", [
+            this.createButton(container, "share-button share-facebook" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-facebook"></use>',
@@ -179,10 +216,11 @@ if (window.glb === undefined) {
             ].join(""));
         },
 
-        createTwitterButton: function createTwitterButton(container) {
+        createTwitterButton: function createTwitterButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-twitter", [
+            this.createButton(container, "share-button share-twitter" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-twitter"></use>',
@@ -192,10 +230,11 @@ if (window.glb === undefined) {
             ].join(""));
         },
 
-        createGoogleButton: function createGoogleButton(container) {
+        createGoogleButton: function createGoogleButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-googleplus", [
+            this.createButton(container, "share-button share-googleplus" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-googleplus"></use>',
@@ -205,10 +244,11 @@ if (window.glb === undefined) {
             ].join(""));
         },
 
-        createPinterestButton: function createPinterestButton(container) {
+        createPinterestButton: function createPinterestButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-pinterest", [
+            this.createButton(container, "share-button share-pinterest" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-pinterest"></use>',
@@ -218,14 +258,15 @@ if (window.glb === undefined) {
             ].join(""));
         },
 
-        createWhatsappButton: function createWhatsappButton(container) {
+        createWhatsappButton: function createWhatsappButton(container, buttonClass) {
             if (!this.deviceIsIphone()) {
                 return false;
             }
 
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-whatsapp", [
+            this.createButton(container, "share-button share-whatsapp" + buttonClass, [
                 '<a href="whatsapp://send?text=' + data['title'] + '%20' + data['url'] + '" title="compartilhar whatsapp">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-whatsapp"></use>',
@@ -235,10 +276,11 @@ if (window.glb === undefined) {
             ].join(""));
         },
 
-        createEmailButton: function createEmailButton(container) {
+        createEmailButton: function createEmailButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-email", [
+            this.createButton(container, "share-button share-email" + buttonClass, [
                 '<a href="mailto:?subject=' + data['title'] + '&amp;body=' + data['url'] + '" title="compartilhar email">',
                 '   <svg viewBox="0 0 100 100" class="share-icon">',
                 '       <use xlink:href="#icon-email"></use>',
