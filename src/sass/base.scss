@@ -35,12 +35,16 @@
             display: none;
         }
 
-        &.share-full span {
-            display: inline-block;
-            vertical-align: middle;
-            font-size: 14px;
-            color: white;
-            padding-left: 5px;
+        &.share-full{
+            min-width: 150px;
+
+            span {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 14px;
+                color: white;
+                padding-left: 5px;
+            }
         }
     }
 
