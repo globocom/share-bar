@@ -84,14 +84,14 @@ describe('glb.share Test Case', function () {
 
             expect(glb.share.selector).toEqual('.glb-share');
             expect(glb.share.classPopup).toEqual('share-popup');
-            expect(glb.share.networks).toEqual({
-                'facebook': glb.share.createFacebookButton,
-                'twitter': glb.share.createTwitterButton,
-                'google': glb.share.createGoogleButton,
-                'pinterest': glb.share.createPinterestButton,
-                'whatsapp': glb.share.createWhatsappButton,
-                'email': glb.share.createEmailButton
-            });
+            expect(glb.share.networks).toEqual([
+                glb.share.createFacebookButton,
+                glb.share.createTwitterButton,
+                glb.share.createGoogleButton,
+                glb.share.createPinterestButton,
+                glb.share.createWhatsappButton,
+                glb.share.createEmailButton
+            ]);
             expect(glb.share.theme).toEqual('natural');
         });
 
@@ -180,7 +180,7 @@ describe('glb.share Test Case', function () {
     describe('createBar', function () {
         it('should call createFacebookButton method', function () {
             var spy = spyOn(glb.share, 'createFacebookButton');
-            glb.share.networks['facebook'] = glb.share.createFacebookButton;
+            glb.share.networks = [glb.share.createFacebookButton];
             glb.share.createBar(this.el);
             expect(spy).toHaveBeenCalled();
         });
@@ -188,15 +188,7 @@ describe('glb.share Test Case', function () {
         it('should create a maximum of 6 buttons', function () {
             var spy = jasmine.createSpy('test');
 
-            glb.share.networks = {
-                'one': spy,
-                'two': spy,
-                'three': spy,
-                'four': spy,
-                'five': spy,
-                'six': spy,
-                'seven': spy
-            };
+            glb.share.networks = [spy, spy, spy, spy, spy, spy, spy];
 
             glb.share.createBar(this.el);
             expect(spy.calls.length).toEqual(6);
@@ -220,15 +212,13 @@ describe('glb.share Test Case', function () {
 
         it('should call method passed as parameter', function () {
             var spy = spyOn(glb.share, 'createFacebookButton'),
-                spyNetworks = {
-                    'test': jasmine.createSpy('test')
-                };
+                spyNetworks = [jasmine.createSpy('test')];
 
-            glb.share.networks['facebook'] = glb.share.createFacebookButton;
+            glb.share.networks = [glb.share.createFacebookButton];
             glb.share.createBar(this.el, spyNetworks);
 
             expect(spy).not.toHaveBeenCalled();
-            expect(spyNetworks['test']).toHaveBeenCalled();
+            expect(spyNetworks[0]).toHaveBeenCalled();
         });
     });
 

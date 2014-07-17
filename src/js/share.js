@@ -47,7 +47,7 @@ if (window.glb === undefined) {
 
         isTouch: function isTouch() {
             var bool = false;
-                
+
             if (window.ontouchstart !== undefined || (window.DocumentTouch && document instanceof DocumentTouch)) {
                 bool = true;
             }
@@ -67,15 +67,17 @@ if (window.glb === undefined) {
                 // Selector to open lightbox
                 selector: '.glb-share',
                 classPopup: 'share-popup',
-                networks: {
-                    'facebook': self.createFacebookButton,
-                    'twitter': self.createTwitterButton,
-                    'google': self.createGoogleButton,
-                    'pinterest': self.createPinterestButton,
-                    'whatsapp': self.createWhatsappButton,
-                    'email': self.createEmailButton
-                },
+                networks: [
+                    self.createFacebookButton,
+                    self.createTwitterButton,
+                    self.createGoogleButton,
+                    self.createPinterestButton,
+                    self.createWhatsappButton,
+                    self.createEmailButton
+                ],
                 theme: 'natural',
+                buttonWidth: 20,
+                buttonFullWidth: 100
 
                 // Callbacks
                 // onCreateHTMLStructure: function(){},
@@ -90,6 +92,10 @@ if (window.glb === undefined) {
             }
         },
 
+        setButtonsWidth: function setButtonsWidth() {
+            return false;
+        },
+
         createBars: function createBars() {
             var items = this.containers,
                 element = 0;
@@ -100,23 +106,13 @@ if (window.glb === undefined) {
         },
 
         createBar: function createBar(element, networks) {
-            var network = '',
-                theme = ' share-theme-',
-                count = 0,
-                result = false;
+            var theme = ' share-theme-';
 
             networks = networks || this.networks;
+            networks = networks.slice(0, 6);
 
-            for (network in networks) {
-                result = networks[network].call(this, element);
-
-                if (result !== false) {
-                    count += 1;
-                }
-
-                if (count === 6) {
-                    break;
-                }
+            for (var i = 0, count = networks.length; i < count; i++) {
+                networks[i].call(this, element);
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
