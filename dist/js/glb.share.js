@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-07-16
+/*! Globo Share - v1.0.0 - 2014-07-17
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -25,8 +25,8 @@ if (window.glb === undefined) {
 
     glb.share = {
         init: function init(options) {
-            this.createSVG();
             this.mergeOptions(options);
+            this.createSVG();
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
             this.bindOpenPopup();
@@ -125,6 +125,10 @@ if (window.glb === undefined) {
 
         deviceIsIphone: function deviceIsIphone() {
             return navigator.userAgent.match(/iPhone/i) !== null;
+        },
+
+        isBigScreen: function isBigScreen() {
+            return window.outerWidth >= 768;
         },
 
         createButton: function createButton(container, className, content) {
