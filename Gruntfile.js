@@ -53,7 +53,8 @@ module.exports = function(grunt) {
                 boss: true,
                 eqnull: true,
                 browser: true,
-                globals: {}
+                globals: {},
+                debug: true
             },
             gruntfile: {
                 src: 'Gruntfile.js'
