@@ -156,6 +156,10 @@ if (window.glb === undefined) {
             return navigator.userAgent.match(/iPhone/i) !== null;
         },
 
+        isBigScreen: function isBigScreen() {
+            return window.outerWidth >= 768;
+        },
+
         createButton: function createButton(container, className, content) {
             var shareContainer = document.createElement('div');
             shareContainer.className = className;
