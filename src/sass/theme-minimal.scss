@@ -1,0 +1,34 @@
+@import "compass";
+
+/* Ver hover com o designer */
+
+.share-theme-minimal {
+    .share-button a {
+        background-color: transparent;
+        @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
+    }
+
+    .share-facebook a .share-icon {
+        fill: #325c99;
+    }
+
+    .share-twitter a .share-icon {
+        fill: #02acec;
+    }
+
+    .share-googleplus a .share-icon {
+        fill: #dd4b39;
+    }
+
+    .share-pinterest a .share-icon {
+        fill: #cb2027;
+    }
+
+    .share-email a .share-icon {
+        fill: #8f9eb3;
+    }
+
+    .share-whatsapp a .share-icon {
+        fill: #58ad15;
+    }
+}

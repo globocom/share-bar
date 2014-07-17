@@ -1,0 +1,58 @@
+@import "compass";
+
+.share-theme-natural {
+    .share-button a {
+        @include single-transition(background, 300ms, ease);
+    }
+
+    .share-facebook a {
+        background-color: #325c99;
+    }
+
+    .share-twitter a {
+        background-color: #02acec;
+    }
+
+    .share-googleplus a {
+        background-color: #dd4b39;
+    }
+
+    .share-pinterest a {
+        background-color: #cb2027;
+    }
+
+    .share-email a {
+        background-color: #8f9eb3;
+    }
+
+    .share-whatsapp a {
+        background-color: #58ad15;
+    }
+}
+
+.no-touch .share-theme-natural {
+
+    .share-facebook a:hover {
+        background-color: #284a85;
+    }
+
+    .share-twitter a:hover {
+        background-color: #029be8;
+    }
+
+    .share-googleplus a:hover {
+        background-color: #d63c2e;
+    }
+
+    .share-pinterest a:hover {
+        background-color: #c11a1f;
+    }
+
+    .share-email a:hover {
+        background-color: #798ba4;
+    }
+
+    .share-whatsapp a:hover {
+        background-color: #469d11;
+    }
+}
