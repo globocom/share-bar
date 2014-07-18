@@ -56,6 +56,10 @@
                 padding: 6px 7px 8px 7px;
             }
         }
+
+        &.share-hidden {
+            display: none;
+        }
     }
 
     .share-icon {
