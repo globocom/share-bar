@@ -396,8 +396,35 @@ describe('glb.share Test Case', function () {
             html = document.querySelector('html');
             expect(html.className).toEqual(' touch');
         });
-
-
     });
 
+
+    describe('getNumberOfFullButtons', function () {
+
+        it('should return a list of classes with full and small buttons to apply on desktop', function () {
+            var buttons;
+
+            glb.share.buttonFullWidth = 110;
+            glb.share.buttonPadding = 4;
+            glb.share.buttonWidth = 34;
+
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            buttons = glb.share.getNumberOfFullButtons(480, 6);
+            expect(buttons).toEqual([ ' share-full', ' share-full', ' share-full', ' share-small', ' share-small', ' share-small' ] );
+        });
+
+        it('should return a list with natural behavior if device is small', function () {
+            var buttons;
+            glb.share.buttonFullWidth = 110;
+            glb.share.buttonPadding = 4;
+            glb.share.buttonWidth = 34;
+
+            spyOn(glb.share, 'isSmallScreen').andReturn(true);
+
+            buttons = glb.share.getNumberOfFullButtons(480, 6);
+            expect(buttons).toEqual([ '', '', '', '', '', '' ] );
+        });
+
+    });
 });
