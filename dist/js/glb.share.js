@@ -100,7 +100,8 @@ if (window.glb === undefined) {
                 totalOfSmallButtons = 0,
                 totalOfFullButtons = 0,
                 result = ['', '', '', '', '', ''],
-                i = 0;
+                i = 0,
+                isSmallScreen = this.isSmallScreen();
 
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
@@ -108,7 +109,7 @@ if (window.glb === undefined) {
                     totalOfSmallButtons = i * smallButtonWidth;
 
                     if (totalOfSmallButtons <= containerWidth) {
-                        result[i-1] = ' share-small';
+                        result[i-1] = isSmallScreen ? '' : ' share-small';
                     } else {
                         result[i-1] = ' share-hidden';
                     }
@@ -118,7 +119,7 @@ if (window.glb === undefined) {
             }
 
 
-            if (this.isSmallScreen()) {
+            if (isSmallScreen) {
                 return result;
             }
 
