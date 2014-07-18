@@ -76,8 +76,8 @@ if (window.glb === undefined) {
                     self.createEmailButton
                 ],
                 theme: 'natural',
-                buttonWidth: 50,
-                buttonFullWidth: 100,
+                buttonWidth: 34,
+                buttonFullWidth: 110,
                 buttonPadding: 4
 
                 // Callbacks
@@ -108,6 +108,8 @@ if (window.glb === undefined) {
             // if (!this.deviceIsIphone()) {
             //    numberOfButtons = numberOfButtons -1;
             // }
+
+            result = [' share-small', ' share-small', ' share-small', ' share-small', ' share-small', ' share-small'];
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
                 return result;
