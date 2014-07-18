@@ -137,8 +137,6 @@ if (window.glb === undefined) {
             return result;
         },
 
-
-
         createBars: function createBars() {
             var items = this.containers,
                 element = 0;
