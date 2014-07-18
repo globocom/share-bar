@@ -109,9 +109,17 @@ if (window.glb === undefined) {
             //    numberOfButtons = numberOfButtons -1;
             // }
 
-            result = [' share-small', ' share-small', ' share-small', ' share-small', ' share-small', ' share-small'];
-
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
+                for (i = 1; i <= numberOfButtons; i++) {
+                    totalOfSmallButtons = i * smallButtonWidth;
+
+                    if (totalOfSmallButtons <= containerWidth) {
+                        result[i-1] = ' share-small';
+                    } else {
+                        result[i-1] = ' share-hidden';
+                    }
+                }
+
                 return result;
             }
 
@@ -119,15 +127,17 @@ if (window.glb === undefined) {
                 totalOfFullButtons = i * fullButtonWidth;
                 totalOfSmallButtons = (numberOfButtons - i) * smallButtonWidth;
 
-                if ((totalOfSmallButtons + totalOfFullButtons) < containerWidth) {
+                if ((totalOfSmallButtons + totalOfFullButtons) <= containerWidth) {
                     result[i-1] = ' share-full';
                 } else {
-                    break;
+                    result[i-1] = ' share-small';
                 }
             }
 
             return result;
         },
+
+
 
         createBars: function createBars() {
             var items = this.containers,
