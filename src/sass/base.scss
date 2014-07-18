@@ -8,6 +8,12 @@
 
     .share-button {
         display: table-cell;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: ProximaNova-Bold, Arial;
+        text-transform: uppercase;
+        letter-spacing: 0;
+
         min-width: 40px;
         vertical-align: bottom;
         text-align: center;
@@ -41,10 +47,14 @@
             span {
                 display: inline-block;
                 vertical-align: middle;
-                font-size: 14px;
+                font-size: 11px;
                 color: white;
                 width: 70px;
                 text-align: center;
+            }
+
+            .share-icon {
+                margin-top: 0px;
             }
         }
 
@@ -55,6 +65,7 @@
             a {
                 padding: 6px 7px 8px 7px;
             }
+
         }
 
         &.share-hidden {
@@ -67,5 +78,9 @@
         max-width: 16px;
         display: inline-block;
         vertical-align: middle;
+        //TODO - remover o margin-top utilizado para icones que nao possuem textos
+        //associados e necessitam alinhamento ao centro 
+        margin-top: 3px;
+
     }
 }
