@@ -102,13 +102,6 @@ if (window.glb === undefined) {
                 result = ['', '', '', '', '', ''],
                 i = 0;
 
-            if (this.isSmallScreen()) {
-                return result;
-            }
-
-            // if (!this.deviceIsIphone()) {
-            //    numberOfButtons = numberOfButtons -1;
-            // }
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
                 for (i = 1; i <= numberOfButtons; i++) {
@@ -123,6 +116,13 @@ if (window.glb === undefined) {
 
                 return result;
             }
+
+
+            if (this.isSmallScreen()) {
+                return result;
+            }
+
+
 
             for (i = 1; i <= numberOfButtons; i++) {
                 totalOfFullButtons = i * fullButtonWidth;
