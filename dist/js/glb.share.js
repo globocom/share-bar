@@ -202,7 +202,8 @@ if (window.glb === undefined) {
         },
 
         isSmallScreen: function isSmallScreen() {
-            return window.outerWidth < 768;
+            var width = window.innerWidth || screen.width;
+            return width < 768;
         },
 
         createButton: function createButton(container, className, content) {
