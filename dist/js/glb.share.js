@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-07-17
+/*! Globo Share - v1.0.0 - 2014-07-18
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -77,8 +77,8 @@ if (window.glb === undefined) {
                     self.createEmailButton
                 ],
                 theme: 'natural',
-                buttonWidth: 50,
-                buttonFullWidth: 100,
+                buttonWidth: 34,
+                buttonFullWidth: 110,
                 buttonPadding: 4
 
                 // Callbacks
@@ -109,6 +109,8 @@ if (window.glb === undefined) {
             // if (!this.deviceIsIphone()) {
             //    numberOfButtons = numberOfButtons -1;
             // }
+
+            result = [' share-small', ' share-small', ' share-small', ' share-small', ' share-small', ' share-small'];
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
                 return result;
