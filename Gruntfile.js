@@ -53,8 +53,7 @@ module.exports = function(grunt) {
                 boss: true,
                 eqnull: true,
                 browser: true,
-                globals: {},
-                debug: true
+                globals: {}
             },
             gruntfile: {
                 src: 'Gruntfile.js'
@@ -108,7 +107,7 @@ module.exports = function(grunt) {
                 },
                 options: {
                     replacements: [{
-                        pattern: '[[X_SVG_X]]',
+                        pattern: '<X_SVG_X>',
                         replacement: grunt.file.read('dist/img/icons.svg'),
                     }]
                 },
@@ -164,16 +163,37 @@ module.exports = function(grunt) {
 
         connect: {
             server: {
-                options: {
-                    livereload: true,
-                    port: 9002,
-                    base: '.'
-                }
+               options: {
+                   port: 9002,
+                   base: '.',
+                   keepalive: true
+               }
             }
+        },
+
+        webfont: {
+          icons: {
+            src: 'src/img/*.svg',
+            dest: 'dist/fonts',
+            options: {
+                font: 'share-icon',
+                hashes: false,
+                htmlDemo: true,
+                stylesheet: 'scss',
+                embed: ['woff', 'ttf'],
+                templateOptions: {
+                    baseClass: 'share_font',
+                    classPrefix: 'ico-share-',
+                    mixinPrefix: 'ico-share-'
+                },
+                types: 'woff,ttf'
+            }
+          },
         }
     });
 
     // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-webfont');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -188,6 +208,5 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
     grunt.registerTask('default', ['jshint', 'jasmine', 'compass', 'concat', 'makesvg', 'uglify']);
-    grunt.registerTask('server', [ 'connect:server', 'watch']);
 
 };
