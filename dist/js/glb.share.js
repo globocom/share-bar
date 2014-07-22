@@ -216,7 +216,7 @@ if (window.glb === undefined) {
             var shareContainer = document.createElement('div');
             shareContainer.className = 'share-button share-' + socialNetwork + className;
             shareContainer.innerHTML = [
-                '<a class="' + this.classPopup + '" href="' + url + '" title="compartilhar ' + socialNetwork + '">',
+                '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetwork + '">',
                 this.createContentButton(socialNetwork),
                 '</a>'
             ].join("");
