@@ -217,5 +217,4 @@ module.exports = function(grunt) {
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
     grunt.registerTask('default', ['jshint', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
     grunt.registerTask('server', ['connect:server', 'watch']);
-
 };
