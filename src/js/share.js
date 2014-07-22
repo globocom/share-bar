@@ -229,16 +229,16 @@ if (window.glb === undefined) {
 
             if(this.supportSvg) {
                 iconElement = [
-                    '<svg viewBox="0 0 100 100" class="share-icon">',
-                    '   <use xlink:href="#icon-' + name + '"></use>',
-                    '</svg>',
-                    '<span>' + name + '</span>'
+                    '   <svg viewBox="0 0 100 100" class="share-icon">',
+                    '       <use xlink:href="#icon-' + name + '"></use>',
+                    '   </svg>',
+                    '   <span>' + name + '</span>'
                 ].join("");
 
             } else {
                 iconElement = [
-                    '<i class="share-font ico-share-' + name + '"></i>',
-                    '<span>' + name + '</span>'
+                    '   <i class="share-font ico-share-' + name + '"></i>',
+                    '   <span>' + name + '</span>'
                 ].join("");
             }
 
