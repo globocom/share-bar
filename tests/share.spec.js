@@ -254,8 +254,16 @@ describe('glb.share Test Case', function () {
                 var spy = spyOn(glb.share, 'createContentButton');
 
                 glb.share.createButton(this.el, 'test', '', 'urltest');
-                expect(spy).toHaveBeenCalledWith('test');
+                expect(spy).toHaveBeenCalledWith('test', 'test');
             });
+
+            it('should call createContentButton method when title was passed', function () {
+                var spy = spyOn(glb.share, 'createContentButton');
+
+                glb.share.createButton(this.el, 'test', '', 'urltest', 'title');
+                expect(spy).toHaveBeenCalledWith('test', 'title');
+            });
+
 
             it('should return share button', function () {
                 var button = glb.share.createButton(this.el, 'test', '', '<a href="test">test</a>');
