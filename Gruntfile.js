@@ -215,6 +215,6 @@ module.exports = function(grunt) {
 
     // Default task.
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
-    grunt.registerTask('default', ['jshint', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'buddyjs', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
     grunt.registerTask('server', ['connect:server', 'watch']);
 };
