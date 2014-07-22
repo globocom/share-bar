@@ -184,7 +184,7 @@ module.exports = function(grunt) {
                     stylesheet: 'scss',
                     embed: ['woff', 'ttf'],
                     templateOptions: {
-                        baseClass: 'share_font',
+                        baseClass: 'share-font',
                         classPrefix: 'ico-share-',
                         mixinPrefix: 'ico-share-'
                     },
