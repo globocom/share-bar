@@ -146,7 +146,7 @@ module.exports = function(grunt) {
             },
             test: {
                 files: '<%= jshint.test.src %>',
-                tasks: ['jshint:test', 'jasmine']
+                tasks: ['jshint:test', 'buddyjs', 'jasmine']
             },
             buildJS: {
                 files: ['<%= concat.js.src %>'],
@@ -165,9 +165,9 @@ module.exports = function(grunt) {
         connect: {
             server: {
                options: {
-                   port: 9002,
-                   base: '.',
-                   keepalive: true
+                    port: 9002,
+                    base: '.',
+                    livereload: true
                }
             }
         },
@@ -192,6 +192,11 @@ module.exports = function(grunt) {
                 }
             },
         },
+
+        buddyjs: {
+            src: ['<%= concat.js.src %>'],
+            options: {}
+        }
     });
 
     // These plugins provide necessary tasks.
@@ -206,10 +211,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-svgmin');
+    grunt.loadNpmTasks('grunt-buddyjs');
 
     // Default task.
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
     grunt.registerTask('default', ['jshint', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
-    grunt.registerTask('server', [ 'connect:server', 'watch']);
+    grunt.registerTask('server', ['connect:server', 'watch']);
 
 };
