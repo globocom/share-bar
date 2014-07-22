@@ -25,6 +25,7 @@ if (window.glb === undefined) {
     glb.share = {
         init: function init(options) {
             this.verifyTouch();
+            this.supportSvg = this.hasSupportSvg();
             this.createSVG();
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
@@ -54,11 +55,18 @@ if (window.glb === undefined) {
             return bool;
         },
 
+
+        hasSupportSvg: function hasSupportSvg() {
+            return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+        },
+
         createSVG: function createSVG() {
-            var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '[[X_SVG_X]]';
-            svgContainer.style.display = 'none';
-            document.body.appendChild(svgContainer);
+            if (this.supportSvg) {
+                var svgContainer = document.createElement('div');
+                svgContainer.innerHTML = '[[X_SVG_X]]';
+                svgContainer.style.display = 'none';
+                document.body.appendChild(svgContainer);
+            }
         },
 
         mergeOptions: function mergeOptions(options) {
@@ -213,15 +221,22 @@ if (window.glb === undefined) {
         },
 
         createFacebookButton: function createFacebookButton(container, buttonClass) {
-            var data = this.getMetadataFromElement(container);
+            var data = this.getMetadataFromElement(container), iconElement = "";
             buttonClass = buttonClass || '';
+
+            if(this.supportSvg) {
+                iconElement = ['   <svg viewBox="0 0 100 100" class="share-icon">',
+                              '       <use xlink:href="#icon-facebook"></use>',
+                              '   </svg>',
+                              '   <span>facebook</span>'].join("");
+
+            } else {
+                iconElement = ['   <span class="share_font ico-share-facebook">facebook</span>'].join("");
+            }
 
             this.createButton(container, "share-button share-facebook" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-facebook"></use>',
-                '   </svg>',
-                '   <span>facebook</span>',
+                iconElement,
                 '</a>'
             ].join(""));
         },
