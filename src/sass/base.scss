@@ -39,13 +39,14 @@
             }
         }
 
+        i {
+            line-height: 20px;
+            color: #FFFFFF;
+        }
+
         span {
             display: none;
 
-            &:before {
-                font-size: 16px;
-                line-height: 20px;
-            }
         }
 
         &.share-full {
