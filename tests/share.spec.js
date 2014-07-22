@@ -235,49 +235,7 @@ describe('glb.share Test Case', function () {
         });
     });
 
-    describe('createButton', function () {
-        it('should create share button', function () {
-            glb.share.createButton(this.el, 'test', '', 'urltest');
-            expect(this.el.querySelector('.share-test a[href="urltest"]')).not.toBe(null);
-        });
-
-        it('should call createContentButton method', function () {
-            var spy = spyOn(glb.share, 'createContentButton');
-
-            glb.share.createButton(this.el, 'test', '', 'urltest');
-            expect(spy).toHaveBeenCalledWith('test');
-        });
-
-        it('should return share button', function () {
-            var button = glb.share.createButton(this.el, 'test', '', '<a href="test">test</a>');
-            expect(button.className).toEqual('share-button share-test');
-        });
-    });
-
-    describe('createContentButton', function () {
-        it('should return SVG element when SVG is enabled', function () {
-            var result;
-
-            glb.share.supportSvg = true;
-            result = glb.share.createContentButton('test');
-
-            expect(result).toContain('<svg viewBox="0 0 100 100" class="share-icon">');
-            expect(result).toContain('<span>test</span>');
-        });
-
-        it('should return icon element when SVG is disabled', function () {
-            var result;
-
-            glb.share.supportSvg = false;
-            result = glb.share.createContentButton('test');
-
-            expect(result).toContain('<i class="share-font ico-share-test"></i>');
-            expect(result).toContain('<span>test</span>');
-        });
-    });
-
-    describe('createFacebookButton', function () {
-
+    describe('Create Buttons', function () {
         beforeEach(function() {
             glb.share.supportSvg = true;
         });
@@ -286,112 +244,156 @@ describe('glb.share Test Case', function () {
             glb.share.supportSvg = '';
         });
 
-        it('should create facebook button', function () {
-            glb.share.createFacebookButton(this.el);
-            expect(this.el.querySelector('.share-button.share-facebook a.share-popup span')).not.toBe(null);
+        describe('createButton', function () {
+            it('should create share button', function () {
+                glb.share.createButton(this.el, 'test', '', 'urltest');
+                expect(this.el.querySelector('.share-test a[href="urltest"]')).not.toBe(null);
+            });
+
+            it('should call createContentButton method', function () {
+                var spy = spyOn(glb.share, 'createContentButton');
+
+                glb.share.createButton(this.el, 'test', '', 'urltest');
+                expect(spy).toHaveBeenCalledWith('test');
+            });
+
+            it('should return share button', function () {
+                var button = glb.share.createButton(this.el, 'test', '', '<a href="test">test</a>');
+                expect(button.className).toEqual('share-button share-test');
+            });
         });
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            glb.share.createFacebookButton(this.el);
+        describe('createContentButton', function () {
+            it('should return SVG element when SVG is enabled', function () {
+                var result;
 
-            link = this.el.querySelector('.share-button.share-facebook a');
-            expect(link.href).toEqual(
-                'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fglobo.com'
-            );
-        });
-    });
+                glb.share.supportSvg = true;
+                result = glb.share.createContentButton('test');
 
-    describe('createTwitterButton', function () {
-        it('should create twitter button', function () {
-            glb.share.createTwitterButton(this.el);
-            expect(this.el.querySelector('.share-button.share-twitter a.share-popup span')).not.toBe(null);
-        });
+                expect(result).toContain('<svg viewBox="0 0 100 100" class="share-icon">');
+                expect(result).toContain('<span>test</span>');
+            });
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            glb.share.createTwitterButton(this.el);
+            it('should return icon element when SVG is disabled', function () {
+                var result;
 
-            link = this.el.querySelector('.share-button.share-twitter a');
-            expect(link.href).toEqual(
-                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23globo.com'
-            );
-        });
-    });
+                glb.share.supportSvg = false;
+                result = glb.share.createContentButton('test');
 
-    describe('createGoogleButton', function () {
-        it('should create googleplus button', function () {
-            glb.share.createGoogleButton(this.el);
-            expect(this.el.querySelector('.share-button.share-googleplus a.share-popup span')).not.toBe(null);
+                expect(result).toContain('<i class="share-font ico-share-test"></i>');
+                expect(result).toContain('<span>test</span>');
+            });
         });
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            glb.share.createGoogleButton(this.el);
+        describe('createFacebookButton', function () {
 
-            link = this.el.querySelector('.share-button.share-googleplus a');
-            expect(link.href).toEqual(
-                'https://plus.google.com/share?url=http%3A%2F%2Fglobo.com'
-            );
-        });
-    });
+            it('should create facebook button', function () {
+                glb.share.createFacebookButton(this.el);
+                expect(this.el.querySelector('.share-button.share-facebook a.share-popup span')).not.toBe(null);
+            });
 
-    describe('createPinterestButton', function () {
-        it('should create pinterest button', function () {
-            glb.share.createPinterestButton(this.el);
-            expect(this.el.querySelector('.share-button.share-pinterest a.share-popup span')).not.toBe(null);
-        });
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                glb.share.createFacebookButton(this.el);
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            glb.share.createPinterestButton(this.el);
-
-            link = this.el.querySelector('.share-button.share-pinterest a');
-            expect(link.href).toEqual(
-                'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
-            );
-        });
-    });
-
-    describe('createWhatsappButton', function () {
-        it('should create whatsapp button when device is iphone', function () {
-            spyOn(glb.share, 'deviceIsIphone').andReturn(true);
-            glb.share.createWhatsappButton(this.el);
-            expect(this.el.querySelector('.share-button.share-whatsapp a span')).not.toBe(null);
+                link = this.el.querySelector('.share-button.share-facebook a');
+                expect(link.href).toEqual(
+                    'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fglobo.com'
+                );
+            });
         });
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            spyOn(glb.share, 'deviceIsIphone').andReturn(true);
-            glb.share.createWhatsappButton(this.el);
+        describe('createTwitterButton', function () {
+            it('should create twitter button', function () {
+                glb.share.createTwitterButton(this.el);
+                expect(this.el.querySelector('.share-button.share-twitter a.share-popup span')).not.toBe(null);
+            });
 
-            link = this.el.querySelector('.share-button.share-whatsapp a');
-            expect(link.href).toEqual(
-                'whatsapp://send?text=Test%20title%20http%3A%2F%2Fglobo.com'
-            );
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                glb.share.createTwitterButton(this.el);
+
+                link = this.el.querySelector('.share-button.share-twitter a');
+                expect(link.href).toEqual(
+                    'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23globo.com'
+                );
+            });
         });
 
-        it('should not create whatsapp button when device is not iphone', function () {
-            spyOn(glb.share, 'deviceIsIphone').andReturn(false);
-            glb.share.createWhatsappButton(this.el);
-            expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
+        describe('createGoogleButton', function () {
+            it('should create googleplus button', function () {
+                glb.share.createGoogleButton(this.el);
+                expect(this.el.querySelector('.share-button.share-googleplus a.share-popup span')).not.toBe(null);
+            });
+
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                glb.share.createGoogleButton(this.el);
+
+                link = this.el.querySelector('.share-button.share-googleplus a');
+                expect(link.href).toEqual(
+                    'https://plus.google.com/share?url=http%3A%2F%2Fglobo.com'
+                );
+            });
         });
-    });
 
-    describe('createEmailButton', function () {
-        it('should create email button', function () {
-            glb.share.createEmailButton(this.el);
-            expect(this.el.querySelector('.share-button.share-email a span')).not.toBe(null);
+        describe('createPinterestButton', function () {
+            it('should create pinterest button', function () {
+                glb.share.createPinterestButton(this.el);
+                expect(this.el.querySelector('.share-button.share-pinterest a.share-popup span')).not.toBe(null);
+            });
+
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                glb.share.createPinterestButton(this.el);
+
+                link = this.el.querySelector('.share-button.share-pinterest a');
+                expect(link.href).toEqual(
+                    'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
+                );
+            });
         });
 
-        it('should set link href with metadata of container', function () {
-            var link = '';
-            glb.share.createEmailButton(this.el);
+        describe('createWhatsappButton', function () {
+            it('should create whatsapp button when device is iphone', function () {
+                spyOn(glb.share, 'deviceIsIphone').andReturn(true);
+                glb.share.createWhatsappButton(this.el);
+                expect(this.el.querySelector('.share-button.share-whatsapp a span')).not.toBe(null);
+            });
 
-            link = this.el.querySelector('.share-email a');
-            expect(link.href).toEqual(
-                'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
-            );
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                spyOn(glb.share, 'deviceIsIphone').andReturn(true);
+                glb.share.createWhatsappButton(this.el);
+
+                link = this.el.querySelector('.share-button.share-whatsapp a');
+                expect(link.href).toEqual(
+                    'whatsapp://send?text=Test%20title%20http%3A%2F%2Fglobo.com'
+                );
+            });
+
+            it('should not create whatsapp button when device is not iphone', function () {
+                spyOn(glb.share, 'deviceIsIphone').andReturn(false);
+                glb.share.createWhatsappButton(this.el);
+                expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
+            });
+        });
+
+        describe('createEmailButton', function () {
+            it('should create email button', function () {
+                glb.share.createEmailButton(this.el);
+                expect(this.el.querySelector('.share-button.share-email a span')).not.toBe(null);
+            });
+
+            it('should set link href with metadata of container', function () {
+                var link = '';
+                glb.share.createEmailButton(this.el);
+
+                link = this.el.querySelector('.share-email a');
+                expect(link.href).toEqual(
+                    'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
+                );
+            });
         });
     });
 
