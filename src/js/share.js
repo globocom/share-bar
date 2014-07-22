@@ -78,7 +78,8 @@ if (window.glb === undefined) {
                 theme: 'natural',
                 buttonWidth: 34,
                 buttonFullWidth: 110,
-                buttonPadding: 4
+                buttonPadding: 4,
+                maxSocialButtons: 6
 
                 // Callbacks
                 // onCreateHTMLStructure: function(){},
@@ -117,12 +118,9 @@ if (window.glb === undefined) {
                 return result;
             }
 
-
             if (isSmallScreen) {
                 return result;
             }
-
-
 
             for (i = 1; i <= numberOfButtons; i++) {
                 totalOfFullButtons = i * fullButtonWidth;
@@ -153,7 +151,7 @@ if (window.glb === undefined) {
                 buttonClasses = [];
 
             networks = networks || this.networks;
-            networks = networks.slice(0, 6);
+            networks = networks.slice(0, this.maxSocialButtons);
 
             count = networks.length;
             buttonClasses = this.getNumberOfFullButtons(element.offsetWidth, count);
@@ -200,8 +198,9 @@ if (window.glb === undefined) {
         },
 
         isSmallScreen: function isSmallScreen() {
-            var width = window.innerWidth || screen.width;
-            return width < 768;
+            var desktopMinWidth = 768,
+                width = window.innerWidth || screen.width;
+            return width < desktopMinWidth;
         },
 
         createButton: function createButton(container, className, content) {
