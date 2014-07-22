@@ -212,10 +212,14 @@ if (window.glb === undefined) {
             return width < desktopMinWidth;
         },
 
-        createButton: function createButton(container, className, content) {
+        createButton: function createButton(container, socialNetwork, className, url) {
             var shareContainer = document.createElement('div');
-            shareContainer.className = className;
-            shareContainer.innerHTML = content;
+            shareContainer.className = 'share-button share-' + socialNetwork + className;
+            shareContainer.innerHTML = [
+                '<a class="' + this.classPopup + '" href="' + url + '" title="compartilhar ' + socialNetwork + '">',
+                this.createContentButton(socialNetwork),
+                '</a>'
+            ].join("");
 
             container.appendChild(shareContainer);
             return shareContainer;
@@ -223,16 +227,22 @@ if (window.glb === undefined) {
 
         createContentButton: function createContentButton(name){
             var iconElement;
+
             if(this.supportSvg) {
-                iconElement = ['   <svg viewBox="0 0 100 100" class="share-icon">',
-                              '       <use xlink:href="#icon-' + name + '"></use>',
-                              '   </svg>',
-                              '   <span>' + name + '</span>'].join("");
+                iconElement = [
+                    '<svg viewBox="0 0 100 100" class="share-icon">',
+                    '   <use xlink:href="#icon-' + name + '"></use>',
+                    '</svg>',
+                    '<span>' + name + '</span>'
+                ].join("");
 
             } else {
-                iconElement = ['   <i class="share-font ico-share-' + name + '"></i>',
-                               '   <span>' + name + '</span>'].join("");
+                iconElement = [
+                    '<i class="share-font ico-share-' + name + '"></i>',
+                    '<span>' + name + '</span>'
+                ].join("");
             }
+
             return iconElement;
         },
 
@@ -240,45 +250,40 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-
-            this.createButton(container, "share-button share-facebook" + buttonClass, [
-                '<a class="' + this.classPopup + '" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
-                this.createContentButton('facebook'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'facebook', buttonClass,
+                'http://www.facebook.com/sharer/sharer.php?u=' + data['url']
+            );
         },
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-twitter" + buttonClass, [
-                '<a class="' + this.classPopup + '" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
-                this.createContentButton('twitter'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'twitter', buttonClass,
+                'https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com'
+            );
         },
 
         createGoogleButton: function createGoogleButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-googleplus" + buttonClass, [
-                '<a class="' + this.classPopup + '" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
-                this.createContentButton('googleplus'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'googleplus', buttonClass,
+                'https://plus.google.com/share?url=' + data['url']
+            );
         },
 
         createPinterestButton: function createPinterestButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-pinterest" + buttonClass, [
-                '<a class="' + this.classPopup + '" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
-                this.createContentButton('pinterest'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'pinterest', buttonClass,
+                'http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title']
+            );
         },
 
         createWhatsappButton: function createWhatsappButton(container, buttonClass) {
@@ -289,22 +294,20 @@ if (window.glb === undefined) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-whatsapp" + buttonClass, [
-                '<a href="whatsapp://send?text=' + data['title'] + '%20' + data['url'] + '" title="compartilhar whatsapp">',
-                this.createContentButton('whatsapp'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'whatsapp', buttonClass,
+                'whatsapp://send?text=' + data['title'] + '%20' + data['url']
+            );
         },
 
         createEmailButton: function createEmailButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
-            this.createButton(container, "share-button share-email" + buttonClass, [
-                '<a href="mailto:?subject=' + data['title'] + '&amp;body=' + data['url'] + '" title="compartilhar email">',
-                this.createContentButton('email'),
-                '</a>'
-            ].join(""));
+            this.createButton(
+                container, 'email', buttonClass,
+                'mailto:?subject=' + data['title'] + '&amp;body=' + data['url']
+            );
         }
     };
 

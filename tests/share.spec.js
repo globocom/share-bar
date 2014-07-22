@@ -237,13 +237,20 @@ describe('glb.share Test Case', function () {
 
     describe('createButton', function () {
         it('should create share button', function () {
-            glb.share.createButton(this.el, 'share-test', '<a href="test">test</a>');
-            expect(this.el.querySelector('.share-test a[href="test"]')).not.toBe(null);
+            glb.share.createButton(this.el, 'test', '', 'urltest');
+            expect(this.el.querySelector('.share-test a[href="urltest"]')).not.toBe(null);
+        });
+
+        it('should call createContentButton method', function () {
+            var spy = spyOn(glb.share, 'createContentButton');
+
+            glb.share.createButton(this.el, 'test', '', 'urltest');
+            expect(spy).toHaveBeenCalledWith('test');
         });
 
         it('should return share button', function () {
-            var button = glb.share.createButton(this.el, 'share-test', '<a href="test">test</a>');
-            expect(button.className).toEqual('share-test');
+            var button = glb.share.createButton(this.el, 'test', '', '<a href="test">test</a>');
+            expect(button.className).toEqual('share-button share-test');
         });
     });
 
