@@ -211,12 +211,13 @@ if (window.glb === undefined) {
             return width < desktopMinWidth;
         },
 
-        createButton: function createButton(container, socialNetwork, className, url) {
+        createButton: function createButton(container, socialNetworkClass, className, url, socialNetworkTitle) {
             var shareContainer = document.createElement('div');
-            shareContainer.className = 'share-button share-' + socialNetwork + className;
+            socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
+            shareContainer.className = 'share-button share-' + socialNetworkClass + className;
             shareContainer.innerHTML = [
-                '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetwork + '">',
-                this.createContentButton(socialNetwork),
+                '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
+                this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
             ].join("");
 
@@ -224,21 +225,21 @@ if (window.glb === undefined) {
             return shareContainer;
         },
 
-        createContentButton: function createContentButton(name){
+        createContentButton: function createContentButton(name, title){
             var iconElement;
-
+            title = title || name;
             if(this.supportSvg) {
                 iconElement = [
                     '   <svg viewBox="0 0 100 100" class="share-icon">',
                     '       <use xlink:href="#icon-' + name + '"></use>',
                     '   </svg>',
-                    '   <span>' + name + '</span>'
+                    '   <span>' + title + '</span>'
                 ].join("");
 
             } else {
                 iconElement = [
                     '   <i class="share-font ico-share-' + name + '"></i>',
-                    '   <span>' + name + '</span>'
+                    '   <span>' + title + '</span>'
                 ].join("");
             }
 
@@ -271,7 +272,8 @@ if (window.glb === undefined) {
 
             this.createButton(
                 container, 'googleplus', buttonClass,
-                'https://plus.google.com/share?url=' + data['url']
+                'https://plus.google.com/share?url=' + data['url'],
+                'google+'
             );
         },
 
