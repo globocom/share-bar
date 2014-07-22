@@ -71,6 +71,7 @@ module.exports = function(grunt) {
                     outputStyle: 'compressed',
                     noLineComments: true,
                     relativeAssets: true
+
                 }
             }
         },
@@ -172,24 +173,25 @@ module.exports = function(grunt) {
         },
 
         webfont: {
-          icons: {
-            src: 'src/img/*.svg',
-            dest: 'dist/fonts',
-            options: {
-                font: 'share-icon',
-                hashes: false,
-                htmlDemo: true,
-                stylesheet: 'scss',
-                embed: ['woff', 'ttf'],
-                templateOptions: {
-                    baseClass: 'share_font',
-                    classPrefix: 'ico-share-',
-                    mixinPrefix: 'ico-share-'
-                },
-                types: 'woff,ttf'
-            }
-          },
-        }
+            icons: {
+                src: 'src/img/*.svg',
+                dest: 'src/fonts',
+                destCss: 'src/sass',
+                options: {
+                    font: 'share-icon',
+                    hashes: false,
+                    htmlDemo: false,
+                    stylesheet: 'scss',
+                    embed: ['woff', 'ttf'],
+                    templateOptions: {
+                        baseClass: 'share_font',
+                        classPrefix: 'ico-share-',
+                        mixinPrefix: 'ico-share-'
+                    },
+                    types: 'woff,ttf'
+                }
+            },
+        },
     });
 
     // These plugins provide necessary tasks.
@@ -207,6 +209,6 @@ module.exports = function(grunt) {
 
     // Default task.
     grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
-    grunt.registerTask('default', ['jshint', 'jasmine', 'compass', 'concat', 'makesvg', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
 
 };
