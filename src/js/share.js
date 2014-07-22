@@ -57,7 +57,7 @@ if (window.glb === undefined) {
 
 
         hasSupportSvg: function hasSupportSvg() {
-            return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+            return false;
         },
 
         createSVG: function createSVG() {
@@ -220,23 +220,29 @@ if (window.glb === undefined) {
             return shareContainer;
         },
 
-        createFacebookButton: function createFacebookButton(container, buttonClass) {
-            var data = this.getMetadataFromElement(container), iconElement = "";
-            buttonClass = buttonClass || '';
-
+        createContentButton: function createContentButton(name){
+            var iconElement;
             if(this.supportSvg) {
                 iconElement = ['   <svg viewBox="0 0 100 100" class="share-icon">',
-                              '       <use xlink:href="#icon-facebook"></use>',
+                              '       <use xlink:href="#icon-' + name + '"></use>',
                               '   </svg>',
-                              '   <span>facebook</span>'].join("");
+                              '   <span>' + name + '</span>'].join("");
 
             } else {
-                iconElement = ['   <span class="share_font ico-share-facebook">facebook</span>'].join("");
+                iconElement = ['   <i class="share-font ico-share-' + name + '"></i>',
+                               '   <span>' + name + '</span>'].join("");
             }
+            return iconElement;
+        },
+
+        createFacebookButton: function createFacebookButton(container, buttonClass) {
+            var data = this.getMetadataFromElement(container);
+            buttonClass = buttonClass || '';
+
 
             this.createButton(container, "share-button share-facebook" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="http://www.facebook.com/sharer/sharer.php?u=' + data['url'] + '" title="compartilhar facebook">',
-                iconElement,
+                this.createContentButton('facebook'),
                 '</a>'
             ].join(""));
         },
@@ -247,10 +253,7 @@ if (window.glb === undefined) {
 
             this.createButton(container, "share-button share-twitter" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com" title="compartilhar twitter">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-twitter"></use>',
-                '   </svg>',
-                '   <span>twitter</span>',
+                this.createContentButton('twitter'),
                 '</a>'
             ].join(""));
         },
@@ -261,10 +264,7 @@ if (window.glb === undefined) {
 
             this.createButton(container, "share-button share-googleplus" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="https://plus.google.com/share?url=' + data['url'] + '" title="compartilhar google+">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-googleplus"></use>',
-                '   </svg>',
-                '   <span>google+</span>',
+                this.createContentButton('googleplus'),
                 '</a>'
             ].join(""));
         },
@@ -275,10 +275,7 @@ if (window.glb === undefined) {
 
             this.createButton(container, "share-button share-pinterest" + buttonClass, [
                 '<a class="' + this.classPopup + '" href="http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title'] + '" title="compartilhar pinterest">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-pinterest"></use>',
-                '   </svg>',
-                '   <span>pinterest</span>',
+                this.createContentButton('pinterest'),
                 '</a>'
             ].join(""));
         },
@@ -293,10 +290,7 @@ if (window.glb === undefined) {
 
             this.createButton(container, "share-button share-whatsapp" + buttonClass, [
                 '<a href="whatsapp://send?text=' + data['title'] + '%20' + data['url'] + '" title="compartilhar whatsapp">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-whatsapp"></use>',
-                '   </svg>',
-                '   <span>whatsapp</span>',
+                this.createContentButton('whatsapp'),
                 '</a>'
             ].join(""));
         },
@@ -307,10 +301,7 @@ if (window.glb === undefined) {
 
             this.createButton(container, "share-button share-email" + buttonClass, [
                 '<a href="mailto:?subject=' + data['title'] + '&amp;body=' + data['url'] + '" title="compartilhar email">',
-                '   <svg viewBox="0 0 100 100" class="share-icon">',
-                '       <use xlink:href="#icon-email"></use>',
-                '   </svg>',
-                '   <span>email</span>',
+                this.createContentButton('email'),
                 '</a>'
             ].join(""));
         }

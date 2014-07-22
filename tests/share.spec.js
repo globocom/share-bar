@@ -1,5 +1,5 @@
 /*global describe, it, expect, glb, spyOn,
-         beforeEach, afterEach, jasmine */
+         beforeEach, afterEach, jasmine, xit */
 
 describe('glb.share Test Case', function () {
     'use strict';
@@ -248,6 +248,15 @@ describe('glb.share Test Case', function () {
     });
 
     describe('createFacebookButton', function () {
+
+        beforeEach(function() {
+            glb.share.supportSvg = true;
+        });
+
+        afterEach(function() {
+            glb.share.supportSvg = '';
+        });
+
         it('should create facebook button', function () {
             glb.share.createFacebookButton(this.el);
             expect(this.el.querySelector('.share-button.share-facebook a.share-popup span')).not.toBe(null);
@@ -358,9 +367,19 @@ describe('glb.share Test Case', function () {
     });
 
     describe('createSVG', function () {
+
+        beforeEach(function () {
+            glb.share.supportSvg = true;
+        });
+
+        afterEach(function () {
+            glb.share.supportSvg = '';
+        });
+
         it('should create svg container', function () {
             var element = '',
                 elements = [];
+
 
             glb.share.createSVG();
             elements = document.querySelectorAll('div');
@@ -424,6 +443,13 @@ describe('glb.share Test Case', function () {
 
             buttons = glb.share.getNumberOfFullButtons(480, 6);
             expect(buttons).toEqual([ '', '', '', '', '', '' ] );
+        });
+
+    });
+
+    describe('hasSupportSvg', function () {
+
+        xit('should verify if has support for svg in the browser', function () {
         });
 
     });
