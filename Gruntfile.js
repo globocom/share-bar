@@ -108,7 +108,7 @@ module.exports = function(grunt) {
                 },
                 options: {
                     replacements: [{
-                        pattern: '<X_SVG_X>',
+                        pattern: '[[X_SVG_X]]',
                         replacement: grunt.file.read('dist/img/icons.svg'),
                     }]
                 },
