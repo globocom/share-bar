@@ -230,10 +230,12 @@ if (window.glb === undefined) {
             title = title || name;
             if(this.supportSvg) {
                 iconElement = [
-                    '   <svg viewBox="0 0 100 100" class="share-icon">',
-                    '       <use xlink:href="#icon-' + name + '"></use>',
-                    '   </svg>',
-                    '   <span>' + title + '</span>'
+                    '   <div class="svg-size">',
+                    '      <svg viewBox="0 0 100 100" class="share-icon">',
+                    '           <use xlink:href="#icon-' + name + '"></use>',
+                    '       </svg>',
+                    '   </div>',
+                    '<span>' + title + '</span>'
                 ].join("");
 
             } else {
@@ -307,7 +309,8 @@ if (window.glb === undefined) {
 
             this.createButton(
                 container, 'email', buttonClass,
-                'mailto:?subject=' + data['title'] + '&amp;body=' + data['url']
+                'mailto:?subject=' + data['title'] + '&amp;body=' + data['url'],
+                'e-mail'
             );
         }
     };
