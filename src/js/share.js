@@ -102,48 +102,6 @@ if (window.glb === undefined) {
             }
         },
 
-        getNumberOfFullButtons: function getNumberOfFullButtons(containerWidth, numberOfButtons) {
-            var fullButtonWidth = this.buttonFullWidth + this.buttonPadding,
-                smallButtonWidth = this.buttonWidth + this.buttonPadding,
-                totalOfSmallButtons = 0,
-                totalOfFullButtons = 0,
-                result = ['', '', '', '', '', ''],
-                i = 0,
-                isSmallScreen = this.isSmallScreen();
-
-
-            if ((numberOfButtons * smallButtonWidth) > containerWidth) {
-                for (i = 1; i <= numberOfButtons; i++) {
-                    totalOfSmallButtons = i * smallButtonWidth;
-
-                    if (totalOfSmallButtons <= containerWidth) {
-                        result[i-1] = isSmallScreen ? '' : ' share-small';
-                    } else {
-                        result[i-1] = ' share-hidden';
-                    }
-                }
-
-                return result;
-            }
-
-            if (isSmallScreen) {
-                return result;
-            }
-
-            for (i = 1; i <= numberOfButtons; i++) {
-                totalOfFullButtons = i * fullButtonWidth;
-                totalOfSmallButtons = (numberOfButtons - i) * smallButtonWidth;
-
-                if ((totalOfSmallButtons + totalOfFullButtons) <= containerWidth) {
-                    result[i-1] = ' share-full';
-                } else {
-                    result[i-1] = ' share-small';
-                }
-            }
-
-            return result;
-        },
-
         createBars: function createBars() {
             var items = this.containers,
                 element = 0;
@@ -162,7 +120,7 @@ if (window.glb === undefined) {
             networks = networks.slice(0, this.maxSocialButtons);
 
             count = networks.length;
-            buttonClasses = this.getNumberOfFullButtons(element.offsetWidth, count);
+            buttonClasses = this.getButtonsSize(element.offsetWidth, count);
 
             for (var i = 0; i < count; i++) {
                 networks[i].call(this, element, buttonClasses[i]);
@@ -170,6 +128,64 @@ if (window.glb === undefined) {
 
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += " glb-share-container" + theme;
+        },
+
+        getButtonsSize: function getButtonsSize(containerWidth, numberOfButtons) {
+            var fullButtonWidth = this.buttonFullWidth + this.buttonPadding,
+                smallButtonWidth = this.buttonWidth + this.buttonPadding,
+                result = ['', '', '', '', '', ''],
+                isSmallScreen = this.isSmallScreen();
+
+            if ((numberOfButtons * smallButtonWidth) > containerWidth) {
+                return this.getButtonsSmall(
+                    numberOfButtons, smallButtonWidth, containerWidth
+                );
+            }
+
+            if (isSmallScreen) {
+                return result;
+            }
+
+            return this.getButtonsFull(
+                numberOfButtons, fullButtonWidth, smallButtonWidth, containerWidth
+            );
+        },
+
+        getButtonsSmall: function getButtonsSmall(numberOfButtons, smallButtonWidth, containerWidth) {
+            var result = [],
+                totalOfSmallButtons = 0,
+                isSmallScreen = this.isSmallScreen();
+
+            for (var i = 1; i <= numberOfButtons; i++) {
+                totalOfSmallButtons = i * smallButtonWidth;
+
+                if (totalOfSmallButtons <= containerWidth) {
+                    result[i-1] = isSmallScreen ? '' : ' share-small';
+                } else {
+                    result[i-1] = ' share-hidden';
+                }
+            }
+
+            return result;
+        },
+
+        getButtonsFull: function getButtonsFull(numberOfButtons, fullButtonWidth, smallButtonWidth, containerWidth) {
+            var result = [],
+                totalOfFullButtons = 0,
+                totalOfSmallButtons = 0;
+
+            for (var i = 1; i <= numberOfButtons; i++) {
+                totalOfFullButtons = i * fullButtonWidth;
+                totalOfSmallButtons = (numberOfButtons - i) * smallButtonWidth;
+
+                if ((totalOfSmallButtons + totalOfFullButtons) <= containerWidth) {
+                    result[i-1] = ' share-full';
+                } else {
+                    result[i-1] = ' share-small';
+                }
+            }
+
+            return result;
         },
 
         bindOpenPopup: function bindOpenPopup() {
