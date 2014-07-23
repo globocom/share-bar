@@ -53,6 +53,7 @@
             display: inline-block;
 
             span {
+                line-height: 21px;
                 display: inline-block;
                 vertical-align: middle;
                 font-size: 11px;
@@ -61,10 +62,13 @@
                 text-align: center;
             }
 
-            .share-icon {
-                width: 20px;
-                margin-top: 0px;
+            .svg-size .share-icon {
+                top: inherit;
+                -webkit-transform: inherit;
+                -ms-transform: inherit;
+                transform: inherit;
             }
+
         }
 
         &.share-small {
@@ -79,14 +83,6 @@
                     @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
                 }
             }
-
-            .share-icon {
-                position: relative;
-                top: 50%;
-                -webkit-transform: translateY(-50%);
-                -ms-transform: translateY(-50%);
-                transform: translateY(-50%);        
-            }
         }
 
         &.share-hidden {
@@ -94,10 +90,51 @@
         }
     }
 
-    .share-icon {
-        fill: white;
-        max-width: 16px;
+    .svg-size {
+        width: 20px;
+        height: 20px;
         display: inline-block;
-        vertical-align: middle;
+
+        .share-icon {
+            fill: white;
+            max-width: 16px;
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            display: inline-block;
+            vertical-align: middle;
+        }
     }
+}
+
+
+.share-facebook .share-popup .svg-size .share-icon {
+    max-width: 16px;
+    max-height: 16px;
+}
+
+.share-twitter .share-popup .svg-size .share-icon {
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.share-whatsapp .share-popup .svg-size .share-icon {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+.share-googleplus .share-popup .svg-size .share-icon {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+.share-pinterest .share-popup .svg-size .share-icon {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+.share-email .share-popup .svg-size .share-icon {
+    max-width: 16px;
 }
