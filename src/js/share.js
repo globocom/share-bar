@@ -55,7 +55,6 @@ if (window.glb === undefined) {
             return bool;
         },
 
-
         hasSupportSvg: function hasSupportSvg() {
             return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
         },
@@ -88,9 +87,6 @@ if (window.glb === undefined) {
                 buttonFullWidth: 110,
                 buttonPadding: 4,
                 maxSocialButtons: 6
-
-                // Callbacks
-                // onCreateHTMLStructure: function(){},
             };
 
             if (!options) {
@@ -133,7 +129,6 @@ if (window.glb === undefined) {
         getButtonsSize: function getButtonsSize(containerWidth, numberOfButtons) {
             var fullButtonWidth = this.buttonFullWidth + this.buttonPadding,
                 smallButtonWidth = this.buttonWidth + this.buttonPadding,
-                result = ['', '', '', '', '', ''],
                 isSmallScreen = this.isSmallScreen();
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
@@ -143,7 +138,7 @@ if (window.glb === undefined) {
             }
 
             if (isSmallScreen) {
-                return result;
+                return ['', '', '', '', '', ''];
             }
 
             return this.getButtonsFull(
