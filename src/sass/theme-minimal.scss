@@ -7,9 +7,13 @@
         background-color: transparent;
         @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
 
-        span {
-            display: none !important;
-        }
+    }
+    .share-button .share-popup {
+        padding: 6px 7px 8px 7px;
+    }
+
+    .share-button .share-popup span {
+        display: none;
     }
 
     .share-facebook a .share-icon {
@@ -35,6 +39,10 @@
     .share-whatsapp a .share-icon {
         fill: #58ad15;
     }
+}
+
+/*  FALLBACK de fontes para browsers que nao suportam svg  */
+.share-theme-minimal {
 
     .share-facebook i {
         color:  #325c99;
@@ -59,6 +67,5 @@
     .share-whatsapp i {
         color:  #58ad15;
     }
-
 
 }
