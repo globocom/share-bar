@@ -222,6 +222,112 @@ describe('glb.share Test Case', function () {
         });
     });
 
+    describe('getButtonsSize', function () {
+        beforeEach(function() {
+            glb.share.init();
+            glb.share.buttonWidth = 21;
+            glb.share.buttonFullWidth = 46;
+            glb.share.buttonPadding = 4;
+        });
+
+        it('should call getButtonsSmall when container is small', function() {
+            var spy = spyOn(glb.share, 'getButtonsSmall');
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+            glb.share.getButtonsSize(20, 6);
+
+            expect(spy).toHaveBeenCalledWith(6, 25, 20);
+        });
+
+        it('should return all elements as is when container is big and is small sreen', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(true);
+
+            result = glb.share.getButtonsSize(200, 6);
+
+            expect(result).toEqual(
+                ['', '', '', '', '', '']
+            );
+        });
+
+        it('should call getButtonsFull when container is big', function() {
+            var spy = spyOn(glb.share, 'getButtonsFull');
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+            glb.share.getButtonsSize(150, 6);
+
+            expect(spy).toHaveBeenCalledWith(6, 50, 25, 150);
+        });
+    });
+
+    describe('getButtonsSmall', function() {
+        it('should return all elements as hidden when container is smallest than button', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            result = glb.share.getButtonsSmall(6, 25, 20);
+
+            expect(result).toEqual(
+                [' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden']
+            );
+        });
+
+        it('should return some elements as small when container is small', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            result = glb.share.getButtonsSmall(6, 25, 75);
+
+            expect(result).toEqual(
+                [' share-small', ' share-small', ' share-small', ' share-hidden', ' share-hidden', ' share-hidden']
+            );
+        });
+
+        it('should return some elements as is when container is small and is small sreen', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(true);
+
+            result = glb.share.getButtonsSmall(6, 25, 75);
+
+            expect(result).toEqual(
+                ['', '', '', ' share-hidden', ' share-hidden', ' share-hidden']
+            );
+        });
+    });
+
+    describe('getButtonsFull', function() {
+        it('should return all elements as small when container is a little bigger', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            result = glb.share.getButtonsFull(6, 50, 25, 160);
+
+            expect(result).toEqual(
+                [' share-small', ' share-small', ' share-small', ' share-small', ' share-small', ' share-small']
+            );
+        });
+
+        it('should return some elements as full when container is big', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            result = glb.share.getButtonsFull(6, 50, 25, 225);
+
+            expect(result).toEqual(
+                [' share-full', ' share-full', ' share-full', ' share-small', ' share-small', ' share-small']
+            );
+        });
+
+        it('should return all elements as full when container is very big', function () {
+            var result = [];
+            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+
+            result = glb.share.getButtonsFull(6, 50, 25, 300);
+
+            expect(result).toEqual(
+                [' share-full', ' share-full', ' share-full', ' share-full', ' share-full', ' share-full']
+            );
+        });
+    });
+
     describe('getMetadataFromElement', function () {
         it('should return a dictionary with metadata from element', function () {
             var data = glb.share.getMetadataFromElement(this.el),
@@ -454,36 +560,6 @@ describe('glb.share Test Case', function () {
             html = document.querySelector('html');
             expect(html.className).toEqual(' touch');
         });
-    });
-
-
-    describe('getNumberOfFullButtons', function () {
-
-        it('should return a list of classes with full and small buttons to apply on desktop', function () {
-            var buttons;
-
-            glb.share.buttonFullWidth = 110;
-            glb.share.buttonPadding = 4;
-            glb.share.buttonWidth = 34;
-
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
-
-            buttons = glb.share.getNumberOfFullButtons(480, 6);
-            expect(buttons).toEqual([ ' share-full', ' share-full', ' share-full', ' share-small', ' share-small', ' share-small' ] );
-        });
-
-        it('should return a list with natural behavior if device is small', function () {
-            var buttons;
-            glb.share.buttonFullWidth = 110;
-            glb.share.buttonPadding = 4;
-            glb.share.buttonWidth = 34;
-
-            spyOn(glb.share, 'isSmallScreen').andReturn(true);
-
-            buttons = glb.share.getNumberOfFullButtons(480, 6);
-            expect(buttons).toEqual([ '', '', '', '', '', '' ] );
-        });
-
     });
 
     describe('hasSupportSvg', function () {
