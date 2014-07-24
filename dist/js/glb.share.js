@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-07-23
+/*! Globo Share - v1.0.0 - 2014-07-24
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
