@@ -1,5 +1,7 @@
 /*global require, module:false */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    'use strict';
+
     var distJs = 'dist/js/',
         distCss = 'dist/css/';
 
@@ -8,10 +10,10 @@ module.exports = function(grunt) {
         // Metadata.
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-        ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+            '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+            '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+            '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+            ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 
         // Task configuration.
         concat: {
@@ -47,27 +49,16 @@ module.exports = function(grunt) {
             }
         },
 
-        jshint: {
-            options: {
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                unused: true,
-                boss: true,
-                eqnull: true,
-                browser: true,
-                globals: {}
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            test: {
-                src: ['<%= concat.js.src %>', 'tests/*.spec.js']
+        jslint: {
+            client: {
+                src: ['<%= concat.js.src %>', 'tests/*.spec.js', 'Gruntfile.js'],
+                directives: {
+                    browser: true,
+                    unparam: true,
+                    regexp: true,
+                    nomen: true,
+                    plusplus: true
+                }
             }
         },
 
@@ -86,11 +77,11 @@ module.exports = function(grunt) {
 
         svgstore: {
             options: {
-                prefix : 'icon-',
+                prefix : 'icon-'
             },
             default: {
                 files: {
-                    'dist/img/icons.svg': ['src/img/*.svg'],
+                    'dist/img/icons.svg': ['src/img/*.svg']
                 }
             }
         },
@@ -117,9 +108,9 @@ module.exports = function(grunt) {
                 options: {
                     replacements: [{
                         pattern: '[[X_SVG_X]]',
-                        replacement: grunt.file.read('dist/img/icons.svg'),
+                        replacement: grunt.file.read('dist/img/icons.svg')
                     }]
-                },
+                }
             }
         },
 
@@ -149,16 +140,16 @@ module.exports = function(grunt) {
 
         watch: {
             gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
+                files: 'Gruntfile.js',
+                tasks: ['jslint']
             },
             test: {
-                files: '<%= jshint.test.src %>',
+                files: 'tests/*.spec.js',
                 tasks: ['jstest']
             },
             buildJS: {
                 files: ['<%= concat.js.src %>'],
-                tasks: ['js']
+                tasks: ['jstest', 'js']
             },
             buildCSS: {
                 files: ['src/sass/*.scss'],
@@ -172,11 +163,11 @@ module.exports = function(grunt) {
 
         connect: {
             server: {
-               options: {
+                options: {
                     port: 9002,
                     base: '.',
                     livereload: true
-               }
+                }
             }
         },
 
@@ -198,7 +189,7 @@ module.exports = function(grunt) {
                     },
                     types: 'woff,ttf'
                 }
-            },
+            }
         },
 
         buddyjs: {
@@ -230,8 +221,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-jslint');
     grunt.loadNpmTasks('grunt-webfont');
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-string-replace');
@@ -241,9 +232,9 @@ module.exports = function(grunt) {
 
     // Custom tasks
     grunt.registerTask('icon', ['svgstore', 'webfont', 'svgmin', 'string-replace']);
-    grunt.registerTask('jstest', ['jshint', 'buddyjs', 'jasmine']);
-    grunt.registerTask('js', ['concat:js','string-replace', 'uglify']);
-    grunt.registerTask('css', ['compass', 'concat:css','cssmin']);
+    grunt.registerTask('jstest', ['jslint', 'buddyjs', 'jasmine']);
+    grunt.registerTask('js', ['concat:js', 'string-replace', 'uglify']);
+    grunt.registerTask('css', ['compass', 'concat:css', 'cssmin']);
 
     // Default task.
     grunt.registerTask('default', ['icon', 'jstest', 'js', 'css']);
