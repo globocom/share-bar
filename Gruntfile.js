@@ -204,11 +204,26 @@ module.exports = function(grunt) {
         buddyjs: {
             src: ['<%= concat.js.src %>'],
             options: {}
+        },
+
+        bump: {
+            options: {
+                files: ['package.json'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release version: %VERSION%',
+                commitFiles: ['package.json'],
+                createTag: true,
+                tagName: '%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: true,
+                pushTo: 'upstream',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+            }
         }
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-webfont');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -217,10 +232,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-webfont');
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-buddyjs');
+    grunt.loadNpmTasks('grunt-bump');
 
     // Custom tasks
     grunt.registerTask('icon', ['svgstore', 'webfont', 'svgmin', 'string-replace']);
