@@ -4,3 +4,4 @@ Gemfile.lock
 _SpecRunner.html
 tests/reports/*
 .sass-cache/
+src/fonts/
