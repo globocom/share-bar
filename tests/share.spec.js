@@ -133,7 +133,7 @@ describe('glb.share Test Case', function () {
     });
 
     describe('openPopup', function () {
-        beforeEach(function() {
+        beforeEach(function () {
             this.popup = this.createPopupElement();
             this.eventClick = this.click(this.popup);
             this.spyWindowsOpen = spyOn(window, 'open').andReturn(window);
@@ -223,14 +223,14 @@ describe('glb.share Test Case', function () {
     });
 
     describe('getButtonsSize', function () {
-        beforeEach(function() {
+        beforeEach(function () {
             glb.share.init();
             glb.share.buttonWidth = 21;
             glb.share.buttonFullWidth = 46;
             glb.share.buttonPadding = 4;
         });
 
-        it('should call getButtonsSmall when container is small', function() {
+        it('should call getButtonsSmall when container is small', function () {
             var spy = spyOn(glb.share, 'getButtonsSmall');
             spyOn(glb.share, 'isSmallScreen').andReturn(false);
             glb.share.getButtonsSize(20, 6);
@@ -249,7 +249,7 @@ describe('glb.share Test Case', function () {
             );
         });
 
-        it('should call getButtonsFull when container is big', function() {
+        it('should call getButtonsFull when container is big', function () {
             var spy = spyOn(glb.share, 'getButtonsFull');
             spyOn(glb.share, 'isSmallScreen').andReturn(false);
             glb.share.getButtonsSize(150, 6);
@@ -258,7 +258,7 @@ describe('glb.share Test Case', function () {
         });
     });
 
-    describe('getButtonsSmall', function() {
+    describe('getButtonsSmall', function () {
         it('should return all elements as hidden when container is smallest than button', function () {
             var result = [];
             spyOn(glb.share, 'isSmallScreen').andReturn(false);
@@ -293,7 +293,7 @@ describe('glb.share Test Case', function () {
         });
     });
 
-    describe('getButtonsFull', function() {
+    describe('getButtonsFull', function () {
         it('should return all elements as small when container is a little bigger', function () {
             var result = [];
             spyOn(glb.share, 'isSmallScreen').andReturn(false);
@@ -332,21 +332,21 @@ describe('glb.share Test Case', function () {
         it('should return a dictionary with metadata from element', function () {
             var data = glb.share.getMetadataFromElement(this.el),
                 expectedData = {
-                'url': window.encodeURIComponent('http://globo.com'),
-                'title': window.encodeURIComponent('Test title'),
-                'imageUrl': window.encodeURIComponent('http://g1.globo.com')
-            };
+                    'url': window.encodeURIComponent('http://globo.com'),
+                    'title': window.encodeURIComponent('Test title'),
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com')
+                };
 
             expect(data).toEqual(expectedData);
         });
     });
 
     describe('Create Buttons', function () {
-        beforeEach(function() {
+        beforeEach(function () {
             glb.share.supportSvg = true;
         });
 
-        afterEach(function() {
+        afterEach(function () {
             glb.share.supportSvg = '';
         });
 
@@ -563,9 +563,8 @@ describe('glb.share Test Case', function () {
     });
 
     describe('hasSupportSvg', function () {
-
         xit('should verify if has support for svg in the browser', function () {
+            return false;
         });
-
     });
 });
