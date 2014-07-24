@@ -39,6 +39,14 @@ module.exports = function(grunt) {
             }
         },
 
+        cssmin: {
+            minify: {
+                src: 'dist/css/glb.share.css',
+                dest: 'dist/css/glb.share.min.css',
+                banner: '<%= banner %>'
+            }
+        },
+
         jshint: {
             options: {
                 curly: true,
@@ -146,19 +154,19 @@ module.exports = function(grunt) {
             },
             test: {
                 files: '<%= jshint.test.src %>',
-                tasks: ['jshint:test', 'buddyjs', 'jasmine']
+                tasks: ['jstest']
             },
             buildJS: {
                 files: ['<%= concat.js.src %>'],
-                tasks: ['concat:js','string-replace', 'uglify']
+                tasks: ['js']
             },
             buildCSS: {
                 files: ['src/sass/*.scss'],
-                tasks: ['compass', 'concat:css']
+                tasks: ['css']
             },
-            buildSVG: {
+            buildIcons: {
                 files: ['src/img/*.svg'],
-                tasks: ['svgstore']
+                tasks: ['icon']
             }
         },
 
@@ -206,6 +214,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-svgstore');
@@ -213,8 +222,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-buddyjs');
 
+    // Custom tasks
+    grunt.registerTask('icon', ['svgstore', 'webfont', 'svgmin', 'string-replace']);
+    grunt.registerTask('jstest', ['jshint', 'buddyjs', 'jasmine']);
+    grunt.registerTask('js', ['concat:js','string-replace', 'uglify']);
+    grunt.registerTask('css', ['compass', 'concat:css','cssmin']);
+
     // Default task.
-    grunt.registerTask('makesvg', ['svgstore', 'svgmin', 'string-replace']);
-    grunt.registerTask('default', ['jshint', 'buddyjs', 'jasmine', 'webfont', 'compass', 'concat', 'makesvg', 'uglify']);
+    grunt.registerTask('default', ['icon', 'jstest', 'js', 'css']);
     grunt.registerTask('server', ['connect:server', 'watch']);
 };
