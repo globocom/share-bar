@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.0 - 2014-07-24
+/*! Globo Share - v1.0.3 - 2014-07-24
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -18,8 +18,9 @@ if (window.glb === undefined) {
     function addEventListener(element, event, handler) {
         if (element.addEventListener) {
             return element.addEventListener(event, handler, false);
-        } else if (element.attachEvent) {
-            return element.attachEvent('on' + event, function() {handler.call(element);});
+        }
+        if (element.attachEvent) {
+            return element.attachEvent('on' + event, function() { handler.call(element); });
         }
     }
 
