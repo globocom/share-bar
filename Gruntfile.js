@@ -235,8 +235,8 @@ module.exports = function (grunt) {
     grunt.registerTask('jstest', ['jslint', 'buddyjs', 'jasmine']);
     grunt.registerTask('js', ['concat:js', 'string-replace', 'uglify']);
     grunt.registerTask('css', ['compass', 'concat:css', 'cssmin']);
+    grunt.registerTask('server', ['connect:server', 'watch']);
 
     // Default task.
     grunt.registerTask('default', ['icon', 'jstest', 'js', 'css']);
-    grunt.registerTask('server', ['connect:server', 'watch']);
 };
