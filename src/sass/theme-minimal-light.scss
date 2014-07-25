@@ -1,0 +1,46 @@
+@import "compass";
+
+/* Ver hover com o designer */
+
+.share-theme-minimal-light .share-button .share-popup .svg-size .share-icon {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.share-theme-minimal-light {
+    .share-button {
+        display: inline-block;
+        min-width: 34px;
+
+        a {
+            background-color: transparent;
+            @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
+
+            .share-icon {
+                fill: #FFF;
+                color:  #FFF;
+            }
+
+            &:active {
+                padding-bottom: 11px;
+            }
+        }
+    }
+
+    .share-button.share-small a,
+    .share-button.share-full a {
+        padding: 7px 7px 7px 7px;
+
+        &:active {
+            padding-bottom: 7px;
+        }
+    }
+
+    .share-button a span,
+    .share-button.share-small a span,
+    .share-button.share-full a span {
+        display: none;
+    }
+}
