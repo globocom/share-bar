@@ -10,21 +10,32 @@
 }
 
 .share-theme-minimal {
-    .share-button a {
-        background-color: transparent;
-        @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
-
-    }
-
     .share-button {
         display: inline-block;
         min-width: 34px;
-    }
-    .share-button .share-popup {
-        padding: 6px 7px 8px 7px;
+
+        a {
+            background-color: transparent;
+            @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
+
+            &:active {
+                padding-bottom: 11px;
+            }
+        }
     }
 
-    .share-button .share-popup span {
+    .share-button.share-small a,
+    .share-button.share-full a {
+        padding: 7px 7px 7px 7px;
+
+        &:active {
+            padding-bottom: 7px;
+        }
+    }
+
+    .share-button a span,
+    .share-button.share-small a span,
+    .share-button.share-full a span {
         display: none;
     }
 
