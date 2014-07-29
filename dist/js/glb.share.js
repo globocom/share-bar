@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.3 - 2014-07-24
+/*! Globo Share - v1.0.4 - 2014-07-29
 * Copyright (c) 2014 Time Core; Licensed MIT */
 if (window.glb === undefined) {
     window.glb = {};
@@ -20,7 +20,7 @@ if (window.glb === undefined) {
             return element.addEventListener(event, handler, false);
         }
         if (element.attachEvent) {
-            return element.attachEvent('on' + event, function() { handler.call(element); });
+            return element.attachEvent('on' + event, function () { handler.call(element); });
         }
     }
 
@@ -72,31 +72,34 @@ if (window.glb === undefined) {
 
         mergeOptions: function mergeOptions(options) {
             var self = this,
+                option,
                 defaultOptions = {
-                // Selector to open lightbox
-                selector: '.glb-share',
-                classPopup: 'share-popup',
-                networks: [
-                    self.createFacebookButton,
-                    self.createTwitterButton,
-                    self.createGoogleButton,
-                    self.createPinterestButton,
-                    self.createWhatsappButton,
-                    self.createEmailButton
-                ],
-                theme: 'natural',
-                buttonWidth: 34,
-                buttonFullWidth: 110,
-                buttonPadding: 4,
-                maxSocialButtons: 6
-            };
+                    // Selector to open lightbox
+                    selector: '.glb-share',
+                    classPopup: 'share-popup',
+                    networks: [
+                        self.createFacebookButton,
+                        self.createTwitterButton,
+                        self.createGoogleButton,
+                        self.createPinterestButton,
+                        self.createWhatsappButton,
+                        self.createEmailButton
+                    ],
+                    theme: 'natural',
+                    buttonWidth: 34,
+                    buttonFullWidth: 110,
+                    buttonPadding: 4,
+                    maxSocialButtons: 6
+                };
 
             if (!options) {
                 options = {};
             }
 
-            for (var option in defaultOptions) {
-                this[option] = options[option] || defaultOptions[option];
+            for (option in defaultOptions) {
+                if (defaultOptions.hasOwnProperty(option)) {
+                    this[option] = options[option] || defaultOptions[option];
+                }
             }
         },
 
@@ -111,6 +114,7 @@ if (window.glb === undefined) {
 
         createBar: function createBar(element, networks) {
             var theme = ' share-theme-',
+                i = 0,
                 count = 0,
                 buttonClasses = [];
 
@@ -120,7 +124,7 @@ if (window.glb === undefined) {
             count = networks.length;
             buttonClasses = this.getButtonsSize(element.offsetWidth, count);
 
-            for (var i = 0; i < count; i++) {
+            for (i; i < count; i++) {
                 networks[i].call(this, element, buttonClasses[i]);
             }
 
@@ -135,7 +139,9 @@ if (window.glb === undefined) {
 
             if ((numberOfButtons * smallButtonWidth) > containerWidth) {
                 return this.getButtonsSmall(
-                    numberOfButtons, smallButtonWidth, containerWidth
+                    numberOfButtons,
+                    smallButtonWidth,
+                    containerWidth
                 );
             }
 
@@ -144,22 +150,26 @@ if (window.glb === undefined) {
             }
 
             return this.getButtonsFull(
-                numberOfButtons, fullButtonWidth, smallButtonWidth, containerWidth
+                numberOfButtons,
+                fullButtonWidth,
+                smallButtonWidth,
+                containerWidth
             );
         },
 
         getButtonsSmall: function getButtonsSmall(numberOfButtons, smallButtonWidth, containerWidth) {
             var result = [],
+                i = 1,
                 totalOfSmallButtons = 0,
                 isSmallScreen = this.isSmallScreen();
 
-            for (var i = 1; i <= numberOfButtons; i++) {
+            for (i; i <= numberOfButtons; i++) {
                 totalOfSmallButtons = i * smallButtonWidth;
 
                 if (totalOfSmallButtons <= containerWidth) {
-                    result[i-1] = isSmallScreen ? '' : ' share-small';
+                    result[i - 1] = isSmallScreen ? '' : ' share-small';
                 } else {
-                    result[i-1] = ' share-hidden';
+                    result[i - 1] = ' share-hidden';
                 }
             }
 
@@ -168,17 +178,18 @@ if (window.glb === undefined) {
 
         getButtonsFull: function getButtonsFull(numberOfButtons, fullButtonWidth, smallButtonWidth, containerWidth) {
             var result = [],
+                i = 1,
                 totalOfFullButtons = 0,
                 totalOfSmallButtons = 0;
 
-            for (var i = 1; i <= numberOfButtons; i++) {
+            for (i; i <= numberOfButtons; i++) {
                 totalOfFullButtons = i * fullButtonWidth;
                 totalOfSmallButtons = (numberOfButtons - i) * smallButtonWidth;
 
                 if ((totalOfSmallButtons + totalOfFullButtons) <= containerWidth) {
-                    result[i-1] = ' share-full';
+                    result[i - 1] = ' share-full';
                 } else {
-                    result[i-1] = ' share-small';
+                    result[i - 1] = ' share-small';
                 }
             }
 
@@ -186,9 +197,10 @@ if (window.glb === undefined) {
         },
 
         bindOpenPopup: function bindOpenPopup() {
-            var linksPopup = document.querySelectorAll("." + this.classPopup);
+            var linksPopup = document.querySelectorAll("." + this.classPopup),
+                i = 0;
 
-            for (var i=0; i < linksPopup.length; i++) {
+            for (i; i < linksPopup.length; i++) {
                 addEventListener(linksPopup[i], 'click', this.openPopup);
             }
         },
@@ -207,10 +219,10 @@ if (window.glb === undefined) {
         getMetadataFromElement: function getMetadataFromElement(element) {
             var encode = window.encodeURIComponent,
                 data = {
-                'url': encode(element.getAttribute('data-url') || ''),
-                'title': encode(element.getAttribute('data-title') || ''),
-                'imageUrl': encode(element.getAttribute('data-image-url') || '')
-            };
+                    'url': encode(element.getAttribute('data-url') || ''),
+                    'title': encode(element.getAttribute('data-title') || ''),
+                    'imageUrl': encode(element.getAttribute('data-image-url') || '')
+                };
             return data;
         },
 
@@ -228,6 +240,7 @@ if (window.glb === undefined) {
             var shareContainer = document.createElement('div');
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
             shareContainer.className = 'share-button share-' + socialNetworkClass + className;
+            socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
             shareContainer.innerHTML = [
                 '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
@@ -238,10 +251,11 @@ if (window.glb === undefined) {
             return shareContainer;
         },
 
-        createContentButton: function createContentButton(name, title){
+        createContentButton: function createContentButton(name, title) {
             var iconElement;
             title = title || name;
-            if(this.supportSvg) {
+
+            if (this.supportSvg) {
                 iconElement = [
                     '   <div class="svg-size">',
                     '      <svg viewBox="0 0 100 100" class="share-icon">',
@@ -266,8 +280,10 @@ if (window.glb === undefined) {
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'facebook', buttonClass,
-                'http://www.facebook.com/sharer/sharer.php?u=' + data['url']
+                container,
+                'facebook',
+                buttonClass,
+                'http://www.facebook.com/sharer/sharer.php?u=' + data.url
             );
         },
 
@@ -276,8 +292,10 @@ if (window.glb === undefined) {
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'twitter', buttonClass,
-                'https://twitter.com/share?url=' + data['url'] + '&amp;text=' + data['title'] + '%20%23globo.com'
+                container,
+                'twitter',
+                buttonClass,
+                'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title + '%20%23globo.com'
             );
         },
 
@@ -286,8 +304,10 @@ if (window.glb === undefined) {
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'googleplus', buttonClass,
-                'https://plus.google.com/share?url=' + data['url'],
+                container,
+                'googleplus',
+                buttonClass,
+                'https://plus.google.com/share?url=' + data.url,
                 'google+'
             );
         },
@@ -297,22 +317,27 @@ if (window.glb === undefined) {
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'pinterest', buttonClass,
-                'http://www.pinterest.com/pin/create/button/?url=' + data['url'] + '&amp;media=' + data['imageUrl'] + '&amp;description=' + data['title']
+                container,
+                'pinterest',
+                buttonClass,
+                'http://www.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
             );
         },
 
         createWhatsappButton: function createWhatsappButton(container, buttonClass) {
+            var data = this.getMetadataFromElement(container);
+
             if (!this.deviceIsIphone()) {
                 return false;
             }
 
-            var data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'whatsapp', buttonClass,
-                'whatsapp://send?text=' + data['title'] + '%20' + data['url']
+                container,
+                'whatsapp',
+                buttonClass,
+                'whatsapp://send?text=' + data.title + '%20' + data.url
             );
         },
 
@@ -321,8 +346,10 @@ if (window.glb === undefined) {
             buttonClass = buttonClass || '';
 
             this.createButton(
-                container, 'email', buttonClass,
-                'mailto:?subject=' + data['title'] + '&amp;body=' + data['url'],
+                container,
+                'email',
+                buttonClass,
+                'mailto:?subject=' + data.title + '&amp;body=' + data.url,
                 'e-mail'
             );
         }
