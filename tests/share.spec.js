@@ -360,14 +360,14 @@ describe('glb.share Test Case', function () {
                 var spy = spyOn(glb.share, 'createContentButton');
 
                 glb.share.createButton(this.el, 'test', '', 'urltest');
-                expect(spy).toHaveBeenCalledWith('test', 'test');
+                expect(spy).toHaveBeenCalledWith('test', 'Test');
             });
 
             it('should call createContentButton method when title was passed', function () {
                 var spy = spyOn(glb.share, 'createContentButton');
 
                 glb.share.createButton(this.el, 'test', '', 'urltest', 'title');
-                expect(spy).toHaveBeenCalledWith('test', 'title');
+                expect(spy).toHaveBeenCalledWith('test', 'Title');
             });
 
 
