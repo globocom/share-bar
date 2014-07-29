@@ -31,7 +31,6 @@ if (window.glb === undefined) {
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
-            this.bindOpenPopup();
         },
 
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
@@ -129,6 +128,7 @@ if (window.glb === undefined) {
 
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += " glb-share-container" + theme;
+            this.bindOpenPopup();
         },
 
         getButtonsSize: function getButtonsSize(containerWidth, numberOfButtons) {
