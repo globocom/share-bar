@@ -69,13 +69,6 @@ describe('glb.share Test Case', function () {
             glb.share.init();
             expect(glb.share.containers[0]).toEqual(this.el);
         });
-
-        it('should call bindOpenPopup method', function () {
-            spyOn(glb.share, 'createBars');
-            var spy = spyOn(glb.share, 'bindOpenPopup');
-            glb.share.init();
-            expect(spy).toHaveBeenCalled();
-        });
     });
 
     describe('mergeOptions', function () {
@@ -219,6 +212,12 @@ describe('glb.share Test Case', function () {
 
             expect(spy).not.toHaveBeenCalled();
             expect(spyNetworks[0]).toHaveBeenCalled();
+        });
+
+        it('should call bindOpenPopup method', function () {
+            var spy = spyOn(glb.share, 'bindOpenPopup');
+            glb.share.createBar(this.el);
+            expect(spy).toHaveBeenCalled();
         });
     });
 
