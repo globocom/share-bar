@@ -239,6 +239,7 @@ if (window.glb === undefined) {
             var shareContainer = document.createElement('div');
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
             shareContainer.className = 'share-button share-' + socialNetworkClass + className;
+            socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
             shareContainer.innerHTML = [
                 '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
