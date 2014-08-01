@@ -43,8 +43,8 @@ module.exports = function (grunt) {
 
         cssmin: {
             minify: {
-                src: 'dist/css/glb.share.css',
-                dest: 'dist/css/glb.share.min.css',
+                src: 'dist/css/share.bar.css',
+                dest: 'dist/css/share.bar.min.css',
                 banner: '<%= banner %>'
             }
         },
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
         'string-replace': {
             dist: {
                 files: {
-                    'dist/js/glb.share.js': 'dist/js/glb.share.js'
+                    'dist/js/share.bar.js': 'dist/js/share.bar.js'
                 },
                 options: {
                     replacements: [{
