@@ -58,7 +58,7 @@ function ShareBar(options) {
         },
 
         hasSupportSvg: function hasSupportSvg() {
-            return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+            return document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1');
         },
 
         createSVG: function createSVG() {
@@ -71,19 +71,18 @@ function ShareBar(options) {
         },
 
         mergeOptions: function mergeOptions(options) {
-            var self = this,
-                option,
+            var option,
                 defaultOptions = {
                     // Selector to open lightbox
                     selector: '.share-bar',
                     classPopup: 'share-popup',
                     networks: [
-                        self.createFacebookButton,
-                        self.createTwitterButton,
-                        self.createGoogleButton,
-                        self.createPinterestButton,
-                        self.createWhatsappButton,
-                        self.createEmailButton
+                        'facebook',
+                        'twitter',
+                        'google',
+                        'pinterest',
+                        'whatsapp',
+                        'email'
                     ],
                     theme: 'natural',
                     buttonWidth: 34,
@@ -103,6 +102,35 @@ function ShareBar(options) {
             }
         },
 
+        validateNetworks: function validateNetworks(networks) {
+            var i = 0,
+                networkName = '',
+                method = '';
+
+            if (Object.prototype.toString.call(networks) !== '[object Array]') {
+                throw new Error('List of networks passed on inicialization is wrong [Should be an Array]');
+            }
+
+            for (i; i < networks.length; i++) {
+                if (typeof networks[i] === 'string') {
+                    networkName = networks[i];
+                    networkName = networkName.substr(0, 1).toUpperCase() + networkName.substr(1);
+                    method = ShareBar.prototype['create' + networkName + 'Button'];
+
+                    if (method) {
+                        networks[i] = method;
+                    } else {
+                        throw new Error('List of networks passed on inicialization is wrong [Netowrk name is wrong]');
+                    }
+
+                } else if (typeof networks[i] !== 'function') {
+                    throw new Error('List of networks passed on inicialization is wrong [Should be string or function]');
+                }
+            }
+
+            return networks;
+        },
+
         createBars: function createBars() {
             var items = this.containers,
                 element = 0;
@@ -118,7 +146,7 @@ function ShareBar(options) {
                 count = 0,
                 buttonClasses = [];
 
-            networks = networks || this.networks;
+            networks = this.validateNetworks(networks || this.networks);
             networks = networks.slice(0, this.maxSocialButtons);
 
             count = networks.length;
@@ -129,7 +157,7 @@ function ShareBar(options) {
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
-            element.className += " share-bar-container" + theme;
+            element.className += ' share-bar-container' + theme;
             this.bindOpenPopup();
         },
 
@@ -198,7 +226,7 @@ function ShareBar(options) {
         },
 
         bindOpenPopup: function bindOpenPopup() {
-            var linksPopup = document.querySelectorAll("." + this.classPopup),
+            var linksPopup = document.querySelectorAll('.' + this.classPopup),
                 i = 0;
 
             for (i; i < linksPopup.length; i++) {
@@ -208,7 +236,7 @@ function ShareBar(options) {
 
         openPopup: function openPopup(e) {
             var win = window.open(
-                this.getAttribute("href"),
+                this.getAttribute('href'),
                 'popup',
                 'height=400,width=500,left=10,top=10,resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
             );
@@ -246,7 +274,7 @@ function ShareBar(options) {
                 '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
-            ].join("");
+            ].join('');
 
             container.appendChild(shareContainer);
             return shareContainer;
@@ -264,13 +292,13 @@ function ShareBar(options) {
                     '       </svg>',
                     '   </div>',
                     '<span>' + title + '</span>'
-                ].join("");
+                ].join('');
 
             } else {
                 iconElement = [
                     '   <i class="share-font ico-share-' + name + '"></i>',
                     '   <span>' + title + '</span>'
-                ].join("");
+                ].join('');
             }
 
             return iconElement;

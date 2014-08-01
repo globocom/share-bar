@@ -105,12 +105,12 @@ describe('ShareBar - Methods Test Case', function () {
             expect(this.newBar.selector).toEqual('.share-bar');
             expect(this.newBar.classPopup).toEqual('share-popup');
             expect(this.newBar.networks).toEqual([
-                this.newBar.createFacebookButton,
-                this.newBar.createTwitterButton,
-                this.newBar.createGoogleButton,
-                this.newBar.createPinterestButton,
-                this.newBar.createWhatsappButton,
-                this.newBar.createEmailButton
+                'facebook',
+                'twitter',
+                'google',
+                'pinterest',
+                'whatsapp',
+                'email'
             ]);
             expect(this.newBar.theme).toEqual('natural');
         });
@@ -123,6 +123,54 @@ describe('ShareBar - Methods Test Case', function () {
         it('should not create options when not exists in defaultOptions', function () {
             this.newBar.mergeOptions({'selectorEspecial': 'test'});
             expect(this.newBar.selectorEspecial).toBe(undefined);
+        });
+    });
+
+    describe('validateNetworks', function () {
+        it('should throw an error when networks is not an array', function () {
+            var self = this;
+
+            expect(
+                function () {self.newBar.validateNetworks('facebook'); }
+            ).toThrow(
+                new Error('List of networks passed on inicialization is wrong [Should be an Array]')
+            );
+        });
+
+        it('should find method to create network button by name', function () {
+            var networks = this.newBar.validateNetworks(['facebook']);
+            expect(networks).toEqual([this.newBar.createFacebookButton]);
+        });
+
+        it('should find methods to create any networks button by names', function () {
+            var networks = this.newBar.validateNetworks(['facebook', 'twitter']);
+            expect(networks).toEqual([this.newBar.createFacebookButton, this.newBar.createTwitterButton]);
+        });
+
+        it('should throw an error when can not find method by name', function () {
+            var self = this;
+
+            expect(
+                function () {self.newBar.validateNetworks(['facebrrk']); }
+            ).toThrow(
+                new Error('List of networks passed on inicialization is wrong [Netowrk name is wrong]')
+            );
+        });
+
+        it('should set a function when function is passed', function () {
+            var myNetworkFunction = function () { return true; },
+                networks = this.newBar.validateNetworks([myNetworkFunction]);
+            expect(networks).toEqual([myNetworkFunction]);
+        });
+
+        it('should throw an error when something other than string or function', function () {
+            var self = this;
+
+            expect(
+                function () {self.newBar.validateNetworks([{'object': 'error'}]); }
+            ).toThrow(
+                new Error('List of networks passed on inicialization is wrong [Should be string or function]')
+            );
         });
     });
 
@@ -198,6 +246,19 @@ describe('ShareBar - Methods Test Case', function () {
     });
 
     describe('createBar', function () {
+        it('should call validateNetworks method', function () {
+            var spy = spyOn(ShareBar.prototype, 'validateNetworks').andCallThrough();
+            this.newBar.createBar(this.el);
+            expect(spy).toHaveBeenCalledWith(this.newBar.networks);
+        });
+
+        it('should call validateNetworks method with custom networks', function () {
+            var spy = spyOn(ShareBar.prototype, 'validateNetworks').andCallThrough(),
+                network = ['facebook'];
+            this.newBar.createBar(this.el, network);
+            expect(spy).toHaveBeenCalledWith(network);
+        });
+
         it('should call createFacebookButton method', function () {
             var spy = spyOn(ShareBar.prototype, 'createFacebookButton');
             this.newBar.networks = [this.newBar.createFacebookButton];
