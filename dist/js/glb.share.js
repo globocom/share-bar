@@ -1,9 +1,5 @@
 /*! Globo Share - v1.0.6 - 2014-08-01
 * Copyright (c) 2014 Time Core; Licensed MIT */
-if (window.glb === undefined) {
-    window.glb = {};
-}
-
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -29,7 +25,7 @@ function ShareBar(options) {
         }
     }
 
-    glb.share = {
+    ShareBar.prototype = {
         init: function init(options) {
             this.verifyTouch();
             this.supportSvg = this.hasSupportSvg();
