@@ -1,5 +1,10 @@
 /*global describe, it, expect, glb, spyOn,
-         beforeEach, afterEach, jasmine, xit */
+         beforeEach, afterEach, jasmine, xit, ShareBar */
+
+function createBar(options) {
+    'use strict';
+    return new ShareBar(options);
+}
 
 describe('glb.share Test Case', function () {
     'use strict';
@@ -40,66 +45,83 @@ describe('glb.share Test Case', function () {
 
     describe('setup', function () {
         it('should have glb.share on page', function () {
-            expect(glb.share).not.toBe(undefined);
+            expect(ShareBar).not.toBe(undefined);
+        });
+
+        it('should call init method on instance new bar', function () {
+            var spy = spyOn(ShareBar.prototype, 'init');
+            createBar();
+            expect(spy).toHaveBeenCalled();
         });
     });
 
     describe('init', function () {
         it('should call createSVG method', function () {
-            var spy = spyOn(glb.share, 'createSVG');
-            glb.share.init();
+            var spy = spyOn(ShareBar.prototype, 'createSVG');
+            createBar();
             expect(spy).toHaveBeenCalled();
         });
 
         it('should call mergeOptions method', function () {
-            var spy = spyOn(glb.share, 'mergeOptions'),
+            var spy = spyOn(ShareBar.prototype, 'mergeOptions'),
                 options = {'selector': '.test'};
-            glb.share.init(options);
+            createBar(options);
             expect(spy).toHaveBeenCalledWith(options);
         });
 
         it('should call createBars method', function () {
-            var spy = spyOn(glb.share, 'createBars');
-            glb.share.init();
+            var spy = spyOn(ShareBar.prototype, 'createBars');
+            createBar();
             expect(spy).toHaveBeenCalled();
         });
 
         it('should set containers atribute with selected elements', function () {
-            spyOn(glb.share, 'createBars');
-            glb.share.init();
-            expect(glb.share.containers[0]).toEqual(this.el);
+            var newBar;
+            spyOn(ShareBar.prototype, 'createBars');
+            newBar = createBar();
+            expect(newBar.containers[0]).toEqual(this.el);
         });
     });
 
     describe('mergeOptions', function () {
-        it('should create properties with defaultOptions', function () {
-            glb.share.mergeOptions();
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
 
-            expect(glb.share.selector).toEqual('.glb-share');
-            expect(glb.share.classPopup).toEqual('share-popup');
-            expect(glb.share.networks).toEqual([
-                glb.share.createFacebookButton,
-                glb.share.createTwitterButton,
-                glb.share.createGoogleButton,
-                glb.share.createPinterestButton,
-                glb.share.createWhatsappButton,
-                glb.share.createEmailButton
+        it('should create properties with defaultOptions', function () {
+            this.newBar.mergeOptions();
+
+            expect(this.newBar.selector).toEqual('.glb-share');
+            expect(this.newBar.classPopup).toEqual('share-popup');
+            expect(this.newBar.networks).toEqual([
+                this.newBar.createFacebookButton,
+                this.newBar.createTwitterButton,
+                this.newBar.createGoogleButton,
+                this.newBar.createPinterestButton,
+                this.newBar.createWhatsappButton,
+                this.newBar.createEmailButton
             ]);
-            expect(glb.share.theme).toEqual('natural');
+            expect(this.newBar.theme).toEqual('natural');
         });
 
         it('should merge options with defaultOptions', function () {
-            glb.share.mergeOptions({'selector': 'test'});
-            expect(glb.share.selector).toEqual('test');
+            this.newBar.mergeOptions({'selector': 'test'});
+            expect(this.newBar.selector).toEqual('test');
         });
 
         it('should not create options when not exists in defaultOptions', function () {
-            glb.share.mergeOptions({'selectorEspecial': 'test'});
-            expect(glb.share.selectorEspecial).toBe(undefined);
+            this.newBar.mergeOptions({'selectorEspecial': 'test'});
+            expect(this.newBar.selectorEspecial).toBe(undefined);
         });
     });
 
     describe('bindOpenPopup', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
+
         it('should call addEventListener function for each popup element', function () {
             var popups = [this.createPopupElement(), this.createPopupElement()],
                 spies = [];
@@ -107,18 +129,18 @@ describe('glb.share Test Case', function () {
             spies[0] = spyOn(popups[0], 'addEventListener');
             spies[1] = spyOn(popups[1], 'addEventListener');
 
-            glb.share.bindOpenPopup();
+            this.newBar.bindOpenPopup();
 
-            expect(spies[0]).toHaveBeenCalledWith('click', glb.share.openPopup, false);
-            expect(spies[1]).toHaveBeenCalledWith('click', glb.share.openPopup, false);
+            expect(spies[0]).toHaveBeenCalledWith('click', this.newBar.openPopup, false);
+            expect(spies[1]).toHaveBeenCalledWith('click', this.newBar.openPopup, false);
         });
 
         it('should call openPopup on click in popup element', function () {
             var popup = this.createPopupElement(),
-                spy = spyOn(glb.share, 'openPopup'),
+                spy = spyOn(ShareBar.prototype, 'openPopup'),
                 eventClick = '';
 
-            glb.share.bindOpenPopup();
+            this.newBar.bindOpenPopup();
             eventClick = this.click(popup);
 
             expect(spy).toHaveBeenCalledWith(eventClick);
@@ -127,13 +149,16 @@ describe('glb.share Test Case', function () {
 
     describe('openPopup', function () {
         beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+
             this.popup = this.createPopupElement();
             this.eventClick = this.click(this.popup);
             this.spyWindowsOpen = spyOn(window, 'open').andReturn(window);
         });
 
         it('should call window.open to open popup', function () {
-            glb.share.openPopup.call(this.popup, this.eventClick);
+            this.newBar.openPopup.call(this.popup, this.eventClick);
 
             expect(this.spyWindowsOpen).toHaveBeenCalledWith(
                 this.popup.getAttribute("href"),
@@ -144,26 +169,31 @@ describe('glb.share Test Case', function () {
 
         it('should call window.focus to set focus on popup', function () {
             var spy = spyOn(window, 'focus');
-            glb.share.openPopup.call(this.popup, this.eventClick);
+            this.newBar.openPopup.call(this.popup, this.eventClick);
 
             expect(spy).toHaveBeenCalled();
         });
 
         it('should call preventDefault to prevent the browser follow the link', function () {
             var spy = spyOn(this.eventClick, 'preventDefault');
-            glb.share.openPopup.call(this.popup, this.eventClick);
+            this.newBar.openPopup.call(this.popup, this.eventClick);
 
             expect(spy).toHaveBeenCalled();
         });
     });
 
     describe('createBars', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'init');
+            this.newBar = createBar();
+        });
+
         it('should call createBar method for each selected element', function () {
             var otherEl = this.createShareContainer(),
-                spy = spyOn(glb.share, 'createBar');
+                spy = spyOn(ShareBar.prototype, 'createBar');
 
-            glb.share.containers = [otherEl, this.el];
-            glb.share.createBars();
+            this.newBar.containers = [otherEl, this.el];
+            this.newBar.createBars();
 
             expect(spy).toHaveBeenCalledWith(otherEl);
             expect(spy).toHaveBeenCalledWith(this.el);
@@ -171,77 +201,80 @@ describe('glb.share Test Case', function () {
     });
 
     describe('createBar', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
+
         it('should call createFacebookButton method', function () {
-            var spy = spyOn(glb.share, 'createFacebookButton');
-            glb.share.networks = [glb.share.createFacebookButton];
-            glb.share.createBar(this.el);
+            var spy = spyOn(ShareBar.prototype, 'createFacebookButton');
+            this.newBar.networks = [this.newBar.createFacebookButton];
+            this.newBar.createBar(this.el);
+
             expect(spy).toHaveBeenCalled();
         });
 
         it('should create a maximum of 6 buttons', function () {
             var spy = jasmine.createSpy('test');
+            this.newBar.networks = [spy, spy, spy, spy, spy, spy, spy];
+            this.newBar.createBar(this.el);
 
-            glb.share.networks = [spy, spy, spy, spy, spy, spy, spy];
-
-            glb.share.createBar(this.el);
             expect(spy.calls.length).toEqual(6);
         });
 
         it('should set class glb-share-container on container element', function () {
-            glb.share.createBar(this.el);
+            this.newBar.createBar(this.el);
             expect(this.el.classList.contains('glb-share-container')).toBe(true);
         });
 
         it('should set theme default on container element', function () {
-            glb.share.createBar(this.el);
+            this.newBar.createBar(this.el);
             expect(this.el.classList.contains('share-theme-natural')).toBe(true);
         });
 
         it('should set customized theme on container element', function () {
             this.el.setAttribute('data-theme', 'test');
-            glb.share.createBar(this.el);
+            this.newBar.createBar(this.el);
             expect(this.el.classList.contains('share-theme-test')).toBe(true);
         });
 
         it('should call method passed as parameter', function () {
-            var spy = spyOn(glb.share, 'createFacebookButton'),
+            var spy = spyOn(ShareBar.prototype, 'createFacebookButton'),
                 spyNetworks = [jasmine.createSpy('test')];
 
-            glb.share.networks = [glb.share.createFacebookButton];
-            glb.share.createBar(this.el, spyNetworks);
+            this.newBar.networks = [this.newBar.createFacebookButton];
+            this.newBar.createBar(this.el, spyNetworks);
 
             expect(spy).not.toHaveBeenCalled();
             expect(spyNetworks[0]).toHaveBeenCalled();
         });
 
         it('should call bindOpenPopup method', function () {
-            var spy = spyOn(glb.share, 'bindOpenPopup');
-            glb.share.createBar(this.el);
+            var spy = spyOn(ShareBar.prototype, 'bindOpenPopup');
+            this.newBar.createBar(this.el);
             expect(spy).toHaveBeenCalled();
         });
     });
 
     describe('getButtonsSize', function () {
         beforeEach(function () {
-            glb.share.init();
-            glb.share.buttonWidth = 21;
-            glb.share.buttonFullWidth = 46;
-            glb.share.buttonPadding = 4;
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar({'buttonWidth': 21, 'buttonFullWidth': 46, 'buttonPadding': 4});
         });
 
         it('should call getButtonsSmall when container is small', function () {
-            var spy = spyOn(glb.share, 'getButtonsSmall');
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
-            glb.share.getButtonsSize(20, 6);
+            var spy = spyOn(ShareBar.prototype, 'getButtonsSmall');
+            spyOn(this.newBar, 'isSmallScreen').andReturn(false);
+            this.newBar.getButtonsSize(20, 6);
 
             expect(spy).toHaveBeenCalledWith(6, 25, 20);
         });
 
         it('should return all elements as is when container is big and is small sreen', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
 
-            result = glb.share.getButtonsSize(200, 6);
+            result = this.newBar.getButtonsSize(200, 6);
 
             expect(result).toEqual(
                 ['', '', '', '', '', '']
@@ -249,20 +282,24 @@ describe('glb.share Test Case', function () {
         });
 
         it('should call getButtonsFull when container is big', function () {
-            var spy = spyOn(glb.share, 'getButtonsFull');
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
-            glb.share.getButtonsSize(150, 6);
+            var spy = spyOn(ShareBar.prototype, 'getButtonsFull');
+            spyOn(this.newBar, 'isSmallScreen').andReturn(false);
+            this.newBar.getButtonsSize(150, 6);
 
             expect(spy).toHaveBeenCalledWith(6, 50, 25, 150);
         });
     });
 
     describe('getButtonsSmall', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
+
         it('should return all elements as hidden when container is smallest than button', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
-
-            result = glb.share.getButtonsSmall(6, 25, 20);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            result = this.newBar.getButtonsSmall(6, 25, 20);
 
             expect(result).toEqual(
                 [' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden', ' share-hidden']
@@ -271,9 +308,8 @@ describe('glb.share Test Case', function () {
 
         it('should return some elements as small when container is small', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
-
-            result = glb.share.getButtonsSmall(6, 25, 75);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            result = this.newBar.getButtonsSmall(6, 25, 75);
 
             expect(result).toEqual(
                 [' share-small', ' share-small', ' share-small', ' share-hidden', ' share-hidden', ' share-hidden']
@@ -282,9 +318,8 @@ describe('glb.share Test Case', function () {
 
         it('should return some elements as is when container is small and is small sreen', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(true);
-
-            result = glb.share.getButtonsSmall(6, 25, 75);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
+            result = this.newBar.getButtonsSmall(6, 25, 75);
 
             expect(result).toEqual(
                 ['', '', '', ' share-hidden', ' share-hidden', ' share-hidden']
@@ -293,11 +328,16 @@ describe('glb.share Test Case', function () {
     });
 
     describe('getButtonsFull', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
+
         it('should return all elements as small when container is a little bigger', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
 
-            result = glb.share.getButtonsFull(6, 50, 25, 160);
+            result = this.newBar.getButtonsFull(6, 50, 25, 160);
 
             expect(result).toEqual(
                 [' share-small', ' share-small', ' share-small', ' share-small', ' share-small', ' share-small']
@@ -306,9 +346,9 @@ describe('glb.share Test Case', function () {
 
         it('should return some elements as full when container is big', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
 
-            result = glb.share.getButtonsFull(6, 50, 25, 225);
+            result = this.newBar.getButtonsFull(6, 50, 25, 225);
 
             expect(result).toEqual(
                 [' share-full', ' share-full', ' share-full', ' share-small', ' share-small', ' share-small']
@@ -317,9 +357,9 @@ describe('glb.share Test Case', function () {
 
         it('should return all elements as full when container is very big', function () {
             var result = [];
-            spyOn(glb.share, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
 
-            result = glb.share.getButtonsFull(6, 50, 25, 300);
+            result = this.newBar.getButtonsFull(6, 50, 25, 300);
 
             expect(result).toEqual(
                 [' share-full', ' share-full', ' share-full', ' share-full', ' share-full', ' share-full']
@@ -328,8 +368,13 @@ describe('glb.share Test Case', function () {
     });
 
     describe('getMetadataFromElement', function () {
+        beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+        });
+
         it('should return a dictionary with metadata from element', function () {
-            var data = glb.share.getMetadataFromElement(this.el),
+            var data = this.newBar.getMetadataFromElement(this.el),
                 expectedData = {
                     'url': window.encodeURIComponent('http://globo.com'),
                     'title': window.encodeURIComponent('Test title'),
@@ -342,36 +387,33 @@ describe('glb.share Test Case', function () {
 
     describe('Create Buttons', function () {
         beforeEach(function () {
-            glb.share.supportSvg = true;
-        });
-
-        afterEach(function () {
-            glb.share.supportSvg = '';
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+            this.newBar.supportSvg = true;
         });
 
         describe('createButton', function () {
             it('should create share button', function () {
-                glb.share.createButton(this.el, 'test', '', 'urltest');
+                this.newBar.createButton(this.el, 'test', '', 'urltest');
                 expect(this.el.querySelector('.share-test a[href="urltest"]')).not.toBe(null);
             });
 
             it('should call createContentButton method', function () {
-                var spy = spyOn(glb.share, 'createContentButton');
+                var spy = spyOn(ShareBar.prototype, 'createContentButton');
 
-                glb.share.createButton(this.el, 'test', '', 'urltest');
+                this.newBar.createButton(this.el, 'test', '', 'urltest');
                 expect(spy).toHaveBeenCalledWith('test', 'Test');
             });
 
             it('should call createContentButton method when title was passed', function () {
-                var spy = spyOn(glb.share, 'createContentButton');
+                var spy = spyOn(ShareBar.prototype, 'createContentButton');
 
-                glb.share.createButton(this.el, 'test', '', 'urltest', 'title');
+                this.newBar.createButton(this.el, 'test', '', 'urltest', 'title');
                 expect(spy).toHaveBeenCalledWith('test', 'Title');
             });
 
-
             it('should return share button', function () {
-                var button = glb.share.createButton(this.el, 'test', '', '<a href="test">test</a>');
+                var button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
                 expect(button.className).toEqual('share-button share-test');
             });
         });
@@ -380,8 +422,8 @@ describe('glb.share Test Case', function () {
             it('should return SVG element when SVG is enabled', function () {
                 var result;
 
-                glb.share.supportSvg = true;
-                result = glb.share.createContentButton('test');
+                this.newBar.supportSvg = true;
+                result = this.newBar.createContentButton('test');
 
                 expect(result).toContain('<svg viewBox="0 0 100 100" class="share-icon">');
                 expect(result).toContain('<span>test</span>');
@@ -390,8 +432,8 @@ describe('glb.share Test Case', function () {
             it('should return icon element when SVG is disabled', function () {
                 var result;
 
-                glb.share.supportSvg = false;
-                result = glb.share.createContentButton('test');
+                this.newBar.supportSvg = false;
+                result = this.newBar.createContentButton('test');
 
                 expect(result).toContain('<i class="share-font ico-share-test"></i>');
                 expect(result).toContain('<span>test</span>');
@@ -401,13 +443,13 @@ describe('glb.share Test Case', function () {
         describe('createFacebookButton', function () {
 
             it('should create facebook button', function () {
-                glb.share.createFacebookButton(this.el);
+                this.newBar.createFacebookButton(this.el);
                 expect(this.el.querySelector('.share-button.share-facebook a.share-popup span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                glb.share.createFacebookButton(this.el);
+                this.newBar.createFacebookButton(this.el);
 
                 link = this.el.querySelector('.share-button.share-facebook a');
                 expect(link.href).toEqual(
@@ -418,13 +460,13 @@ describe('glb.share Test Case', function () {
 
         describe('createTwitterButton', function () {
             it('should create twitter button', function () {
-                glb.share.createTwitterButton(this.el);
+                this.newBar.createTwitterButton(this.el);
                 expect(this.el.querySelector('.share-button.share-twitter a.share-popup span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                glb.share.createTwitterButton(this.el);
+                this.newBar.createTwitterButton(this.el);
 
                 link = this.el.querySelector('.share-button.share-twitter a');
                 expect(link.href).toEqual(
@@ -435,13 +477,13 @@ describe('glb.share Test Case', function () {
 
         describe('createGoogleButton', function () {
             it('should create googleplus button', function () {
-                glb.share.createGoogleButton(this.el);
+                this.newBar.createGoogleButton(this.el);
                 expect(this.el.querySelector('.share-button.share-googleplus a.share-popup span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                glb.share.createGoogleButton(this.el);
+                this.newBar.createGoogleButton(this.el);
 
                 link = this.el.querySelector('.share-button.share-googleplus a');
                 expect(link.href).toEqual(
@@ -452,13 +494,13 @@ describe('glb.share Test Case', function () {
 
         describe('createPinterestButton', function () {
             it('should create pinterest button', function () {
-                glb.share.createPinterestButton(this.el);
+                this.newBar.createPinterestButton(this.el);
                 expect(this.el.querySelector('.share-button.share-pinterest a.share-popup span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                glb.share.createPinterestButton(this.el);
+                this.newBar.createPinterestButton(this.el);
 
                 link = this.el.querySelector('.share-button.share-pinterest a');
                 expect(link.href).toEqual(
@@ -469,15 +511,15 @@ describe('glb.share Test Case', function () {
 
         describe('createWhatsappButton', function () {
             it('should create whatsapp button when device is iphone', function () {
-                spyOn(glb.share, 'deviceIsIphone').andReturn(true);
-                glb.share.createWhatsappButton(this.el);
+                spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(true);
+                this.newBar.createWhatsappButton(this.el);
                 expect(this.el.querySelector('.share-button.share-whatsapp a span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                spyOn(glb.share, 'deviceIsIphone').andReturn(true);
-                glb.share.createWhatsappButton(this.el);
+                spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(true);
+                this.newBar.createWhatsappButton(this.el);
 
                 link = this.el.querySelector('.share-button.share-whatsapp a');
                 expect(link.href).toEqual(
@@ -486,21 +528,21 @@ describe('glb.share Test Case', function () {
             });
 
             it('should not create whatsapp button when device is not iphone', function () {
-                spyOn(glb.share, 'deviceIsIphone').andReturn(false);
-                glb.share.createWhatsappButton(this.el);
+                spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(false);
+                this.newBar.createWhatsappButton(this.el);
                 expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
             });
         });
 
         describe('createEmailButton', function () {
             it('should create email button', function () {
-                glb.share.createEmailButton(this.el);
+                this.newBar.createEmailButton(this.el);
                 expect(this.el.querySelector('.share-button.share-email a span')).not.toBe(null);
             });
 
             it('should set link href with metadata of container', function () {
                 var link = '';
-                glb.share.createEmailButton(this.el);
+                this.newBar.createEmailButton(this.el);
 
                 link = this.el.querySelector('.share-email a');
                 expect(link.href).toEqual(
@@ -511,13 +553,10 @@ describe('glb.share Test Case', function () {
     });
 
     describe('createSVG', function () {
-
         beforeEach(function () {
-            glb.share.supportSvg = true;
-        });
-
-        afterEach(function () {
-            glb.share.supportSvg = '';
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+            this.newBar.supportSvg = true;
         });
 
         it('should create svg container', function () {
@@ -525,7 +564,7 @@ describe('glb.share Test Case', function () {
                 elements = [];
 
 
-            glb.share.createSVG();
+            this.newBar.createSVG();
             elements = document.querySelectorAll('div');
             element = elements[elements.length - 1];
 
@@ -535,16 +574,18 @@ describe('glb.share Test Case', function () {
     });
 
     describe('verifyTouch', function () {
-
         beforeEach(function () {
+            spyOn(ShareBar.prototype, 'createBars');
+            this.newBar = createBar();
+            this.newBar.supportSvg = true;
             document.querySelector('html').className = '';
         });
 
         it('should add class no-touch for desktop', function () {
             var html;
 
-            spyOn(glb.share, 'isTouch').andReturn(false);
-            glb.share.verifyTouch();
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
+            this.newBar.verifyTouch();
 
             html = document.querySelector('html');
             expect(html.className).toEqual(' no-touch');
@@ -553,8 +594,8 @@ describe('glb.share Test Case', function () {
         it('should add class touch for touch devices', function () {
             var html;
 
-            spyOn(glb.share, 'isTouch').andReturn(true);
-            glb.share.verifyTouch();
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
+            this.newBar.verifyTouch();
 
             html = document.querySelector('html');
             expect(html.className).toEqual(' touch');
