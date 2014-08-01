@@ -1,4 +1,4 @@
-/*! Globo Share - v1.0.6 - 2014-08-01
+/*! ShareBar - v1.0.6 - 2014-08-01
 * Copyright (c) 2014 Time Core; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -75,7 +75,7 @@ function ShareBar(options) {
                 option,
                 defaultOptions = {
                     // Selector to open lightbox
-                    selector: '.glb-share',
+                    selector: '.share-bar',
                     classPopup: 'share-popup',
                     networks: [
                         self.createFacebookButton,
@@ -129,7 +129,7 @@ function ShareBar(options) {
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
-            element.className += " glb-share-container" + theme;
+            element.className += " share-bar-container" + theme;
             this.bindOpenPopup();
         },
 
