@@ -1,4 +1,4 @@
-/*global describe, it, expect, glb, spyOn,
+/*global describe, it, expect, spyOn,
          beforeEach, afterEach, jasmine, xit, ShareBar */
 
 function createBar(options) {
@@ -17,7 +17,7 @@ function click(element) {
 function createShareContainer() {
     'use strict';
     var element = document.createElement('div');
-    element.className = 'glb-share';
+    element.className = 'share-bar';
     element.setAttribute('data-url', 'http://globo.com');
     element.setAttribute('data-title', 'Test title');
     element.setAttribute('data-image-url', 'http://g1.globo.com');
@@ -102,7 +102,7 @@ describe('ShareBar - Methods Test Case', function () {
         it('should create properties with defaultOptions', function () {
             this.newBar.mergeOptions();
 
-            expect(this.newBar.selector).toEqual('.glb-share');
+            expect(this.newBar.selector).toEqual('.share-bar');
             expect(this.newBar.classPopup).toEqual('share-popup');
             expect(this.newBar.networks).toEqual([
                 this.newBar.createFacebookButton,
@@ -214,9 +214,9 @@ describe('ShareBar - Methods Test Case', function () {
             expect(spy.calls.length).toEqual(6);
         });
 
-        it('should set class glb-share-container on container element', function () {
+        it('should set class share-bar-container on container element', function () {
             this.newBar.createBar(this.el);
-            expect(this.el.classList.contains('glb-share-container')).toBe(true);
+            expect(this.el.classList.contains('share-bar-container')).toBe(true);
         });
 
         it('should set theme default on container element', function () {
@@ -433,7 +433,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-twitter a');
             expect(link.href).toEqual(
-                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23globo.com'
+                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title'
             );
         });
     });

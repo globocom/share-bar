@@ -75,7 +75,7 @@ function ShareBar(options) {
                 option,
                 defaultOptions = {
                     // Selector to open lightbox
-                    selector: '.glb-share',
+                    selector: '.share-bar',
                     classPopup: 'share-popup',
                     networks: [
                         self.createFacebookButton,
@@ -129,7 +129,7 @@ function ShareBar(options) {
             }
 
             theme += element.getAttribute('data-theme') || this.theme;
-            element.className += " glb-share-container" + theme;
+            element.className += " share-bar-container" + theme;
             this.bindOpenPopup();
         },
 
@@ -296,7 +296,7 @@ function ShareBar(options) {
                 container,
                 'twitter',
                 buttonClass,
-                'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title + '%20%23globo.com'
+                'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title
             );
         },
 
