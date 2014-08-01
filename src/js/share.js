@@ -1,6 +1,8 @@
-/*global glb, DocumentTouch */
-if (window.glb === undefined) {
-    window.glb = {};
+/*global DocumentTouch */
+
+function ShareBar(options) {
+    'use strict';
+    return this.init(options);
 }
 
 (function (window, document) {
@@ -23,7 +25,7 @@ if (window.glb === undefined) {
         }
     }
 
-    glb.share = {
+    ShareBar.prototype = {
         init: function init(options) {
             this.verifyTouch();
             this.supportSvg = this.hasSupportSvg();
