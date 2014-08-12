@@ -356,7 +356,7 @@ function ShareBar(options) {
         createWhatsappButton: function createWhatsappButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
 
-            if (!this.deviceIsIphone()) {
+            if (!this.isSmallScreen() || !this.isTouch()) {
                 return false;
             }
 
