@@ -535,14 +535,16 @@ describe('ShareBar - Methods Test Case', function () {
 
     describe('createWhatsappButton', function () {
         it('should create whatsapp button when device is iphone', function () {
-            spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
             this.newBar.createWhatsappButton(this.el);
             expect(this.el.querySelector('.share-button.share-whatsapp a span')).not.toBe(null);
         });
 
         it('should set link href with metadata of container', function () {
             var link = '';
-            spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
             this.newBar.createWhatsappButton(this.el);
 
             link = this.el.querySelector('.share-button.share-whatsapp a');
@@ -552,7 +554,8 @@ describe('ShareBar - Methods Test Case', function () {
         });
 
         it('should not create whatsapp button when device is not iphone', function () {
-            spyOn(ShareBar.prototype, 'deviceIsIphone').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
             this.newBar.createWhatsappButton(this.el);
             expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
         });
