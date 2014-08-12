@@ -1,4 +1,4 @@
-/*! ShareBar - v1.0.6 - 2014-08-01
+/*! ShareBar - v2.0.0 - 2014-08-12
 * Copyright (c) 2014 Time Core; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -356,7 +356,7 @@ function ShareBar(options) {
         createWhatsappButton: function createWhatsappButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
 
-            if (!this.deviceIsIphone()) {
+            if (!this.isSmallScreen() || !this.isTouch()) {
                 return false;
             }
 
