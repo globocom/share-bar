@@ -1,4 +1,4 @@
-/*! ShareBar - v2.0.0 - 2014-08-12
+/*! ShareBar - v2.0.0 - 2014-08-13
 * Copyright (c) 2014 Time Core; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -79,9 +79,9 @@ function ShareBar(options) {
                     networks: [
                         'facebook',
                         'twitter',
+                        'whatsapp',
                         'google',
                         'pinterest',
-                        'whatsapp',
                         'email'
                     ],
                     theme: 'natural',

@@ -79,9 +79,9 @@ function ShareBar(options) {
                     networks: [
                         'facebook',
                         'twitter',
+                        'whatsapp',
                         'google',
                         'pinterest',
-                        'whatsapp',
                         'email'
                     ],
                     theme: 'natural',
