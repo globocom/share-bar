@@ -107,9 +107,9 @@ describe('ShareBar - Methods Test Case', function () {
             expect(this.newBar.networks).toEqual([
                 'facebook',
                 'twitter',
+                'whatsapp',
                 'google',
                 'pinterest',
-                'whatsapp',
                 'email'
             ]);
             expect(this.newBar.theme).toEqual('natural');
