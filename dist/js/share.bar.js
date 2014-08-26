@@ -1,4 +1,4 @@
-/*! ShareBar - v2.0.0 - 2014-08-13
+/*! ShareBar - v2.0.1 - 2014-08-26
 * Copyright (c) 2014 Time Core; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -27,12 +27,17 @@ function ShareBar(options) {
 
     ShareBar.prototype = {
         init: function init(options) {
+            this.eventName = this.getActionName();
             this.verifyTouch();
             this.supportSvg = this.hasSupportSvg();
             this.createSVG();
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
+        },
+
+        getActionName: function getActionName() {
+            return this.isTouch() ? 'touchend' : 'click';
         },
 
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
@@ -230,7 +235,8 @@ function ShareBar(options) {
                 i = 0;
 
             for (i; i < linksPopup.length; i++) {
-                addEventListener(linksPopup[i], 'click', this.openPopup);
+                addEventListener(linksPopup[i], this.eventName, this.openPopup);
+                addEventListener(linksPopup[i], 'click', preventDefault);
             }
         },
 
@@ -242,7 +248,6 @@ function ShareBar(options) {
             );
 
             win.focus();
-            preventDefault(e);
         },
 
         getMetadataFromElement: function getMetadataFromElement(element) {
