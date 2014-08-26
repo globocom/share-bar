@@ -175,6 +175,10 @@ describe('ShareBar - Methods Test Case', function () {
     });
 
     describe('bindOpenPopup', function () {
+        beforeEach(function () {
+            this.newBar.eventName = 'click';
+        });
+
         it('should call addEventListener function for each popup element', function () {
             var popups = [createPopupElement(), createPopupElement()],
                 spies = [];
@@ -219,13 +223,6 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should call window.focus to set focus on popup', function () {
             var spy = spyOn(window, 'focus');
-            this.newBar.openPopup.call(this.popup, this.eventClick);
-
-            expect(spy).toHaveBeenCalled();
-        });
-
-        it('should call preventDefault to prevent the browser follow the link', function () {
-            var spy = spyOn(this.eventClick, 'preventDefault');
             this.newBar.openPopup.call(this.popup, this.eventClick);
 
             expect(spy).toHaveBeenCalled();
