@@ -1,4 +1,4 @@
-/*! ShareBar - v2.0.1 - 2014-08-26
+/*! ShareBar - v2.0.1 - 2014-08-27
 * Copyright (c) 2014 Time Core; Licensed MIT */
 function ShareBar(options) {
     'use strict';
