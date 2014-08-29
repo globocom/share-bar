@@ -93,7 +93,10 @@ function ShareBar(options) {
                     buttonWidth: 34,
                     buttonFullWidth: 110,
                     buttonPadding: 4,
-                    maxSocialButtons: 6
+                    maxSocialButtons: 6,
+                    onCreateBar: function (bar) { return false; },
+                    onCreateButton: function (button) { return false; },
+                    onShare: function (button) { return false; }
                 };
 
             if (!options) {
@@ -164,6 +167,7 @@ function ShareBar(options) {
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += ' share-bar-container' + theme;
             this.bindOpenPopup();
+            this.onCreateBar(element);
         },
 
         getButtonsSize: function getButtonsSize(containerWidth, numberOfButtons) {
@@ -232,10 +236,15 @@ function ShareBar(options) {
 
         bindOpenPopup: function bindOpenPopup() {
             var linksPopup = document.querySelectorAll('.' + this.classPopup),
-                i = 0;
+                i = 0,
+                self = this,
+                onShareClick = function (e) {
+                    self.onShare(this);
+                    self.openPopup.call(this, e);
+                };
 
             for (i; i < linksPopup.length; i++) {
-                addEventListener(linksPopup[i], this.eventName, this.openPopup);
+                addEventListener(linksPopup[i], this.eventName, onShareClick);
                 addEventListener(linksPopup[i], 'click', preventDefault);
             }
         },
@@ -282,6 +291,8 @@ function ShareBar(options) {
             ].join('');
 
             container.appendChild(shareContainer);
+            this.onCreateButton(shareContainer);
+
             return shareContainer;
         },
 
