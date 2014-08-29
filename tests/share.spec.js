@@ -29,7 +29,7 @@ function createPopupElement() {
     'use strict';
     var element = document.createElement('a');
     element.className = 'share-popup';
-    element.setAttribute('href', 'http://globo.com');
+    element.setAttribute('href', '#');
     document.body.appendChild(element);
     return element;
 }
@@ -188,8 +188,8 @@ describe('ShareBar - Methods Test Case', function () {
 
             this.newBar.bindOpenPopup();
 
-            expect(spies[0]).toHaveBeenCalledWith('click', this.newBar.openPopup, false);
-            expect(spies[1]).toHaveBeenCalledWith('click', this.newBar.openPopup, false);
+            expect(spies[0]).toHaveBeenCalledWith('click', jasmine.any(Function), false);
+            expect(spies[1]).toHaveBeenCalledWith('click', jasmine.any(Function), false);
         });
 
         it('should call openPopup on click in popup element', function () {
@@ -202,6 +202,16 @@ describe('ShareBar - Methods Test Case', function () {
 
             expect(spy).toHaveBeenCalledWith(eventClick);
         });
+
+        it('should call onShare callback on click in share button', function () {
+            var popup = createPopupElement(),
+                spy = spyOn(this.newBar, 'onShare');
+
+            this.newBar.bindOpenPopup();
+            click(popup);
+
+            expect(spy).toHaveBeenCalledWith(popup);
+        });
     });
 
     describe('openPopup', function () {
@@ -209,6 +219,7 @@ describe('ShareBar - Methods Test Case', function () {
             this.popup = createPopupElement();
             this.eventClick = click(this.popup);
             this.spyWindowsOpen = spyOn(window, 'open').andReturn(window);
+            this.spyWindowsFocus = spyOn(window, 'focus').andReturn(window);
         });
 
         it('should call window.open to open popup', function () {
@@ -222,10 +233,8 @@ describe('ShareBar - Methods Test Case', function () {
         });
 
         it('should call window.focus to set focus on popup', function () {
-            var spy = spyOn(window, 'focus');
             this.newBar.openPopup.call(this.popup, this.eventClick);
-
-            expect(spy).toHaveBeenCalled();
+            expect(this.spyWindowsFocus).toHaveBeenCalled();
         });
     });
 
@@ -303,6 +312,12 @@ describe('ShareBar - Methods Test Case', function () {
             var spy = spyOn(ShareBar.prototype, 'bindOpenPopup');
             this.newBar.createBar(this.el);
             expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call onCreateBar callback', function () {
+            var spy = spyOn(this.newBar, 'onCreateBar');
+            this.newBar.createBar(this.el);
+            expect(spy).toHaveBeenCalledWith(this.el);
         });
     });
 
@@ -438,6 +453,13 @@ describe('ShareBar - Methods Test Case', function () {
         it('should return share button', function () {
             var button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
             expect(button.className).toEqual('share-button share-test');
+        });
+
+        it('should call onCreateButton callback', function () {
+            var spy = spyOn(this.newBar, 'onCreateButton'),
+                button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
+
+            expect(spy).toHaveBeenCalledWith(button);
         });
     });
 
