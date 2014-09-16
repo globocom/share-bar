@@ -1,0 +1,39 @@
+{
+  "name": "share.bar",
+  "title": "ShareBar",
+  "version": "2.1.1",
+  "description": "Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas.",
+  "main": "dist/share.bar.js",
+  "author": {
+    "name": "Globo.com",
+  },
+  "keywords": [
+    "share",
+    "responsive",
+    "javascript"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-compass": "~0.5.0",
+    "grunt-contrib-jasmine": "~0.4.2",
+    "grunt-template-jasmine-istanbul": "~0.2.6",
+    "grunt-svgstore": "~0.2.7",
+    "grunt-string-replace": "~0.2.7",
+    "grunt-svgmin": "~0.4.0",
+    "grunt-buddyjs": "~0.1.0",
+    "grunt-bump": "~0.0.14",
+    "grunt-webfont": "~0.4.4",
+    "grunt-jslint": "~1.1.12"
+  }
+}
