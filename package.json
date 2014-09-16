@@ -5,7 +5,7 @@
   "description": "Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas.",
   "main": "dist/share.bar.js",
   "author": {
-    "name": "Globo.com",
+    "name": "Globo.com"
   },
   "keywords": [
     "share",
@@ -19,6 +19,7 @@
     }
   ],
   "devDependencies": {
+    "phantomjs": "",
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "~0.8.0",
     "grunt-contrib-cssmin": "~0.10.0",
@@ -35,5 +36,8 @@
     "grunt-bump": "~0.0.14",
     "grunt-webfont": "~0.4.4",
     "grunt-jslint": "~1.1.12"
+  },
+  "scripts": {
+    "test": "grunt jasmine"
   }
 }
