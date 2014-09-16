@@ -7,6 +7,10 @@
   "author": {
     "name": "Globo.com"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/globocom/share-bar.git"
+  },
   "keywords": [
     "share",
     "responsive",
