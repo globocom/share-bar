@@ -246,6 +246,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-buddyjs');
     grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-coveralls');
 
     // Custom tasks
     grunt.registerTask('icon', ['svgstore', 'webfont', 'svgmin', 'string-replace']);
