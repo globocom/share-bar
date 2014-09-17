@@ -127,14 +127,31 @@ module.exports = function (grunt) {
                     keepRunner: true,
                     template: require('grunt-template-jasmine-istanbul'),
                     templateOptions: {
-                        coverage: 'tests/reports/coverage.json',
-                        report: 'tests/reports'
+                        coverage: 'tests/reports/lcov.info',
+                        report: [{
+                            type: 'lcov',
+                            options: {
+                                dir: 'tests/reports/'
+                            }
+                        }]
                     },
                     // phantom options
                     '--web-security' : false,
                     '--local-to-remote-url-access' : true,
                     '--ignore-ssl-errors' : true
                 }
+            }
+        },
+
+        coveralls: {
+            options: {
+              // LCOV coverage file relevant to every target
+              src: 'tests/reports/lcov.info',
+
+              // When true, grunt-coveralls will only print a warning rather than
+              // an error, to prevent CI builds from failing unnecessarily (e.g. if
+              // coveralls.io is down). Optional, defaults to false.
+              force: false
             }
         },
 

@@ -8,8 +8,8 @@
     "name": "Globo.com"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/globocom/share-bar.git"
+    "type": "git",
+    "url": "https://github.com/globocom/share-bar.git"
   },
   "keywords": [
     "share",
@@ -39,7 +39,8 @@
     "grunt-buddyjs": "~0.1.0",
     "grunt-bump": "~0.0.14",
     "grunt-webfont": "~0.4.4",
-    "grunt-jslint": "~1.1.12"
+    "grunt-jslint": "~1.1.12",
+    "grunt-coveralls": "~1.0.0"
   },
   "scripts": {
     "test": "grunt jasmine"
