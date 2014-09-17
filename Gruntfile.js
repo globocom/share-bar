@@ -127,7 +127,7 @@ module.exports = function (grunt) {
                     keepRunner: true,
                     template: require('grunt-template-jasmine-istanbul'),
                     templateOptions: {
-                        coverage: 'tests/reports/lcov.info',
+                        coverage: 'tests/reports/conbertura.json',
                         report: [{
                             type: 'lcov',
                             options: {
