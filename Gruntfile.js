@@ -254,6 +254,7 @@ module.exports = function (grunt) {
     grunt.registerTask('js', ['concat:js', 'string-replace', 'uglify']);
     grunt.registerTask('css', ['compass', 'concat:css', 'cssmin']);
     grunt.registerTask('server', ['connect:server', 'watch']);
+    grunt.registerTask('ci', ['jasmine', 'coveralls']);
 
     // Default task.
     grunt.registerTask('default', ['icon', 'jstest', 'js', 'css']);
