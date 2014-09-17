@@ -8,6 +8,8 @@ ShareBar
 
 Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas. O ShareBar não depende de nenhuma lib JS e já conta com todos os recursos necessários embedados em seu próprios estáticos. Além disso ele é totalmente responsive, baseando-se no tamanho da área onde está sendo aplicado e também no device onde está sendo exibido.
 
+[demo](http://globocom.github.io/share-bar/)
+
 Compatibilidade
 ----
 
