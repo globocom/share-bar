@@ -146,7 +146,7 @@ module.exports = function (grunt) {
         coveralls: {
 
             options: {
-              force: true
+                force: true
             },
             main_target: {
                 src: "tests/reports/lcov.info"
