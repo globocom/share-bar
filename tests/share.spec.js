@@ -572,7 +572,7 @@ describe('ShareBar - Methods Test Case', function () {
             );
         });
 
-        it('should not create whatsapp button when device is not iphone', function () {
+        it('should not create whatsapp button when is not mobile device', function () {
             spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
             spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
             this.newBar.createWhatsappButton(this.el);
@@ -594,6 +594,13 @@ describe('ShareBar - Methods Test Case', function () {
             expect(link.href).toEqual(
                 'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
             );
+        });
+
+        it('should not create email button when is not mobile device', function () {
+            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
+            this.newBar.createEmailButton(this.el);
+            expect(this.el.querySelector('.share-button.share-email a span')).toBe(null);
         });
     });
 

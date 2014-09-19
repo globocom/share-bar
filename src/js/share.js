@@ -388,6 +388,11 @@ function ShareBar(options) {
 
         createEmailButton: function createEmailButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
+
+            if (!this.isSmallScreen() || !this.isTouch()) {
+                return false;
+            }
+
             buttonClass = buttonClass || '';
 
             this.createButton(
