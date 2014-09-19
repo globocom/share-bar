@@ -455,6 +455,16 @@ describe('ShareBar - Methods Test Case', function () {
             expect(button.className).toEqual('share-button share-test');
         });
 
+        it('should be class share-popup when openInPage is undefined', function () {
+            var button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
+            expect(button.querySelector('a').className).toEqual('share-popup');
+        });
+
+        it('should not be class share-popup when openInPage is true', function () {
+            var button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>', '', true);
+            expect(button.querySelector('a').className).toEqual('');
+        });
+
         it('should call onCreateButton callback', function () {
             var spy = spyOn(this.newBar, 'onCreateButton'),
                 button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
@@ -578,6 +588,11 @@ describe('ShareBar - Methods Test Case', function () {
             this.newBar.createWhatsappButton(this.el);
             expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
         });
+
+        it('should not open in popup', function () {
+            this.newBar.createWhatsappButton(this.el);
+            expect(this.el.querySelector('.share-whatsapp a').className).toEqual('');
+        });
     });
 
     describe('createEmailButton', function () {
@@ -600,6 +615,11 @@ describe('ShareBar - Methods Test Case', function () {
             spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
             this.newBar.createEmailButton(this.el);
             expect(this.el.querySelector('.share-button.share-email a span')).toBe(null);
+        });
+
+        it('should not open in popup', function () {
+            this.newBar.createEmailButton(this.el);
+            expect(this.el.querySelector('.share-email a').className).toEqual('');
         });
     });
 

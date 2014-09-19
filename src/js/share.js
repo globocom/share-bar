@@ -279,13 +279,19 @@ function ShareBar(options) {
             return width < desktopMinWidth;
         },
 
-        createButton: function createButton(container, socialNetworkClass, className, url, socialNetworkTitle) {
-            var shareContainer = document.createElement('div');
+        createButton: function createButton(container, socialNetworkClass, className, url, socialNetworkTitle, openInPage) {
+            var shareContainer = document.createElement('div'),
+                classPopup = '';
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
             shareContainer.className = 'share-button share-' + socialNetworkClass + className;
             socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
+
+            if (!openInPage) {
+                classPopup = this.classPopup;
+            }
+
             shareContainer.innerHTML = [
-                '<a class="' + this.classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
+                '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
             ].join('');
@@ -382,7 +388,9 @@ function ShareBar(options) {
                 container,
                 'whatsapp',
                 buttonClass,
-                'whatsapp://send?text=' + data.title + '%20' + data.url
+                'whatsapp://send?text=' + data.title + '%20' + data.url,
+                '',
+                true
             );
         },
 
@@ -400,7 +408,8 @@ function ShareBar(options) {
                 'email',
                 buttonClass,
                 'mailto:?subject=' + data.title + '&amp;body=' + data.url,
-                'e-mail'
+                'e-mail',
+                true
             );
         }
     };
