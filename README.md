@@ -42,7 +42,7 @@ Para utilizar o share basta inserir na página os arquivos JS e CSS e instanciar
 
 O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
 ```
-<div class="share-bar" data-title="Teste do lightbox para imagem" data-url="Vale a pena testar de novo" data-image-url="http://lorempixel.com/1080/700/"></div>
+<div class="share-bar" data-title="Teste do lightbox para imagem" data-url="Vale a pena testar de novo" data-image-url="http://lorempixel.com/1080/700/" data-hashtags="#example #sharebar"></div>
 ```
 
 Um exemplo de utilização do plugin pode ser visto no arquivo "demo/index.html".

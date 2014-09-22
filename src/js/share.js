@@ -264,7 +264,8 @@ function ShareBar(options) {
                 data = {
                     'url': encode(element.getAttribute('data-url') || ''),
                     'title': encode(element.getAttribute('data-title') || ''),
-                    'imageUrl': encode(element.getAttribute('data-image-url') || '')
+                    'imageUrl': encode(element.getAttribute('data-image-url') || ''),
+                    'hashtags': encode(element.getAttribute('data-hashtags') || '')
                 };
             return data;
         },
@@ -346,7 +347,7 @@ function ShareBar(options) {
                 container,
                 'twitter',
                 buttonClass,
-                'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title
+                'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title + ' ' + data.hashtags
             );
         },
 

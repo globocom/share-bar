@@ -21,6 +21,7 @@ function createShareContainer() {
     element.setAttribute('data-url', 'http://globo.com');
     element.setAttribute('data-title', 'Test title');
     element.setAttribute('data-image-url', 'http://g1.globo.com');
+    element.setAttribute('data-hashtags', '#test #g1');
     document.body.appendChild(element);
     return element;
 }
@@ -423,7 +424,8 @@ describe('ShareBar - Methods Test Case', function () {
                 expectedData = {
                     'url': window.encodeURIComponent('http://globo.com'),
                     'title': window.encodeURIComponent('Test title'),
-                    'imageUrl': window.encodeURIComponent('http://g1.globo.com')
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
+                    'hashtags': window.encodeURIComponent('#test #g1')
                 };
 
             expect(data).toEqual(expectedData);
@@ -523,7 +525,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-twitter a');
             expect(link.href).toEqual(
-                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title'
+                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23test%20%23g1'
             );
         });
     });
