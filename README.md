@@ -37,8 +37,8 @@ bower install share-bar
 
 ou, pode instalar manualmente fazendo download dos arquivos abaixo e colocando-os em seu projeto:
 
-[](https://raw.githubusercontent.com/globocom/share-bar/master/dist/css/share.bar.min.css)
-[](https://raw.githubusercontent.com/globocom/share-bar/master/dist/js/share.bar.min.js)
+https://raw.githubusercontent.com/globocom/share-bar/master/dist/css/share.bar.min.css
+https://raw.githubusercontent.com/globocom/share-bar/master/dist/js/share.bar.min.js
 
 
 Como usar
