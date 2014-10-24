@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.1 - 2014-10-24
+/*! ShareBar - v3.0.2 - 2014-10-24
 * Copyright (c) 2014 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -331,8 +331,7 @@ function ShareBar(options) {
         createFacebookButton: function createFacebookButton(container, buttonClass) {
             var onShare = '',
                 button = '',
-                data = this.getMetadataFromElement(container),
-                self = this;
+                data = this.getMetadataFromElement(container);
             buttonClass = buttonClass || '';
 
             button = this.createButton(
@@ -349,7 +348,7 @@ function ShareBar(options) {
             onShare = function () {
                 var decode = window.decodeURIComponent;
 
-                self.FB.ui({
+                FB.ui({
                     method: 'feed',
                     link: decode(data.url),
                     name: decode(data.title),
@@ -362,16 +361,13 @@ function ShareBar(options) {
         },
 
         getFacebookUi: function getFacebookUi() {
-            var self = this,
-                facebookAppId = this.facebookAppId;
+            var facebookAppId = this.facebookAppId;
 
             if (window.FB) {
-                self.FB = window.FB;
                 return false;
             }
 
             window.fbAsyncInit = function () {
-                self.FB = window.FB;
                 FB.init({
                     appId: facebookAppId,
                     xfbml: true,

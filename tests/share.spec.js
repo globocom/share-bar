@@ -521,11 +521,11 @@ describe('ShareBar - Methods Test Case', function () {
         });
 
         it('should call FB.ui method when click in button', function () {
-            this.newBar.FB = jasmine.createSpyObj('FB', ['ui']);
+            window.FB = jasmine.createSpyObj('FB', ['ui']);
             this.newBar.createFacebookButton(this.el);
 
             click(this.el.querySelector('.share-button.share-facebook a'));
-            expect(this.newBar.FB.ui).toHaveBeenCalledWith({
+            expect(window.FB.ui).toHaveBeenCalledWith({
                 method: 'feed',
                 link: 'http://globo.com',
                 name: 'Test title',
