@@ -44,15 +44,17 @@ https://raw.githubusercontent.com/globocom/share-bar/master/dist/js/share.bar.mi
 Como usar
 ----
 
-Para utilizar o share basta inserir na página os arquivos JS e CSS e instanciar o plugin:
+Para utilizar o share, basta inserir na página os arquivos JS e CSS e instanciar o plugin:
 
 ```
 <link rel="stylesheet" href="path_to_css/share.bar.min.css">
 <script src="path_to_js/share.bar.min.js"></script>
 <script>
-    new ShareBar();
+    new ShareBar({'facebookAppId': 'APP_ID'});
 </script>
 ```
+
+* É obrigatório passar a APP_ID do facebook se esta rede social estiver incluida na barra.
 
 O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
 ```
