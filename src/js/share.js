@@ -363,7 +363,7 @@ function ShareBar(options) {
 
         getFacebookUi: function getFacebookUi() {
             var self = this,
-                facebookAppId = this.appId;
+                facebookAppId = this.facebookAppId;
 
             window.fbAsyncInit = function () {
                 self.FB = window.FB;
