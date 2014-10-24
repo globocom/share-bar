@@ -365,6 +365,11 @@ function ShareBar(options) {
             var self = this,
                 facebookAppId = this.facebookAppId;
 
+            if (window.FB) {
+                self.FB = window.FB;
+                return false;
+            }
+
             window.fbAsyncInit = function () {
                 self.FB = window.FB;
                 FB.init({

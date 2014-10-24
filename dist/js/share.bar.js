@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.0 - 2014-10-24
+/*! ShareBar - v3.0.1 - 2014-10-24
 * Copyright (c) 2014 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -364,6 +364,11 @@ function ShareBar(options) {
         getFacebookUi: function getFacebookUi() {
             var self = this,
                 facebookAppId = this.facebookAppId;
+
+            if (window.FB) {
+                self.FB = window.FB;
+                return false;
+            }
 
             window.fbAsyncInit = function () {
                 self.FB = window.FB;
