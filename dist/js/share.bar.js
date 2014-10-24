@@ -1,4 +1,4 @@
-/*! ShareBar - v2.1.4 - 2014-09-22
+/*! ShareBar - v2.1.7 - 2014-10-24
 * Copyright (c) 2014 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -81,6 +81,7 @@ function ShareBar(options) {
                     // Selector to open lightbox
                     selector: '.share-bar',
                     classPopup: 'share-popup',
+                    facebookAppId: '',
                     networks: [
                         'facebook',
                         'twitter',
@@ -328,15 +329,59 @@ function ShareBar(options) {
         },
 
         createFacebookButton: function createFacebookButton(container, buttonClass) {
-            var data = this.getMetadataFromElement(container);
+            var onShare = '',
+                button = '',
+                data = this.getMetadataFromElement(container),
+                self = this;
             buttonClass = buttonClass || '';
 
-            this.createButton(
+            button = this.createButton(
                 container,
                 'facebook',
                 buttonClass,
-                'http://www.facebook.com/sharer/sharer.php?u=' + data.url
+                'http://www.facebook.com/',
+                '',
+                true
             );
+
+            this.getFacebookUi();
+
+            onShare = function () {
+                var decode = window.decodeURIComponent;
+
+                self.FB.ui({
+                    method: 'feed',
+                    link: decode(data.url),
+                    name: decode(data.title),
+                    picture: decode(data.imageUrl)
+                });
+            };
+
+            addEventListener(button, this.eventName, onShare);
+            addEventListener(button, 'click', preventDefault);
+        },
+
+        getFacebookUi: function getFacebookUi() {
+            var self = this,
+                facebookAppId = this.appId;
+
+            window.fbAsyncInit = function () {
+                self.FB = window.FB;
+                FB.init({
+                    appId: facebookAppId,
+                    xfbml: true,
+                    version: 'v2.1'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
         },
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {

@@ -1,5 +1,5 @@
 /*global describe, it, expect, spyOn,
-         beforeEach, afterEach, jasmine, xit, ShareBar */
+         beforeEach, afterEach, jasmine, xit, ShareBar, FB */
 
 function createBar(options) {
     'use strict';
@@ -105,6 +105,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             expect(this.newBar.selector).toEqual('.share-bar');
             expect(this.newBar.classPopup).toEqual('share-popup');
+            expect(this.newBar.facebookAppId).toEqual('');
             expect(this.newBar.networks).toEqual([
                 'facebook',
                 'twitter',
@@ -496,20 +497,40 @@ describe('ShareBar - Methods Test Case', function () {
     });
 
     describe('createFacebookButton', function () {
+        beforeEach(function () {
+            this.newBar.eventName = 'click';
+        });
 
         it('should create facebook button', function () {
             this.newBar.createFacebookButton(this.el);
-            expect(this.el.querySelector('.share-button.share-facebook a.share-popup span')).not.toBe(null);
+            expect(this.el.querySelector('.share-button.share-facebook a span')).not.toBe(null);
         });
 
-        it('should set link href with metadata of container', function () {
+        it('should set link href with only facebook url', function () {
             var link = '';
             this.newBar.createFacebookButton(this.el);
 
             link = this.el.querySelector('.share-button.share-facebook a');
-            expect(link.href).toEqual(
-                'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fglobo.com'
-            );
+            expect(link.href).toEqual('http://www.facebook.com/');
+        });
+
+        it('should call getFacebookUi method', function () {
+            var spy = spyOn(this.newBar, 'getFacebookUi');
+            this.newBar.createFacebookButton(this.el);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call FB.ui method when click in button', function () {
+            this.newBar.FB = jasmine.createSpyObj('FB', ['ui']);
+            this.newBar.createFacebookButton(this.el);
+
+            click(this.el.querySelector('.share-button.share-facebook a'));
+            expect(this.newBar.FB.ui).toHaveBeenCalledWith({
+                method: 'feed',
+                link: 'http://globo.com',
+                name: 'Test title',
+                picture: 'http://g1.globo.com'
+            });
         });
     });
 
