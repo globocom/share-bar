@@ -37,7 +37,7 @@ function ShareBar(options) {
         },
 
         getActionName: function getActionName() {
-            return this.isTouch() ? 'touchend' : 'click';
+            return this.isTouch() ? 'mouseup' : 'click';
         },
 
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js

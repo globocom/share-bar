@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.2 - 2014-10-24
+/*! ShareBar - v3.0.3 - 2014-11-07
 * Copyright (c) 2014 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
@@ -37,7 +37,7 @@ function ShareBar(options) {
         },
 
         getActionName: function getActionName() {
-            return this.isTouch() ? 'touchend' : 'click';
+            return this.isTouch() ? 'mouseup' : 'click';
         },
 
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
