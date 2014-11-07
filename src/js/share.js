@@ -1,5 +1,10 @@
 /*global DocumentTouch, FB */
 
+var BUTTON_WIDTH = 34;
+var BUTTON_FULL_WIDTH = 110;
+var BUTTON_PADDING = 4;
+var MAX_SOCIAL_BUTTONS = 6;
+
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -91,10 +96,10 @@ function ShareBar(options) {
                         'email'
                     ],
                     theme: 'natural',
-                    buttonWidth: 34,
-                    buttonFullWidth: 110,
-                    buttonPadding: 4,
-                    maxSocialButtons: 6,
+                    buttonWidth: BUTTON_WIDTH,
+                    buttonFullWidth: BUTTON_FULL_WIDTH,
+                    buttonPadding: BUTTON_PADDING,
+                    maxSocialButtons: MAX_SOCIAL_BUTTONS,
                     onCreateBar: function (bar) { return false; },
                     onCreateButton: function (button) { return false; },
                     onShare: function (button) { return false; }
