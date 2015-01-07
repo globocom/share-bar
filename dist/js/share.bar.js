@@ -1,5 +1,5 @@
-/*! ShareBar - v3.0.4 - 2014-11-10
-* Copyright (c) 2014 Globo.com; Licensed MIT */
+/*! ShareBar - v3.0.5 - 2015-01-07
+* Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
 var BUTTON_PADDING = 4;
@@ -152,6 +152,7 @@ function ShareBar(options) {
             for (element = 0; element < items.length; element++) {
                 this.createBar(items[element]);
             }
+
         },
 
         createBar: function createBar(element, networks) {
@@ -172,7 +173,7 @@ function ShareBar(options) {
 
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += ' share-bar-container' + theme;
-            this.bindOpenPopup();
+            this.bindOpenPopup(element);
             this.onCreateBar(element);
         },
 
@@ -240,8 +241,8 @@ function ShareBar(options) {
             return result;
         },
 
-        bindOpenPopup: function bindOpenPopup() {
-            var linksPopup = document.querySelectorAll('.' + this.classPopup),
+        bindOpenPopup: function bindOpenPopup(element) {
+            var linksPopup = element.querySelectorAll('.' + this.classPopup),
                 i = 0,
                 self = this,
                 onShareClick = function (e) {

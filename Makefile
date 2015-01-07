@@ -6,3 +6,6 @@ test:
 
 run:
 	@grunt server
+
+build:
+	@grunt default

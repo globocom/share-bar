@@ -185,10 +185,13 @@ describe('ShareBar - Methods Test Case', function () {
             var popups = [createPopupElement(), createPopupElement()],
                 spies = [];
 
+            this.el.appendChild(popups[0]);
+            this.el.appendChild(popups[1]);
+
             spies[0] = spyOn(popups[0], 'addEventListener');
             spies[1] = spyOn(popups[1], 'addEventListener');
 
-            this.newBar.bindOpenPopup();
+            this.newBar.bindOpenPopup(this.el);
 
             expect(spies[0]).toHaveBeenCalledWith('click', jasmine.any(Function), false);
             expect(spies[1]).toHaveBeenCalledWith('click', jasmine.any(Function), false);
@@ -199,7 +202,9 @@ describe('ShareBar - Methods Test Case', function () {
                 spy = spyOn(ShareBar.prototype, 'openPopup'),
                 eventClick = '';
 
-            this.newBar.bindOpenPopup();
+            this.el.appendChild(popup);
+
+            this.newBar.bindOpenPopup(this.el);
             eventClick = click(popup);
 
             expect(spy).toHaveBeenCalledWith(eventClick);
@@ -209,10 +214,27 @@ describe('ShareBar - Methods Test Case', function () {
             var popup = createPopupElement(),
                 spy = spyOn(this.newBar, 'onShare');
 
-            this.newBar.bindOpenPopup();
+            this.el.appendChild(popup);
+
+            this.newBar.bindOpenPopup(this.el);
             click(popup);
 
             expect(spy).toHaveBeenCalledWith(popup);
+        });
+
+        it('should call onShare callback on click in share button only once', function () {
+            var popup = createPopupElement(),
+                spy = spyOn(this.newBar, 'onShare'),
+                el1 = createShareContainer(),
+                el2 = createShareContainer();
+
+            el1.appendChild(popup);
+
+            this.newBar.createBar(el1);
+            this.newBar.createBar(el2);
+
+            click(popup);
+            expect(spy.callCount).toEqual(1);
         });
     });
 

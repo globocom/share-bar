@@ -152,6 +152,7 @@ function ShareBar(options) {
             for (element = 0; element < items.length; element++) {
                 this.createBar(items[element]);
             }
+
         },
 
         createBar: function createBar(element, networks) {
@@ -172,7 +173,7 @@ function ShareBar(options) {
 
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += ' share-bar-container' + theme;
-            this.bindOpenPopup();
+            this.bindOpenPopup(element);
             this.onCreateBar(element);
         },
 
@@ -240,8 +241,8 @@ function ShareBar(options) {
             return result;
         },
 
-        bindOpenPopup: function bindOpenPopup() {
-            var linksPopup = document.querySelectorAll('.' + this.classPopup),
+        bindOpenPopup: function bindOpenPopup(element) {
+            var linksPopup = element.querySelectorAll('.' + this.classPopup),
                 i = 0,
                 self = this,
                 onShareClick = function (e) {

@@ -217,6 +217,17 @@ Default: ```function (button) { return false; }```
     new ShareBar({'onCreateBar': function (button) { alert(button.innerHTML); }});
 </script>
 ```
+**createBar**
+
+É possivel chamar diretamente o método createBar para criar uma barra quando quiser.
+
+Exemplo: 
+```
+var la = new ShareBar({'maxSocialButtons': 10});
+la.createBar(document.querySelector('.minha-barra'));
+```
+
+PS: para funcionar, o elemento que será utilizado para colocar a barra precisa conter todos os data-attributes já descritos anteriormente.
 
 Instalação
 ----
