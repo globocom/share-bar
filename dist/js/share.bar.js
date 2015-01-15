@@ -257,15 +257,17 @@ function ShareBar(options) {
         },
 
         bindShare: function bindShare(element) {
-            var self = this,
+            var shareButtons = element.querySelectorAll('.share-button'),
+                i = 0,
+                self = this,
                 onShareClick = function (e) {
-                    if (e.target.className.search('share-button') !== -1) {
-                        self.onShare(e.target);
-                    }
+                    self.onShare(this);
                 };
 
-            addEventListener(element, this.eventName, onShareClick);
-            addEventListener(element, 'click', preventDefault);
+            for (i; i < shareButtons.length; i++) {
+                addEventListener(shareButtons[i], this.eventName, onShareClick);
+                addEventListener(shareButtons[i], 'click', preventDefault);
+            }
         },
 
         openPopup: function openPopup(e) {
