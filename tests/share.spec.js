@@ -228,6 +228,20 @@ describe('ShareBar - Methods Test Case', function () {
             expect(spy).toHaveBeenCalledWith(popup);
         });
 
+        it('should call onShare callback on click in any element in share button', function () {
+            var popup = createPopupElement(),
+                span = document.createElement('span'),
+                spy = spyOn(this.newBar, 'onShare');
+
+            popup.appendChild(span);
+            this.el.appendChild(popup);
+
+            this.newBar.bindShare(this.el);
+            click(span);
+
+            expect(spy).toHaveBeenCalledWith(popup);
+        });
+
         it('should call onShare callback on click in share button only once', function () {
             var popup = createPopupElement(),
                 spy = spyOn(this.newBar, 'onShare'),
