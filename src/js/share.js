@@ -174,6 +174,7 @@ function ShareBar(options) {
             theme += element.getAttribute('data-theme') || this.theme;
             element.className += ' share-bar-container' + theme;
             this.bindOpenPopup(element);
+            this.bindShare(element);
             this.onCreateBar(element);
         },
 
@@ -246,7 +247,6 @@ function ShareBar(options) {
                 i = 0,
                 self = this,
                 onShareClick = function (e) {
-                    self.onShare(this);
                     self.openPopup.call(this, e);
                 };
 
@@ -254,6 +254,18 @@ function ShareBar(options) {
                 addEventListener(linksPopup[i], this.eventName, onShareClick);
                 addEventListener(linksPopup[i], 'click', preventDefault);
             }
+        },
+
+        bindShare: function bindShare(element) {
+            var self = this,
+                onShareClick = function (e) {
+                    if (e.target.className.search('share-button') !== -1) {
+                        self.onShare(e.target);
+                    }
+                };
+
+            addEventListener(element, this.eventName, onShareClick);
+            addEventListener(element, 'click', preventDefault);
         },
 
         openPopup: function openPopup(e) {

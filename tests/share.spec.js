@@ -29,7 +29,7 @@ function createShareContainer() {
 function createPopupElement() {
     'use strict';
     var element = document.createElement('a');
-    element.className = 'share-popup';
+    element.className = 'share-button share-popup';
     element.setAttribute('href', '#');
     document.body.appendChild(element);
     return element;
@@ -209,6 +209,12 @@ describe('ShareBar - Methods Test Case', function () {
 
             expect(spy).toHaveBeenCalledWith(eventClick);
         });
+    });
+
+    describe('bindShare', function () {
+        beforeEach(function () {
+            this.newBar.eventName = 'click';
+        });
 
         it('should call onShare callback on click in share button', function () {
             var popup = createPopupElement(),
@@ -216,7 +222,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             this.el.appendChild(popup);
 
-            this.newBar.bindOpenPopup(this.el);
+            this.newBar.bindShare(this.el);
             click(popup);
 
             expect(spy).toHaveBeenCalledWith(popup);
@@ -336,6 +342,12 @@ describe('ShareBar - Methods Test Case', function () {
             var spy = spyOn(ShareBar.prototype, 'bindOpenPopup');
             this.newBar.createBar(this.el);
             expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call bindShare callback', function () {
+            var spy = spyOn(this.newBar, 'bindShare');
+            this.newBar.createBar(this.el);
+            expect(spy).toHaveBeenCalledWith(this.el);
         });
 
         it('should call onCreateBar callback', function () {
