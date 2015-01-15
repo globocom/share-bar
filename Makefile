@@ -9,3 +9,8 @@ run:
 
 build:
 	@grunt default
+
+release:
+	@grunt bump-only
+	@make build
+	@grunt bump-commit
