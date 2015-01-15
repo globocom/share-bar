@@ -13,6 +13,4 @@ build:
 release:
 	@grunt bump-only
 	@make build
-	@git commit -am "Builded statics"
-	@git push origin master
 	@grunt bump-commit
