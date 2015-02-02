@@ -266,7 +266,6 @@ function ShareBar(options) {
 
             for (i; i < shareButtons.length; i++) {
                 addEventListener(shareButtons[i], this.eventName, onShareClick);
-                addEventListener(shareButtons[i], 'click', preventDefault);
             }
         },
 

@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.7 - 2015-01-15
+/*! ShareBar - v3.0.7 - 2015-02-02
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
@@ -266,7 +266,6 @@ function ShareBar(options) {
 
             for (i; i < shareButtons.length; i++) {
                 addEventListener(shareButtons[i], this.eventName, onShareClick);
-                addEventListener(shareButtons[i], 'click', preventDefault);
             }
         },
 
