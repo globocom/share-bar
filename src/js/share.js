@@ -100,6 +100,7 @@ function ShareBar(options) {
                     buttonFullWidth: BUTTON_FULL_WIDTH,
                     buttonPadding: BUTTON_PADDING,
                     maxSocialButtons: MAX_SOCIAL_BUTTONS,
+                    context: 'desktop',
                     onCreateBar: function (bar) { return false; },
                     onCreateButton: function (button) { return false; },
                     onShare: function (button) { return false; }
@@ -281,8 +282,9 @@ function ShareBar(options) {
 
         getMetadataFromElement: function getMetadataFromElement(element) {
             var encode = window.encodeURIComponent,
+                url = element.getAttribute('data-url') || '',
                 data = {
-                    'url': encode(element.getAttribute('data-url') || ''),
+                    'url': encode(url + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar'),
                     'title': encode(element.getAttribute('data-title') || ''),
                     'imageUrl': encode(element.getAttribute('data-image-url') || ''),
                     'hashtags': encode(element.getAttribute('data-hashtags') || '')
@@ -306,6 +308,7 @@ function ShareBar(options) {
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
             shareContainer.className = 'share-button share-' + socialNetworkClass + className;
             socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
+            url = url.replace('%23source%23', socialNetworkClass);
 
             if (!openInPage) {
                 classPopup = this.classPopup;
@@ -350,7 +353,8 @@ function ShareBar(options) {
         createFacebookButton: function createFacebookButton(container, buttonClass) {
             var onShare = '',
                 button = '',
-                data = this.getMetadataFromElement(container);
+                data = this.getMetadataFromElement(container),
+                url = data.url.replace('%23source%23', 'facebook');
             buttonClass = buttonClass || '';
 
             button = this.createButton(
@@ -369,7 +373,7 @@ function ShareBar(options) {
 
                 FB.ui({
                     method: 'feed',
-                    link: decode(data.url),
+                    link: decode(url),
                     name: decode(data.title),
                     picture: decode(data.imageUrl)
                 });

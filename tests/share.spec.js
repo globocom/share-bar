@@ -471,7 +471,7 @@ describe('ShareBar - Methods Test Case', function () {
         it('should return a dictionary with metadata from element', function () {
             var data = this.newBar.getMetadataFromElement(this.el),
                 expectedData = {
-                    'url': window.encodeURIComponent('http://globo.com'),
+                    'url': window.encodeURIComponent('http://globo.com?utm_source=#source#&utm_medium=share-bar-desktop&utm_campaign=share-bar'),
                     'title': window.encodeURIComponent('Test title'),
                     'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
                     'hashtags': window.encodeURIComponent('#test #g1')
@@ -484,7 +484,7 @@ describe('ShareBar - Methods Test Case', function () {
     describe('createButton', function () {
         it('should create share button', function () {
             this.newBar.createButton(this.el, 'test', '', 'urltest');
-            expect(this.el.querySelector('.share-test a[href="urltest"]')).not.toBe(null);
+            expect(this.el.querySelector('.share-test a')).not.toBe(null);
         });
 
         it('should call createContentButton method', function () {
@@ -521,6 +521,11 @@ describe('ShareBar - Methods Test Case', function () {
                 button = this.newBar.createButton(this.el, 'test', '', '<a href="test">test</a>');
 
             expect(spy).toHaveBeenCalledWith(button);
+        });
+
+        it('should set href with url', function () {
+            this.newBar.createButton(this.el, 'test', '', 'urltest');
+            expect(this.el.querySelector('.share-test a').getAttribute("href")).toEqual('urltest');
         });
     });
 
@@ -559,7 +564,9 @@ describe('ShareBar - Methods Test Case', function () {
             this.newBar.createFacebookButton(this.el);
 
             link = this.el.querySelector('.share-button.share-facebook a');
-            expect(link.href).toEqual('http://www.facebook.com/');
+            expect(link.href).toEqual(
+                'http://www.facebook.com/'
+            );
         });
 
         it('should call getFacebookUi method', function () {
@@ -575,7 +582,7 @@ describe('ShareBar - Methods Test Case', function () {
             click(this.el.querySelector('.share-button.share-facebook a'));
             expect(window.FB.ui).toHaveBeenCalledWith({
                 method: 'feed',
-                link: 'http://globo.com',
+                link: 'http://globo.com?utm_source=facebook&utm_medium=share-bar-desktop&utm_campaign=share-bar',
                 name: 'Test title',
                 picture: 'http://g1.globo.com'
             });
@@ -594,7 +601,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-twitter a');
             expect(link.href).toEqual(
-                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com&text=Test%20title%20%23test%20%23g1'
+                'https://twitter.com/share?url=http%3A%2F%2Fglobo.com%3Futm_source%3Dtwitter%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar&text=Test%20title%20%23test%20%23g1'
             );
         });
     });
@@ -611,7 +618,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-googleplus a');
             expect(link.href).toEqual(
-                'https://plus.google.com/share?url=http%3A%2F%2Fglobo.com'
+                'https://plus.google.com/share?url=http%3A%2F%2Fglobo.com%3Futm_source%3Dgoogleplus%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar'
             );
         });
     });
@@ -628,7 +635,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-pinterest a');
             expect(link.href).toEqual(
-                'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
+                'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com%3Futm_source%3Dpinterest%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
             );
         });
     });
@@ -649,7 +656,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-whatsapp a');
             expect(link.href).toEqual(
-                'whatsapp://send?text=Test%20title%20http%3A%2F%2Fglobo.com'
+                'whatsapp://send?text=Test%20title%20http%3A%2F%2Fglobo.com%3Futm_source%3Dwhatsapp%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar'
             );
         });
 
@@ -678,7 +685,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-email a');
             expect(link.href).toEqual(
-                'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com'
+                'mailto:?subject=Test%20title&body=http%3A%2F%2Fglobo.com%3Futm_source%3Demail%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar'
             );
         });
 
