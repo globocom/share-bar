@@ -185,6 +185,17 @@ Default:
 Ps: Uma nota importante com relação ao ícone do whatsapp. Seu aparecimento se dá em devices com telas menores que 768px e que possuem touch(seja o sistema operacional Android ou Ios).
 ```
 
+**context**
+
+Permite alterar o contexto de renderização da barra, essa informação é enviada via parâmetro utm_medium. Essa informação pode ser usada caso haja diferentes templates onde a barra é renderizada e existe a necessidade de filtrar no google analytics visitas baseada nessa informação de contexto.
+
+Default: ```desktop```
+```
+<script>
+    new ShareBar({'context': 'mobile'});
+</script>
+```
+
 **onCreateBar**
 
 Callback que permite executar uma ação após a criação da barra. Ela recebe por parâmetro a barra que acabou de ser criada.
@@ -221,7 +232,7 @@ Default: ```function (button) { return false; }```
 
 É possivel chamar diretamente o método createBar para criar uma barra quando quiser.
 
-Exemplo: 
+Exemplo:
 ```
 var la = new ShareBar({'maxSocialButtons': 10});
 la.createBar(document.querySelector('.minha-barra'));
