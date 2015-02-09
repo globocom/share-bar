@@ -135,7 +135,7 @@ function ShareBar(options) {
                     if (method) {
                         networks[i] = method;
                     } else {
-                        throw new Error('The list of networks passed on initialization is wrong [Netowrk name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
+                        throw new Error('The list of networks passed on initialization is wrong [Network name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
                     }
 
                 } else if (typeof networks[i] !== 'function') {
