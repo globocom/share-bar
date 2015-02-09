@@ -123,7 +123,7 @@ function ShareBar(options) {
                 method = '';
 
             if (Object.prototype.toString.call(networks) !== '[object Array]') {
-                throw new Error('The list of networks passed on inicialization is wrong [Should be an Array]');
+                throw new Error('The list of networks passed on initialization is wrong [Should be an Array]');
             }
 
             for (i; i < networks.length; i++) {
@@ -135,11 +135,11 @@ function ShareBar(options) {
                     if (method) {
                         networks[i] = method;
                     } else {
-                        throw new Error('The list of networks passed on inicialization is wrong [Netowrk name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
+                        throw new Error('The list of networks passed on initialization is wrong [Netowrk name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
                     }
 
                 } else if (typeof networks[i] !== 'function') {
-                    throw new Error('The list of networks passed on inicialization is wrong [Should be string or function]');
+                    throw new Error('The list of networks passed on initialization is wrong [Should be string or function]');
                 }
             }
 
