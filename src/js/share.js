@@ -315,7 +315,7 @@ function ShareBar(options) {
             }
 
             shareContainer.innerHTML = [
-                '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '">',
+                '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '" target="_blank">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
             ].join('');
