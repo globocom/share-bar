@@ -254,7 +254,7 @@ describe('ShareBar - Methods Test Case', function () {
             this.newBar.createBar(el2);
 
             click(popup);
-            expect(spy.callCount).toEqual(1);
+            expect(spy.calls.count()).toEqual(1);
         });
     });
 
@@ -262,8 +262,8 @@ describe('ShareBar - Methods Test Case', function () {
         beforeEach(function () {
             this.popup = createPopupElement();
             this.eventClick = click(this.popup);
-            this.spyWindowsOpen = spyOn(window, 'open').andReturn(window);
-            this.spyWindowsFocus = spyOn(window, 'focus').andReturn(window);
+            this.spyWindowsOpen = spyOn(window, 'open').and.returnValue(window);
+            this.spyWindowsFocus = spyOn(window, 'focus').and.returnValue(window);
         });
 
         it('should call window.open to open popup', function () {
@@ -297,13 +297,13 @@ describe('ShareBar - Methods Test Case', function () {
 
     describe('createBar', function () {
         it('should call validateNetworks method', function () {
-            var spy = spyOn(ShareBar.prototype, 'validateNetworks').andCallThrough();
+            var spy = spyOn(ShareBar.prototype, 'validateNetworks').and.callThrough();
             this.newBar.createBar(this.el);
             expect(spy).toHaveBeenCalledWith(this.newBar.networks);
         });
 
         it('should call validateNetworks method with custom networks', function () {
-            var spy = spyOn(ShareBar.prototype, 'validateNetworks').andCallThrough(),
+            var spy = spyOn(ShareBar.prototype, 'validateNetworks').and.callThrough(),
                 network = ['facebook'];
             this.newBar.createBar(this.el, network);
             expect(spy).toHaveBeenCalledWith(network);
@@ -322,7 +322,7 @@ describe('ShareBar - Methods Test Case', function () {
             this.newBar.networks = [spy, spy, spy, spy, spy, spy, spy];
             this.newBar.createBar(this.el);
 
-            expect(spy.calls.length).toEqual(6);
+            expect(spy.calls.count()).toEqual(6);
         });
 
         it('should set class share-bar-container on container element', function () {
@@ -374,7 +374,7 @@ describe('ShareBar - Methods Test Case', function () {
     describe('getButtonsSize', function () {
         it('should call getButtonsSmall when container is small', function () {
             var spy = spyOn(ShareBar.prototype, 'getButtonsSmall');
-            spyOn(this.newBar, 'isSmallScreen').andReturn(false);
+            spyOn(this.newBar, 'isSmallScreen').and.returnValue(false);
             this.newBar.getButtonsSize(20, 6);
 
             expect(spy).toHaveBeenCalledWith(6, 25, 20);
@@ -382,7 +382,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should return all elements as is when container is big and is small sreen', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(true);
 
             result = this.newBar.getButtonsSize(200, 6);
 
@@ -393,7 +393,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should call getButtonsFull when container is big', function () {
             var spy = spyOn(ShareBar.prototype, 'getButtonsFull');
-            spyOn(this.newBar, 'isSmallScreen').andReturn(false);
+            spyOn(this.newBar, 'isSmallScreen').and.returnValue(false);
             this.newBar.getButtonsSize(150, 6);
 
             expect(spy).toHaveBeenCalledWith(6, 50, 25, 150);
@@ -403,7 +403,7 @@ describe('ShareBar - Methods Test Case', function () {
     describe('getButtonsSmall', function () {
         it('should return all elements as hidden when container is smallest than button', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
             result = this.newBar.getButtonsSmall(6, 25, 20);
 
             expect(result).toEqual(
@@ -413,7 +413,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should return some elements as small when container is small', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
             result = this.newBar.getButtonsSmall(6, 25, 75);
 
             expect(result).toEqual(
@@ -423,7 +423,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should return some elements as is when container is small and is small sreen', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(true);
             result = this.newBar.getButtonsSmall(6, 25, 75);
 
             expect(result).toEqual(
@@ -435,7 +435,7 @@ describe('ShareBar - Methods Test Case', function () {
     describe('getButtonsFull', function () {
         it('should return all elements as small when container is a little bigger', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
 
             result = this.newBar.getButtonsFull(6, 50, 25, 160);
 
@@ -446,7 +446,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should return some elements as full when container is big', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
 
             result = this.newBar.getButtonsFull(6, 50, 25, 225);
 
@@ -457,7 +457,7 @@ describe('ShareBar - Methods Test Case', function () {
 
         it('should return all elements as full when container is very big', function () {
             var result = [];
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
 
             result = this.newBar.getButtonsFull(6, 50, 25, 300);
 
@@ -642,16 +642,16 @@ describe('ShareBar - Methods Test Case', function () {
 
     describe('createWhatsappButton', function () {
         it('should create whatsapp button when device is iphone', function () {
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(true);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(true);
             this.newBar.createWhatsappButton(this.el);
             expect(this.el.querySelector('.share-button.share-whatsapp a span')).not.toBe(null);
         });
 
         it('should set link href with metadata of container', function () {
             var link = '';
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(true);
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(true);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(true);
             this.newBar.createWhatsappButton(this.el);
 
             link = this.el.querySelector('.share-button.share-whatsapp a');
@@ -661,8 +661,8 @@ describe('ShareBar - Methods Test Case', function () {
         });
 
         it('should not create whatsapp button when is not mobile device', function () {
-            spyOn(ShareBar.prototype, 'isSmallScreen').andReturn(false);
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
+            spyOn(ShareBar.prototype, 'isSmallScreen').and.returnValue(false);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(false);
             this.newBar.createWhatsappButton(this.el);
             expect(this.el.querySelector('.share-button.share-whatsapp a span')).toBe(null);
         });
@@ -690,7 +690,7 @@ describe('ShareBar - Methods Test Case', function () {
         });
 
         it('should not create email button when is not mobile device', function () {
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(false);
             this.newBar.createEmailButton(this.el);
             expect(this.el.querySelector('.share-button.share-email a span')).toBe(null);
         });
@@ -723,7 +723,7 @@ describe('ShareBar - Methods Test Case', function () {
         it('should add class no-touch for desktop', function () {
             var html;
 
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(false);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(false);
             this.newBar.verifyTouch();
 
             html = document.querySelector('html');
@@ -733,7 +733,7 @@ describe('ShareBar - Methods Test Case', function () {
         it('should add class touch for touch devices', function () {
             var html;
 
-            spyOn(ShareBar.prototype, 'isTouch').andReturn(true);
+            spyOn(ShareBar.prototype, 'isTouch').and.returnValue(true);
             this.newBar.verifyTouch();
 
             html = document.querySelector('html');
