@@ -135,7 +135,7 @@ describe('ShareBar - Methods Test Case', function () {
             expect(
                 function () {self.newBar.validateNetworks('facebook'); }
             ).toThrow(
-                new Error('The list of networks passed on inicialization is wrong [Should be an Array]')
+                new Error('The list of networks passed on initialization is wrong [Should be an Array]')
             );
         });
 
@@ -155,7 +155,7 @@ describe('ShareBar - Methods Test Case', function () {
             expect(
                 function () {self.newBar.validateNetworks(['facebrrk']); }
             ).toThrow(
-                new Error('The list of networks passed on inicialization is wrong [Netowrk name "facebrrk" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]')
+                new Error('The list of networks passed on initialization is wrong [Network name "facebrrk" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]')
             );
         });
 
@@ -171,7 +171,7 @@ describe('ShareBar - Methods Test Case', function () {
             expect(
                 function () {self.newBar.validateNetworks([{'object': 'error'}]); }
             ).toThrow(
-                new Error('The list of networks passed on inicialization is wrong [Should be string or function]')
+                new Error('The list of networks passed on initialization is wrong [Should be string or function]')
             );
         });
     });
