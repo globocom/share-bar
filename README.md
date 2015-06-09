@@ -225,7 +225,7 @@ Callback que permite executar uma ação após o click em algum botão de share.
 Default: ```function (button) { return false; }```
 ```
 <script>
-    new ShareBar({'onCreateBar': function (button) { alert(button.innerHTML); }});
+    new ShareBar({'onShare': function (button) { alert(button.innerHTML); }});
 </script>
 ```
 **createBar**
