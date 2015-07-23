@@ -384,19 +384,21 @@ function ShareBar(options) {
         },
 
         getFacebookUi: function getFacebookUi() {
-            var facebookAppId = this.facebookAppId;
+            var facebookAppId = this.facebookAppId || this.getOgFbAppId();
 
             if (window.FB) {
                 return false;
             }
 
-            window.fbAsyncInit = function () {
-                FB.init({
-                    appId: facebookAppId,
-                    xfbml: true,
-                    version: 'v2.1'
-                });
-            };
+            if (facebookAppId) {
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        appId: facebookAppId,
+                        xfbml: true,
+                        version: 'v2.1'
+                    });
+                };
+            }
 
             (function (d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -406,6 +408,14 @@ function ShareBar(options) {
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
+        },
+
+        getOgFbAppId: function() {
+            var el = document.querySelector("meta[property='fb:app_id']")
+            if (el !== null) {
+                return el.getAttribute('content');
+            }
+            return;
         },
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {
