@@ -81,6 +81,7 @@ describe('ShareBar - Setup Test Case', function () {
 
 describe('ShareBar - Methods Test Case', function () {
     'use strict';
+    var facebookAppId = "1234";
 
     beforeEach(function () {
         this.el = createShareContainer();
@@ -601,6 +602,60 @@ describe('ShareBar - Methods Test Case', function () {
                 name: 'Test title',
                 picture: 'http://g1.globo.com'
             });
+        });
+    });
+
+    describe('getFacebookUi', function() {
+        beforeEach(function(){
+            delete window.FB;
+            this.oldFacebookAppId = this.newBar.facebookAppId;
+        });
+
+        afterEach(function() {
+            this.newBar.facebookAppId = this.oldFacebookAppId;
+            delete window.FB;
+        });
+
+        it('should call pass facebookAppId to the FB SDK', function() {
+            this.newBar.facebookAppId = facebookAppId;
+            this.newBar.getFacebookUi();
+            window.FB = jasmine.createSpyObj('FB', ['init']);
+            window.fbAsyncInit();
+            expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
+        });
+
+        it('should call getOgFbAppId when facebookAppId is not defined or empty', function(){
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue(facebookAppId);
+            this.newBar.getFacebookUi();
+            window.FB = jasmine.createSpyObj('FB', ['init']);
+            window.fbAsyncInit();
+            expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
+        });
+
+        it('should not apply fbAsyncInit when facebookAppId not defined', function() {
+            delete window.fbAsyncInit;
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
+            this.newBar.getFacebookUi();
+            expect(window['fbAsyncInit']).toBeUndefined();
+        });
+    });
+
+    describe('getOgFbAppId', function(){
+        it('should return the facebook app id from meta tag', function(){
+            var metaEl = document.createElement('META');
+            metaEl.setAttribute('property', 'fb:app_id');
+            metaEl.setAttribute('content', facebookAppId);
+            document.head.appendChild(metaEl);
+            var fbId = this.newBar.getOgFbAppId();
+            document.head.removeChild(metaEl);
+            expect(fbId).toEqual(facebookAppId);
+        });
+
+        it('should return null when element is not defined', function(){
+            var fbId = this.newBar.getOgFbAppId();
+            expect(fbId).toBeUndefined();
         });
     });
 
