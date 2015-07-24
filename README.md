@@ -54,7 +54,7 @@ Para utilizar o share, basta inserir na página os arquivos JS e CSS e instancia
 </script>
 ```
 
-* É obrigatório passar a APP_ID do facebook se esta rede social estiver incluida na barra.
+* Caso não seja informado o APP_ID do facebook, o mesmo será obtido da página via [meta tag open graph](https://developers.facebook.com/docs/sharing/webmasters#basic) do facebook. Uma vez sem APP_ID, o share funcionará somente com a inicialização do facebook SDK através de outra barra com APP_ID na mesma página. De qualquer forma, é recomendado passar a APP_ID do facebook se esta rede social estiver incluida na barra.
 
 O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
 ```
