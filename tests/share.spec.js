@@ -614,6 +614,8 @@ describe('ShareBar - Methods Test Case', function () {
         afterEach(function() {
             this.newBar.facebookAppId = this.oldFacebookAppId;
             delete window.FB;
+            var node = document.getElementById('facebook-jssdk');
+            if (node !== null) node.parentNode.removeChild(node);
         });
 
         it('should call pass facebookAppId to the FB SDK', function() {
@@ -639,6 +641,19 @@ describe('ShareBar - Methods Test Case', function () {
             spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
             this.newBar.getFacebookUi();
             expect(window['fbAsyncInit']).toBeUndefined();
+        });
+
+        it('should include the facebook script tag when facebookAppId is available', function() {
+            this.newBar.facebookAppId = facebookAppId;
+            this.newBar.getFacebookUi();
+            expect(document.getElementById('facebook-jssdk')).not.toBeNull(null);
+        });
+
+        it('should not include the facebook script tag when facebookAppId is empty', function() {
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
+            this.newBar.getFacebookUi();
+            expect(document.getElementById('facebook-jssdk')).toBeNull();
         });
     });
 
