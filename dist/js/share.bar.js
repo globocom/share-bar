@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.10 - 2015-04-23
+/*! ShareBar - v3.0.11 - 2015-07-24
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
@@ -384,28 +384,39 @@ function ShareBar(options) {
         },
 
         getFacebookUi: function getFacebookUi() {
-            var facebookAppId = this.facebookAppId;
+            var facebookAppId = this.facebookAppId || this.getOgFbAppId();
 
             if (window.FB) {
                 return false;
             }
 
-            window.fbAsyncInit = function () {
-                FB.init({
-                    appId: facebookAppId,
-                    xfbml: true,
-                    version: 'v2.1'
-                });
-            };
+            if (facebookAppId) {
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        appId: facebookAppId,
+                        xfbml: true,
+                        version: 'v2.1'
+                    });
+                };
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) { return; }
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+            }
 
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) { return; }
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+        },
+
+        getOgFbAppId: function () {
+            var el = document.querySelector("meta[property='fb:app_id']");
+
+            if (el !== null) {
+                return el.getAttribute('content');
+            }
+            return;
         },
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {
