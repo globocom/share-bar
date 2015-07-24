@@ -605,20 +605,22 @@ describe('ShareBar - Methods Test Case', function () {
         });
     });
 
-    describe('getFacebookUi', function() {
-        beforeEach(function(){
+    describe('getFacebookUi', function () {
+        beforeEach(function () {
             delete window.FB;
             this.oldFacebookAppId = this.newBar.facebookAppId;
         });
 
-        afterEach(function() {
+        afterEach(function () {
             this.newBar.facebookAppId = this.oldFacebookAppId;
             delete window.FB;
             var node = document.getElementById('facebook-jssdk');
-            if (node !== null) node.parentNode.removeChild(node);
+            if (node !== null) {
+                node.parentNode.removeChild(node);
+            }
         });
 
-        it('should call pass facebookAppId to the FB SDK', function() {
+        it('should call pass facebookAppId to the FB SDK', function () {
             this.newBar.facebookAppId = facebookAppId;
             this.newBar.getFacebookUi();
             window.FB = jasmine.createSpyObj('FB', ['init']);
@@ -626,7 +628,7 @@ describe('ShareBar - Methods Test Case', function () {
             expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
         });
 
-        it('should call getOgFbAppId when facebookAppId is not defined or empty', function(){
+        it('should call getOgFbAppId when facebookAppId is not defined or empty', function () {
             this.newBar.facebookAppId = '';
             spyOn(this.newBar, 'getOgFbAppId').and.returnValue(facebookAppId);
             this.newBar.getFacebookUi();
@@ -635,21 +637,21 @@ describe('ShareBar - Methods Test Case', function () {
             expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
         });
 
-        it('should not apply fbAsyncInit when facebookAppId not defined', function() {
+        it('should not apply fbAsyncInit when facebookAppId not defined', function () {
             delete window.fbAsyncInit;
             this.newBar.facebookAppId = '';
             spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
             this.newBar.getFacebookUi();
-            expect(window['fbAsyncInit']).toBeUndefined();
+            expect(window.fbAsyncInit).toBeUndefined();
         });
 
-        it('should include the facebook script tag when facebookAppId is available', function() {
+        it('should include the facebook script tag when facebookAppId is available', function () {
             this.newBar.facebookAppId = facebookAppId;
             this.newBar.getFacebookUi();
             expect(document.getElementById('facebook-jssdk')).not.toBeNull(null);
         });
 
-        it('should not include the facebook script tag when facebookAppId is empty', function() {
+        it('should not include the facebook script tag when facebookAppId is empty', function () {
             this.newBar.facebookAppId = '';
             spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
             this.newBar.getFacebookUi();
@@ -657,18 +659,19 @@ describe('ShareBar - Methods Test Case', function () {
         });
     });
 
-    describe('getOgFbAppId', function(){
-        it('should return the facebook app id from meta tag', function(){
-            var metaEl = document.createElement('META');
+    describe('getOgFbAppId', function () {
+        it('should return the facebook app id from meta tag', function () {
+            var fbId,
+                metaEl = document.createElement('META');
             metaEl.setAttribute('property', 'fb:app_id');
             metaEl.setAttribute('content', facebookAppId);
             document.head.appendChild(metaEl);
-            var fbId = this.newBar.getOgFbAppId();
+            fbId = this.newBar.getOgFbAppId();
             document.head.removeChild(metaEl);
             expect(fbId).toEqual(facebookAppId);
         });
 
-        it('should return null when element is not defined', function(){
+        it('should return null when element is not defined', function () {
             var fbId = this.newBar.getOgFbAppId();
             expect(fbId).toBeUndefined();
         });

@@ -410,8 +410,9 @@ function ShareBar(options) {
 
         },
 
-        getOgFbAppId: function() {
-            var el = document.querySelector("meta[property='fb:app_id']")
+        getOgFbAppId: function () {
+            var el = document.querySelector("meta[property='fb:app_id']");
+
             if (el !== null) {
                 return el.getAttribute('content');
             }
