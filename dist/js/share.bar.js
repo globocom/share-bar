@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.13 - 2015-11-24
+/*! ShareBar - v3.0.14 - 2015-11-24
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
