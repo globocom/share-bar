@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.13 - 2015-07-30
+/*! ShareBar - v3.0.13 - 2015-11-24
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
@@ -283,13 +283,21 @@ function ShareBar(options) {
         getMetadataFromElement: function getMetadataFromElement(element) {
             var encode = window.encodeURIComponent,
                 url = element.getAttribute('data-url') || '',
-                data = {
-                    'url': encode(url + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar'),
-                    'title': encode(element.getAttribute('data-title') || ''),
-                    'imageUrl': encode(element.getAttribute('data-image-url') || ''),
-                    'hashtags': encode(element.getAttribute('data-hashtags') || '')
-                };
-            return data;
+                urlToShare,
+                splitUrl = url.split('#');
+
+            if (splitUrl.length > 1) {
+                urlToShare = splitUrl[0] + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar&#' + splitUrl[1];
+            } else {
+                urlToShare = url + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
+            }
+
+            return {
+                'url': encode(urlToShare),
+                'title': encode(element.getAttribute('data-title') || ''),
+                'imageUrl': encode(element.getAttribute('data-image-url') || ''),
+                'hashtags': encode(element.getAttribute('data-hashtags') || '')
+            };
         },
 
         deviceIsIphone: function deviceIsIphone() {

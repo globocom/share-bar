@@ -14,11 +14,16 @@ function click(element) {
     return event;
 }
 
-function createShareContainer() {
+function createShareContainer(hashUrl) {
     'use strict';
     var element = document.createElement('div');
     element.className = 'share-bar';
-    element.setAttribute('data-url', 'http://globo.com');
+
+    if (hashUrl) {
+        element.setAttribute('data-url', 'http://globo.com' + hashUrl);
+    } else {
+        element.setAttribute('data-url', 'http://globo.com');
+    }
     element.setAttribute('data-title', 'Test title');
     element.setAttribute('data-image-url', 'http://g1.globo.com');
     element.setAttribute('data-hashtags', '#test #g1');
@@ -479,6 +484,28 @@ describe('ShareBar - Methods Test Case', function () {
                 };
 
             expect(data).toEqual(expectedData);
+        });
+        it('should return a hash in the end of url', function () {
+            document.body.removeChild(this.el);
+            this.el = createShareContainer("#12345");
+
+            var newBar = createBar({
+                'selector': '.no-elements',
+                'buttonWidth': 21,
+                'buttonFullWidth': 46,
+                'buttonPadding': 4
+            }),
+
+                data = newBar.getMetadataFromElement(this.el),
+
+                expectedData = {
+                    'url': window.encodeURIComponent('http://globo.com?utm_source=#source#&utm_medium=share-bar-desktop&utm_campaign=share-bar&#12345'),
+                    'title': window.encodeURIComponent('Test title'),
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
+                    'hashtags': window.encodeURIComponent('#test #g1')
+                };
+
+            expect(data.url).toEqual(expectedData.url);
         });
     });
 
