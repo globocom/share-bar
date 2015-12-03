@@ -381,6 +381,7 @@ function ShareBar(options) {
 
                 FB.ui({
                     method: 'feed',
+                    display: 'popup',
                     link: decode(url),
                     name: decode(data.title),
                     picture: decode(data.imageUrl)
@@ -460,7 +461,7 @@ function ShareBar(options) {
                 container,
                 'pinterest',
                 buttonClass,
-                'http://www.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
+                'http://br.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
             );
         },
 

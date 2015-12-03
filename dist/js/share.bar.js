@@ -1,4 +1,4 @@
-/*! ShareBar - v3.0.14 - 2015-11-24
+/*! ShareBar - v3.0.15 - 2015-12-03
 * Copyright (c) 2015 Globo.com; Licensed MIT */
 var BUTTON_WIDTH = 34;
 var BUTTON_FULL_WIDTH = 110;
@@ -381,6 +381,7 @@ function ShareBar(options) {
 
                 FB.ui({
                     method: 'feed',
+                    display: 'popup',
                     link: decode(url),
                     name: decode(data.title),
                     picture: decode(data.imageUrl)
@@ -460,7 +461,7 @@ function ShareBar(options) {
                 container,
                 'pinterest',
                 buttonClass,
-                'http://www.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
+                'http://br.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
             );
         },
 
