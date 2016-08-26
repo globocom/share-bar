@@ -284,7 +284,6 @@ Para gerar uma nova versão (tag) do plugin basta rodar o comando de bump:
 $ grunt bump
 ```
 
-
 License
 ----
 
