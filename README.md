@@ -261,14 +261,14 @@ $ make run
 
 **ícones**
 
-Os ícones hoje utilizados no projeto são svg's embedados junto ao javascript. Existe também um fallback para browsers que não suportam svg e são fontes geradas a partir dos svg's no projeto. A fonte de ícones está embedada no css gerado.
+Os ícones hoje utilizados no projeto são svg's embedados junto ao javascript.
 
 Adicionando ícones svg ao projeto:
 1 - Adicione o seu svg ao path de imagens
 ```
 $ mv ~/caminho/da/imagem.svg caminho/do/share/src/img/
 ```
-2 - Regere o svg embeded e a fonte de ícones
+2 - Regere o svg embeded
 ```
 $ grunt icon
 ```
@@ -290,7 +290,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 globo.com
+Copyright (c) 2016 globo.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
