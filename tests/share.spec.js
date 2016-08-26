@@ -14,11 +14,16 @@ function click(element) {
     return event;
 }
 
-function createShareContainer() {
+function createShareContainer(hashUrl) {
     'use strict';
     var element = document.createElement('div');
     element.className = 'share-bar';
-    element.setAttribute('data-url', 'http://globo.com');
+
+    if (hashUrl) {
+        element.setAttribute('data-url', 'http://globo.com' + hashUrl);
+    } else {
+        element.setAttribute('data-url', 'http://globo.com');
+    }
     element.setAttribute('data-title', 'Test title');
     element.setAttribute('data-image-url', 'http://g1.globo.com');
     element.setAttribute('data-hashtags', '#test #g1');
@@ -81,6 +86,7 @@ describe('ShareBar - Setup Test Case', function () {
 
 describe('ShareBar - Methods Test Case', function () {
     'use strict';
+    var facebookAppId = "1234";
 
     beforeEach(function () {
         this.el = createShareContainer();
@@ -479,6 +485,28 @@ describe('ShareBar - Methods Test Case', function () {
 
             expect(data).toEqual(expectedData);
         });
+        it('should return a hash in the end of url', function () {
+            document.body.removeChild(this.el);
+            this.el = createShareContainer("#12345");
+
+            var newBar = createBar({
+                'selector': '.no-elements',
+                'buttonWidth': 21,
+                'buttonFullWidth': 46,
+                'buttonPadding': 4
+            }),
+
+                data = newBar.getMetadataFromElement(this.el),
+
+                expectedData = {
+                    'url': window.encodeURIComponent('http://globo.com?utm_source=#source#&utm_medium=share-bar-desktop&utm_campaign=share-bar&#12345'),
+                    'title': window.encodeURIComponent('Test title'),
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
+                    'hashtags': window.encodeURIComponent('#test #g1')
+                };
+
+            expect(data.url).toEqual(expectedData.url);
+        });
     });
 
     describe('createButton', function () {
@@ -552,16 +580,6 @@ describe('ShareBar - Methods Test Case', function () {
             expect(result).toContain('<svg viewBox="0 0 100 100" class="share-icon">');
             expect(result).toContain('<span>test</span>');
         });
-
-        it('should return icon element when SVG is disabled', function () {
-            var result;
-
-            this.newBar.supportSvg = false;
-            result = this.newBar.createContentButton('test');
-
-            expect(result).toContain('<i class="share-font ico-share-test"></i>');
-            expect(result).toContain('<span>test</span>');
-        });
     });
 
     describe('createFacebookButton', function () {
@@ -597,10 +615,83 @@ describe('ShareBar - Methods Test Case', function () {
             click(this.el.querySelector('.share-button.share-facebook a'));
             expect(window.FB.ui).toHaveBeenCalledWith({
                 method: 'feed',
+                display: 'popup',
                 link: 'http://globo.com?utm_source=facebook&utm_medium=share-bar-desktop&utm_campaign=share-bar',
                 name: 'Test title',
                 picture: 'http://g1.globo.com'
             });
+        });
+    });
+
+    describe('getFacebookUi', function () {
+        beforeEach(function () {
+            delete window.FB;
+            this.oldFacebookAppId = this.newBar.facebookAppId;
+        });
+
+        afterEach(function () {
+            this.newBar.facebookAppId = this.oldFacebookAppId;
+            delete window.FB;
+            var node = document.getElementById('facebook-jssdk');
+            if (node !== null) {
+                node.parentNode.removeChild(node);
+            }
+        });
+
+        it('should call pass facebookAppId to the FB SDK', function () {
+            this.newBar.facebookAppId = facebookAppId;
+            this.newBar.getFacebookUi();
+            window.FB = jasmine.createSpyObj('FB', ['init']);
+            window.fbAsyncInit();
+            expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
+        });
+
+        it('should call getOgFbAppId when facebookAppId is not defined or empty', function () {
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue(facebookAppId);
+            this.newBar.getFacebookUi();
+            window.FB = jasmine.createSpyObj('FB', ['init']);
+            window.fbAsyncInit();
+            expect(window.FB.init).toHaveBeenCalledWith(jasmine.objectContaining({appId: facebookAppId}));
+        });
+
+        it('should not apply fbAsyncInit when facebookAppId not defined', function () {
+            delete window.fbAsyncInit;
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
+            this.newBar.getFacebookUi();
+            expect(window.fbAsyncInit).toBeUndefined();
+        });
+
+        it('should include the facebook script tag when facebookAppId is available', function () {
+            this.newBar.facebookAppId = facebookAppId;
+            this.newBar.getFacebookUi();
+            expect(document.getElementById('facebook-jssdk')).not.toBeNull(null);
+        });
+
+        it('should not include the facebook script tag when facebookAppId is empty', function () {
+            this.newBar.facebookAppId = '';
+            spyOn(this.newBar, 'getOgFbAppId').and.returnValue('');
+            this.newBar.getFacebookUi();
+            expect(document.getElementById('facebook-jssdk')).toBeNull();
+        });
+    });
+
+    describe('getOgFbAppId', function () {
+        it('should return the facebook app id from meta tag', function () {
+            var fbId,
+                metaEl = document.createElement('META');
+            metaEl.setAttribute('property', 'fb:app_id');
+            metaEl.setAttribute('content', facebookAppId);
+            document.head.appendChild(metaEl);
+            fbId = this.newBar.getOgFbAppId();
+            document.head.removeChild(metaEl);
+            expect(fbId).toEqual(facebookAppId);
+        });
+
+        it('should return null when element is not defined', function () {
+            var fbId = this.newBar.getOgFbAppId();
+            expect(fbId).toBeUndefined();
         });
     });
 
@@ -650,7 +741,7 @@ describe('ShareBar - Methods Test Case', function () {
 
             link = this.el.querySelector('.share-button.share-pinterest a');
             expect(link.href).toEqual(
-                'http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com%3Futm_source%3Dpinterest%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
+                'http://br.pinterest.com/pin/create/button/?url=http%3A%2F%2Fglobo.com%3Futm_source%3Dpinterest%26utm_medium%3Dshare-bar-desktop%26utm_campaign%3Dshare-bar&media=http%3A%2F%2Fg1.globo.com&description=Test%20title'
             );
         });
     });
@@ -753,12 +844,6 @@ describe('ShareBar - Methods Test Case', function () {
 
             html = document.querySelector('html');
             expect(html.className).toEqual(' touch');
-        });
-    });
-
-    describe('hasSupportSvg', function () {
-        xit('should verify if has support for svg in the browser', function () {
-            return false;
         });
     });
 });

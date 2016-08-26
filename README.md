@@ -54,7 +54,7 @@ Para utilizar o share, basta inserir na página os arquivos JS e CSS e instancia
 </script>
 ```
 
-* É obrigatório passar a APP_ID do facebook se esta rede social estiver incluida na barra.
+* Caso não seja informado o APP_ID do facebook, o mesmo será obtido da página via [meta tag open graph](https://developers.facebook.com/docs/sharing/webmasters#basic) do facebook. Uma vez sem APP_ID, o share funcionará somente com a inicialização de outra barra com APP_ID na mesma página. De qualquer forma, é recomendado passar a APP_ID do facebook se esta rede social estiver incluida na barra.
 
 O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
 ```
@@ -225,7 +225,7 @@ Callback que permite executar uma ação após o click em algum botão de share.
 Default: ```function (button) { return false; }```
 ```
 <script>
-    new ShareBar({'onCreateBar': function (button) { alert(button.innerHTML); }});
+    new ShareBar({'onShare': function (button) { alert(button.innerHTML); }});
 </script>
 ```
 **createBar**
@@ -261,14 +261,14 @@ $ make run
 
 **ícones**
 
-Os ícones hoje utilizados no projeto são svg's embedados junto ao javascript. Existe também um fallback para browsers que não suportam svg e são fontes geradas a partir dos svg's no projeto. A fonte de ícones está embedada no css gerado.
+Os ícones hoje utilizados no projeto são svg's embedados junto ao javascript.
 
 Adicionando ícones svg ao projeto:
 1 - Adicione o seu svg ao path de imagens
 ```
 $ mv ~/caminho/da/imagem.svg caminho/do/share/src/img/
 ```
-2 - Regere o svg embeded e a fonte de ícones
+2 - Regere o svg embeded
 ```
 $ grunt icon
 ```
@@ -290,7 +290,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 globo.com
+Copyright (c) 2016 globo.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

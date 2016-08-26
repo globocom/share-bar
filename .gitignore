@@ -5,3 +5,5 @@ _SpecRunner.html
 tests/reports/*
 .sass-cache/
 src/fonts/
+dist/.DS_Store
+.DS_Store
