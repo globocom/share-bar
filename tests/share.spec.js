@@ -846,10 +846,4 @@ describe('ShareBar - Methods Test Case', function () {
             expect(html.className).toEqual(' touch');
         });
     });
-
-    describe('hasSupportSvg', function () {
-        xit('should verify if has support for svg in the browser', function () {
-            return false;
-        });
-    });
 });

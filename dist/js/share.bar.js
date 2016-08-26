@@ -1,10 +1,4 @@
-/*! ShareBar - v3.0.15 - 2016-08-26
-* Copyright (c) 2016 Globo.com; Licensed MIT */
-var BUTTON_WIDTH = 34;
-var BUTTON_FULL_WIDTH = 110;
-var BUTTON_PADDING = 4;
-var MAX_SOCIAL_BUTTONS = 6;
-
+/*! ShareBar - v3.0.15 - 2016-08-26 - * Copyright (c) 2016 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -12,6 +6,18 @@ function ShareBar(options) {
 
 (function (window, document) {
     'use strict';
+
+    var FACEBOOK = 'facebook',
+        TWITTER = 'twitter',
+        WHATSAPP = 'whatsapp',
+        GOOGLE = 'google',
+        PINTEREST = 'pinterest',
+        EMAIL = 'email',
+        BUTTON_WIDTH = 34,
+        BUTTON_FULL_WIDTH = 110,
+        BUTTON_PADDING = 4,
+        MAX_SOCIAL_BUTTONS = 6,
+        SHARE_BUTTON = 'share-button';
 
     function preventDefault(e) {
         if (e && e.preventDefault) {
@@ -47,13 +53,15 @@ function ShareBar(options) {
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
         verifyTouch: function verifyTouch() {
             var html = document.querySelector('html'),
-                isTouch = this.isTouch();
+                isTouch = this.isTouch(),
+                touch = ' touch',
+                noTouch = ' no-touch';
 
-            if (isTouch && html.className.indexOf(' touch') === -1) {
-                html.className += ' touch';
+            if (isTouch && html.className.indexOf(touch) === -1) {
+                html.className += touch;
 
-            } else if (!isTouch && html.className.indexOf(' no-touch') === -1) {
-                html.className += ' no-touch';
+            } else if (!isTouch && html.className.indexOf(noTouch) === -1) {
+                html.className += noTouch;
             }
         },
 
@@ -68,7 +76,7 @@ function ShareBar(options) {
 
         createSVG: function createSVG() {
             var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><symbol viewBox="0 0 500 500" id="icon-email"><title>email</title><path d="M1.369 386.854c0 27.481 22.258 49.766 49.729 49.766h398.193c27.472 0 49.729-22.283 49.729-49.766V137.985S486.056 148.124 299.874 286.4c-28.297 17.069-69.558 17.459-99.372-.243C18.573 151.058 1.381 137.997 1.381 137.997l-.012 248.857zm228.099-157.947c9.294 5.564 32.148 5.759 41.844 0 97.806-70.979 116.88-85.534 209.169-154.526-7.619-6.743-19.379-11.001-31.189-11.001H51.098a49.483 49.483 0 0 0-31.347 11.136c102.398 74.878 111.523 81.56 209.717 154.391z"/></symbol><symbol viewBox="0 0 500 500" id="icon-facebook"><title>facebook</title><path id="facebook-White_2_" d="M471.379 1.153H28.622c-15.173 0-27.469 12.296-27.469 27.469v442.757c0 15.168 12.296 27.469 27.469 27.469h238.365V306.113h-64.858v-75.111h64.858v-55.393c0-64.283 39.262-99.287 96.607-99.287 27.469 0 51.076 2.045 57.957 2.959v67.18l-39.771.018c-31.188 0-37.227 14.82-37.227 36.567v47.956h74.379l-9.684 75.111h-64.695v192.734h126.826c15.168 0 27.469-12.301 27.469-27.469V28.622c0-15.173-12.301-27.469-27.469-27.469z"/></symbol><symbol viewBox="0 0 500 500" id="icon-googleplus"><title>googleplus</title><path fill-rule="evenodd" clip-rule="evenodd" d="M332.72 1.512H185.872c-97.906 0-150.835 45.908-150.835 125.266 0 65.242 60.163 109.498 131.258 99.056-17.323 33.057 1.329 57.072 13.394 69.564-97.456 0-178.004 42.251-178.004 105.626 0 55.68 47.381 97.248 141.948 97.248 102.436 0 174.965-55.934 174.965-123.885 0-23.46-7.442-43.73-25.771-64.509-31.965-36.229-70.957-46.018-70.957-71.558 0-23.24 22.223-34.421 39.962-49.687 27.123-23.333 35.952-53.148 33.884-82.732-2.866-41.055-27.077-65.086-44.215-77.7 15.254.029 37.547.364 37.547.364L332.72 1.512zm-69.605 364.959c26.291 35.768 6.876 103.269-86.362 103.269-52.189 0-116.27-21.067-116.27-80.906 0-70.286 102.021-75.117 140.226-75.117 23.021 16.848 45.869 30.254 62.406 52.754zm-63.977-162.004c-45.116 18.017-81.727-10.47-99.57-68.952-14.48-47.405-3.872-93.318 29.746-105.112 43.718-15.33 79.012 9.32 98.334 62.959 21.46 59.546 6.957 95.007-28.51 111.105zm240.121 9.696v-59.1h-35.421v59.1h-59.204v35.369h59.204v59.608h35.421v-59.608h59.446v-35.369h-59.446z"/></symbol><symbol viewBox="0 0 500 500" id="icon-pinterest"><title>pinterest</title><path d="M250.425 1.195C113.12 1.195 1.805 112.499 1.805 249.81c0 101.799 61.205 189.248 148.813 227.705-.704-17.358-.133-38.189 4.321-57.078 4.783-20.188 31.999-135.472 31.999-135.472s-7.951-15.878-7.951-39.331c0-36.854 21.353-64.367 47.949-64.367 22.615 0 33.541 16.982 33.541 37.328 0 22.73-14.494 56.732-21.96 88.22-6.227 26.379 13.231 47.889 39.246 47.889 47.1 0 78.831-60.501 78.831-132.176 0-54.493-36.696-95.28-103.449-95.28-75.42 0-122.398 56.24-122.398 119.066 0 21.656 6.385 36.927 16.388 48.75 4.601 5.438 5.244 7.623 3.569 13.862-1.189 4.577-3.933 15.587-5.062 19.957-1.651 6.288-6.761 8.546-12.442 6.215-34.742-14.178-50.923-52.21-50.923-94.976 0-70.619 59.566-155.308 177.692-155.308 94.915 0 157.383 68.683 157.383 142.416 0 97.526-54.213 170.384-134.137 170.384-26.84 0-52.089-14.494-60.744-30.979 0 0-14.433 57.271-17.48 68.343-5.281 19.167-15.599 38.335-25.031 53.267a248.756 248.756 0 0 0 70.467 10.185c137.281 0 248.596-111.304 248.596-248.621-.002-137.31-111.317-248.614-248.598-248.614z"/></symbol><symbol viewBox="0 0 500 500" id="icon-twitter"><title>twitter</title><path d="M498.717 96.337c-18.296 8.108-37.961 13.593-58.599 16.056 21.062-12.629 37.239-32.599 44.851-56.426a204.093 204.093 0 0 1-64.778 24.759c-18.614-19.821-45.126-32.214-74.474-32.214-56.338 0-102.01 45.666-102.01 101.977 0 8.001.896 15.78 2.638 23.24-84.795-4.249-159.969-44.841-210.282-106.55-8.784 15.059-13.811 32.585-13.811 51.272 0 35.392 18 66.593 45.383 84.883a101.612 101.612 0 0 1-46.219-12.758c-.007.425-.007.857-.007 1.296 0 49.403 35.175 90.608 81.846 99.972a102.025 102.025 0 0 1-26.877 3.584c-6.578 0-12.973-.642-19.193-1.822 12.98 40.52 50.651 69.993 95.292 70.815-34.913 27.343-78.897 43.656-126.695 43.656-8.238 0-16.36-.479-24.334-1.424 45.14 28.928 98.772 45.821 156.379 45.821 187.655 0 290.266-155.389 290.266-290.152 0-4.426-.088-8.818-.289-13.203 19.934-14.375 37.231-32.327 50.913-52.782z"/></symbol><symbol viewBox="0 0 500 500" id="icon-whatsapp"><title>whatsapp</title><path fill-rule="evenodd" clip-rule="evenodd" d="M254.551 1C119.792 1 10.542 109.368 10.542 243.056c0 45.74 12.796 88.506 35.012 124.986L1.513 497.92l135.095-42.91c34.962 19.171 75.159 30.114 117.942 30.114 134.77 0 244.009-108.396 244.009-242.068C498.56 109.368 389.32 1 254.551 1zm0 443.563c-41.255 0-79.676-12.277-111.759-33.319l-78.06 24.792 25.371-74.828c-24.312-33.23-38.68-74.05-38.68-118.152 0-111.108 91.126-201.518 203.128-201.518 112.013 0 203.134 90.409 203.134 201.518 0 111.115-91.122 201.507-203.134 201.507zm114.407-146.501c-6.117-3.32-36.159-19.408-41.797-21.692-5.637-2.261-9.751-3.441-14.136 2.587-4.391 6.018-16.855 19.492-20.633 23.474-3.795 3.993-7.44 4.363-13.562 1.037-6.105-3.314-25.934-10.59-48.928-32.519-17.892-17.06-29.629-37.765-33.038-44.074-3.403-6.315-.022-9.547 3.215-12.493 2.901-2.68 6.503-6.994 9.751-10.49 3.243-3.491 4.385-6.017 6.619-10.077 2.228-4.037 1.334-7.688-.11-10.838-1.445-3.138-12.752-34.008-17.479-46.572-4.721-12.564-9.983-10.689-13.618-10.821-3.635-.144-7.766-.816-11.924-.971-4.147-.149-10.959 1.147-16.899 7.126-5.94 5.957-22.597 20.308-23.744 50.709-1.147 30.406 20.06 60.609 23.016 64.845 2.962 4.236 40.495 70.14 102.875 97.237 62.385 27.087 62.71 18.836 74.16 18.229 11.45-.596 37.417-13.579 43.153-27.809 5.741-14.229 6.199-26.596 4.737-29.237-1.455-2.632-5.548-4.342-11.658-7.651z"/></symbol></svg>';
+            svgContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><symbol viewBox="0 0 500 500" id="icon-email"><title>email</title><path d="M1 387c0 27 23 50 50 50h398c28 0 50-23 50-50V138L300 286c-28 17-70 18-99 0L1 138v249zm228-158c10 5 33 6 42 0 98-71 117-86 209-155-7-6-19-11-31-11H51c-12 0-23 5-31 12l209z"/></symbol><symbol viewBox="0 0 500 500" id="icon-facebook"><title>facebook</title><path d="M471 1H29C13 1 1 13 1 29v442c0 16 12 28 28 28h238V306h-65v-75h65v-55c0-65 39-100 97-100 27 0 51 2 58 3v67h-40c-31 0-37 15-37 37v48h74l-10 75h-64v193h126c16 0 28-12 28-28V29c0-16-12-28-28-28z"/></symbol><symbol viewBox="0 0 500 500" id="icon-googleplus"><title>googleplus</title><path d="M333 2H186C88 2 35 47 35 127c0 65 60 109 131 99-17 33 2 57 14 69C82 295 2 338 2 401c0 56 47 97 142 97 102 0 175-56 175-124 0-23-8-43-26-64-32-36-71-46-71-72 0-23 22-34 40-49 27-24 36-54 34-83-3-41-27-65-44-78l37 1 44-27zm-70 364c26 36 7 104-86 104-52 0-117-21-117-81 0-70 103-75 141-75 23 17 46 30 62 52zm-64-162c-45 18-82-10-99-68-15-48-4-94 29-106 44-15 79 10 99 63 21 60 7 95-29 111zm240 10v-59h-35v59h-59v36h59v59h35v-59h60v-36h-60z"/></symbol><symbol viewBox="0 0 500 500" id="icon-pinterest"><title>pinterest</title><path d="M250 1a248 249 0 0 0-100 476 218 218 0 0 1 4-57l33-135s-8-16-8-39c0-37 21-64 48-64 23 0 34 17 34 37 0 23-15 57-22 88-6 26 13 48 39 48 47 0 79-61 79-132 0-55-37-95-104-95-75 0-122 56-122 119 0 22 6 37 16 49 5 5 5 8 4 14l-5 20c-2 6-7 9-13 6-35-14-51-52-51-95 0-71 60-155 178-155 95 0 157 69 157 142 0 98-54 170-134 170-27 0-52-15-61-31 0 0-15 57-18 68a209 209 0 0 1-25 53 249 249 0 0 0 319-238A249 249 0 0 0 250 1z"/></symbol><symbol viewBox="0 0 500 500" id="icon-twitter"><title>twitter</title><path d="M499 96c-19 8-38 14-59 16 21-12 37-32 45-56-20 12-42 20-65 25a102 102 0 0 0-174 93c-84-5-160-45-210-107a101 101 0 0 0 32 136c-17 0-33-5-47-12v1c0 49 36 90 82 100a102 102 0 0 1-46 2c13 40 51 70 95 70A205 205 0 0 1 1 407c46 29 99 45 157 45a288 288 0 0 0 290-303c20-14 37-32 51-53z"/></symbol><symbol viewBox="0 0 500 500" id="icon-whatsapp"><title>whatsapp</title><path d="M255 1A243 243 0 0 0 46 368L2 498l135-43a245 245 0 0 0 362-212C499 109 389 1 255 1zm0 444c-42 0-80-13-112-34l-78 25 25-75c-24-33-39-74-39-118 0-111 92-201 204-201s203 90 203 201-91 202-203 202zm114-147l-42-22c-5-2-10-3-14 3s-17 19-21 23c-3 4-7 5-13 1-6-3-26-10-49-32-18-17-30-38-33-44-4-6 0-10 3-13l10-10 6-10c3-4 2-8 0-11l-17-47c-5-12-10-10-14-10l-12-1c-4-1-11 1-17 7s-22 20-23 50c-1 31 20 61 23 65 3 5 40 70 103 98 62 27 62 18 74 18 11-1 37-14 43-28s6-27 5-29c-2-3-6-5-12-8z"/></symbol></svg>';
             svgContainer.style.display = 'none';
             document.body.appendChild(svgContainer);
         },
@@ -81,12 +89,7 @@ function ShareBar(options) {
                     classPopup: 'share-popup',
                     facebookAppId: '',
                     networks: [
-                        'facebook',
-                        'twitter',
-                        'whatsapp',
-                        'google',
-                        'pinterest',
-                        'email'
+                        FACEBOOK, TWITTER, WHATSAPP, GOOGLE, PINTEREST, EMAIL
                     ],
                     theme: 'natural',
                     buttonWidth: BUTTON_WIDTH,
@@ -111,12 +114,13 @@ function ShareBar(options) {
         },
 
         validateNetworks: function validateNetworks(networks) {
-            var i = 0,
+            var msg = 'The list of networks passed on initialization is wrong',
+                i = 0,
                 networkName = '',
                 method = '';
 
             if (Object.prototype.toString.call(networks) !== '[object Array]') {
-                throw new Error('The list of networks passed on initialization is wrong [Should be an Array]');
+                throw new Error(msg + ' [Should be an Array]');
             }
 
             for (i; i < networks.length; i++) {
@@ -128,11 +132,11 @@ function ShareBar(options) {
                     if (method) {
                         networks[i] = method;
                     } else {
-                        throw new Error('The list of networks passed on initialization is wrong [Network name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
+                        throw new Error(msg + ' [Network name "' + networks[i] + '" is wrong, should be ' + FACEBOOK + ' or ' + TWITTER + ' or ' + WHATSAPP + ' or ' + GOOGLE + ' or ' + PINTEREST + ' or ' + EMAIL + ']');
                     }
 
                 } else if (typeof networks[i] !== 'function') {
-                    throw new Error('The list of networks passed on initialization is wrong [Should be string or function]');
+                    throw new Error(msg + ' [Should be string or function]');
                 }
             }
 
@@ -251,7 +255,7 @@ function ShareBar(options) {
         },
 
         bindShare: function bindShare(element) {
-            var shareButtons = element.querySelectorAll('.share-button'),
+            var shareButtons = element.querySelectorAll('.' + SHARE_BUTTON),
                 i = 0,
                 self = this,
                 onShareClick = function (e) {
@@ -277,12 +281,13 @@ function ShareBar(options) {
             var encode = window.encodeURIComponent,
                 url = element.getAttribute('data-url') || '',
                 urlToShare,
-                splitUrl = url.split('#');
+                splitUrl = url.split('#'),
+                queryString = '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
 
             if (splitUrl.length > 1) {
-                urlToShare = splitUrl[0] + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar&#' + splitUrl[1];
+                urlToShare = splitUrl[0] + queryString + '&#' + splitUrl[1];
             } else {
-                urlToShare = url + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
+                urlToShare = url + queryString;
             }
 
             return {
@@ -307,7 +312,8 @@ function ShareBar(options) {
             var shareContainer = document.createElement('div'),
                 classPopup = '';
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
-            shareContainer.className = 'share-button share-' + socialNetworkClass + className;
+            className = className || '';
+            shareContainer.className = SHARE_BUTTON + ' share-' + socialNetworkClass + className;
             socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
             url = url.replace('%23source%23', socialNetworkClass);
 
@@ -347,12 +353,11 @@ function ShareBar(options) {
             var onShare = '',
                 button = '',
                 data = this.getMetadataFromElement(container),
-                url = data.url.replace('%23source%23', 'facebook');
-            buttonClass = buttonClass || '';
+                url = data.url.replace('%23source%23', FACEBOOK);
 
             button = this.createButton(
                 container,
-                'facebook',
+                FACEBOOK,
                 buttonClass,
                 'http://www.facebook.com/',
                 '',
@@ -415,11 +420,10 @@ function ShareBar(options) {
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'twitter',
+                TWITTER,
                 buttonClass,
                 'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title + ' ' + data.hashtags
             );
@@ -427,24 +431,22 @@ function ShareBar(options) {
 
         createGoogleButton: function createGoogleButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'googleplus',
+                GOOGLE + 'plus',
                 buttonClass,
                 'https://plus.google.com/share?url=' + data.url,
-                'google+'
+                GOOGLE + '+'
             );
         },
 
         createPinterestButton: function createPinterestButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'pinterest',
+                PINTEREST,
                 buttonClass,
                 'http://br.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
             );
@@ -457,11 +459,9 @@ function ShareBar(options) {
                 return false;
             }
 
-            buttonClass = buttonClass || '';
-
             this.createButton(
                 container,
-                'whatsapp',
+                WHATSAPP,
                 buttonClass,
                 'whatsapp://send?text=' + data.title + '%20' + data.url,
                 '',
@@ -476,11 +476,9 @@ function ShareBar(options) {
                 return false;
             }
 
-            buttonClass = buttonClass || '';
-
             this.createButton(
                 container,
-                'email',
+                EMAIL,
                 buttonClass,
                 'mailto:?subject=' + data.title + '&amp;body=' + data.url,
                 'e-mail',

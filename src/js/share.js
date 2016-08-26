@@ -1,10 +1,5 @@
 /*global DocumentTouch, FB */
 
-var BUTTON_WIDTH = 34;
-var BUTTON_FULL_WIDTH = 110;
-var BUTTON_PADDING = 4;
-var MAX_SOCIAL_BUTTONS = 6;
-
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -12,6 +7,18 @@ function ShareBar(options) {
 
 (function (window, document) {
     'use strict';
+
+    var FACEBOOK = 'facebook',
+        TWITTER = 'twitter',
+        WHATSAPP = 'whatsapp',
+        GOOGLE = 'google',
+        PINTEREST = 'pinterest',
+        EMAIL = 'email',
+        BUTTON_WIDTH = 34,
+        BUTTON_FULL_WIDTH = 110,
+        BUTTON_PADDING = 4,
+        MAX_SOCIAL_BUTTONS = 6,
+        SHARE_BUTTON = 'share-button';
 
     function preventDefault(e) {
         if (e && e.preventDefault) {
@@ -47,13 +54,15 @@ function ShareBar(options) {
         // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
         verifyTouch: function verifyTouch() {
             var html = document.querySelector('html'),
-                isTouch = this.isTouch();
+                isTouch = this.isTouch(),
+                touch = ' touch',
+                noTouch = ' no-touch';
 
-            if (isTouch && html.className.indexOf(' touch') === -1) {
-                html.className += ' touch';
+            if (isTouch && html.className.indexOf(touch) === -1) {
+                html.className += touch;
 
-            } else if (!isTouch && html.className.indexOf(' no-touch') === -1) {
-                html.className += ' no-touch';
+            } else if (!isTouch && html.className.indexOf(noTouch) === -1) {
+                html.className += noTouch;
             }
         },
 
@@ -81,12 +90,7 @@ function ShareBar(options) {
                     classPopup: 'share-popup',
                     facebookAppId: '',
                     networks: [
-                        'facebook',
-                        'twitter',
-                        'whatsapp',
-                        'google',
-                        'pinterest',
-                        'email'
+                        FACEBOOK, TWITTER, WHATSAPP, GOOGLE, PINTEREST, EMAIL
                     ],
                     theme: 'natural',
                     buttonWidth: BUTTON_WIDTH,
@@ -111,12 +115,13 @@ function ShareBar(options) {
         },
 
         validateNetworks: function validateNetworks(networks) {
-            var i = 0,
+            var msg = 'The list of networks passed on initialization is wrong',
+                i = 0,
                 networkName = '',
                 method = '';
 
             if (Object.prototype.toString.call(networks) !== '[object Array]') {
-                throw new Error('The list of networks passed on initialization is wrong [Should be an Array]');
+                throw new Error(msg + ' [Should be an Array]');
             }
 
             for (i; i < networks.length; i++) {
@@ -128,11 +133,11 @@ function ShareBar(options) {
                     if (method) {
                         networks[i] = method;
                     } else {
-                        throw new Error('The list of networks passed on initialization is wrong [Network name "' + networks[i] + '" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]');
+                        throw new Error(msg + ' [Network name "' + networks[i] + '" is wrong, should be ' + FACEBOOK + ' or ' + TWITTER + ' or ' + WHATSAPP + ' or ' + GOOGLE + ' or ' + PINTEREST + ' or ' + EMAIL + ']');
                     }
 
                 } else if (typeof networks[i] !== 'function') {
-                    throw new Error('The list of networks passed on initialization is wrong [Should be string or function]');
+                    throw new Error(msg + ' [Should be string or function]');
                 }
             }
 
@@ -251,7 +256,7 @@ function ShareBar(options) {
         },
 
         bindShare: function bindShare(element) {
-            var shareButtons = element.querySelectorAll('.share-button'),
+            var shareButtons = element.querySelectorAll('.' + SHARE_BUTTON),
                 i = 0,
                 self = this,
                 onShareClick = function (e) {
@@ -277,12 +282,13 @@ function ShareBar(options) {
             var encode = window.encodeURIComponent,
                 url = element.getAttribute('data-url') || '',
                 urlToShare,
-                splitUrl = url.split('#');
+                splitUrl = url.split('#'),
+                queryString = '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
 
             if (splitUrl.length > 1) {
-                urlToShare = splitUrl[0] + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar&#' + splitUrl[1];
+                urlToShare = splitUrl[0] + queryString + '&#' + splitUrl[1];
             } else {
-                urlToShare = url + '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
+                urlToShare = url + queryString;
             }
 
             return {
@@ -307,7 +313,8 @@ function ShareBar(options) {
             var shareContainer = document.createElement('div'),
                 classPopup = '';
             socialNetworkTitle = socialNetworkTitle || socialNetworkClass;
-            shareContainer.className = 'share-button share-' + socialNetworkClass + className;
+            className = className || '';
+            shareContainer.className = SHARE_BUTTON + ' share-' + socialNetworkClass + className;
             socialNetworkTitle = socialNetworkTitle[0].toUpperCase() + socialNetworkTitle.slice(1);
             url = url.replace('%23source%23', socialNetworkClass);
 
@@ -347,12 +354,11 @@ function ShareBar(options) {
             var onShare = '',
                 button = '',
                 data = this.getMetadataFromElement(container),
-                url = data.url.replace('%23source%23', 'facebook');
-            buttonClass = buttonClass || '';
+                url = data.url.replace('%23source%23', FACEBOOK);
 
             button = this.createButton(
                 container,
-                'facebook',
+                FACEBOOK,
                 buttonClass,
                 'http://www.facebook.com/',
                 '',
@@ -415,11 +421,10 @@ function ShareBar(options) {
 
         createTwitterButton: function createTwitterButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'twitter',
+                TWITTER,
                 buttonClass,
                 'https://twitter.com/share?url=' + data.url + '&amp;text=' + data.title + ' ' + data.hashtags
             );
@@ -427,24 +432,22 @@ function ShareBar(options) {
 
         createGoogleButton: function createGoogleButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'googleplus',
+                GOOGLE + 'plus',
                 buttonClass,
                 'https://plus.google.com/share?url=' + data.url,
-                'google+'
+                GOOGLE + '+'
             );
         },
 
         createPinterestButton: function createPinterestButton(container, buttonClass) {
             var data = this.getMetadataFromElement(container);
-            buttonClass = buttonClass || '';
 
             this.createButton(
                 container,
-                'pinterest',
+                PINTEREST,
                 buttonClass,
                 'http://br.pinterest.com/pin/create/button/?url=' + data.url + '&amp;media=' + data.imageUrl + '&amp;description=' + data.title
             );
@@ -457,11 +460,9 @@ function ShareBar(options) {
                 return false;
             }
 
-            buttonClass = buttonClass || '';
-
             this.createButton(
                 container,
-                'whatsapp',
+                WHATSAPP,
                 buttonClass,
                 'whatsapp://send?text=' + data.title + '%20' + data.url,
                 '',
@@ -476,11 +477,9 @@ function ShareBar(options) {
                 return false;
             }
 
-            buttonClass = buttonClass || '';
-
             this.createButton(
                 container,
-                'email',
+                EMAIL,
                 buttonClass,
                 'mailto:?subject=' + data.title + '&amp;body=' + data.url,
                 'e-mail',
