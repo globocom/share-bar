@@ -185,11 +185,6 @@ module.exports = function (grunt) {
             }
         },
 
-        buddyjs: {
-            src: ['<%= concat.js.src %>'],
-            options: {}
-        },
-
         bump: {
             options: {
                 files: ['package.json'],
@@ -219,13 +214,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-svgmin');
-    grunt.loadNpmTasks('grunt-buddyjs');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-coveralls');
 
     // Custom tasks
     grunt.registerTask('icon', ['svgstore', 'svgmin', 'string-replace']);
-    grunt.registerTask('jstest', ['jslint', 'buddyjs', 'jasmine']);
+    grunt.registerTask('jstest', ['jslint', 'jasmine']);
     grunt.registerTask('js', ['concat:js', 'string-replace', 'uglify']);
     grunt.registerTask('css', ['compass', 'concat:css', 'cssmin']);
     grunt.registerTask('server', ['connect:server', 'watch']);
