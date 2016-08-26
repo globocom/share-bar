@@ -2,7 +2,7 @@
 
 .share-theme-natural {
     .share-button a {
-        @include single-transition(background, 300ms, ease);
+        transition: background 300ms ease;
     }
 
     .share-facebook a {

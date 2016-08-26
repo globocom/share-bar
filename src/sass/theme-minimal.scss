@@ -2,8 +2,6 @@
 
 .share-theme-minimal .share-button .svg-size .share-icon {
     top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
@@ -14,7 +12,7 @@
 
         a {
             background-color: transparent;
-            @include box-shadow(rgba(0,0,0,0.25) 0 0 0 inset);
+            box-shadow: inset 0 0 0 rgba(0,0,0,0.25);
 
             &:active {
                 padding-bottom: 11px;
