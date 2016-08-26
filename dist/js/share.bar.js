@@ -298,10 +298,6 @@ function ShareBar(options) {
             };
         },
 
-        deviceIsIphone: function deviceIsIphone() {
-            return navigator.userAgent.match(/iPhone/i) !== null;
-        },
-
         isSmallScreen: function isSmallScreen() {
             var desktopMinWidth = 768,
                 width = window.innerWidth || screen.width;
