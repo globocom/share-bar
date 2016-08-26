@@ -34,7 +34,6 @@ function ShareBar(options) {
         init: function init(options) {
             this.eventName = this.getActionName();
             this.verifyTouch();
-            this.supportSvg = this.hasSupportSvg();
             this.createSVG();
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
@@ -67,17 +66,11 @@ function ShareBar(options) {
             return bool;
         },
 
-        hasSupportSvg: function hasSupportSvg() {
-            return document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1');
-        },
-
         createSVG: function createSVG() {
-            if (this.supportSvg) {
-                var svgContainer = document.createElement('div');
-                svgContainer.innerHTML = '[[X_SVG_X]]';
-                svgContainer.style.display = 'none';
-                document.body.appendChild(svgContainer);
-            }
+            var svgContainer = document.createElement('div');
+            svgContainer.innerHTML = '[[X_SVG_X]]';
+            svgContainer.style.display = 'none';
+            document.body.appendChild(svgContainer);
         },
 
         mergeOptions: function mergeOptions(options) {
@@ -338,22 +331,14 @@ function ShareBar(options) {
             var iconElement;
             title = title || name;
 
-            if (this.supportSvg) {
-                iconElement = [
-                    '   <div class="svg-size">',
-                    '      <svg viewBox="0 0 100 100" class="share-icon">',
-                    '           <use xlink:href="#icon-' + name + '"></use>',
-                    '       </svg>',
-                    '   </div>',
-                    '<span>' + title + '</span>'
-                ].join('');
-
-            } else {
-                iconElement = [
-                    '   <i class="share-font ico-share-' + name + '"></i>',
-                    '   <span>' + title + '</span>'
-                ].join('');
-            }
+            iconElement = [
+                '   <div class="svg-size">',
+                '      <svg viewBox="0 0 100 100" class="share-icon">',
+                '           <use xlink:href="#icon-' + name + '"></use>',
+                '       </svg>',
+                '   </div>',
+                '<span>' + title + '</span>'
+            ].join('');
 
             return iconElement;
         },

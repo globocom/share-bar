@@ -13,7 +13,7 @@ module.exports = function (grunt) {
             '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
             '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-            ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+            ' Licensed <%= pkg.licenses[0].type %> */\n',
 
         // Task configuration.
         concat: {
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                 stripBanners: true
             },
             js: {
-                src: ['src/js/*.js'],
+                src: 'src/js/share.js',
                 dest: distJs + '<%= pkg.name %>.js'
             },
             css: {
@@ -186,27 +186,6 @@ module.exports = function (grunt) {
             }
         },
 
-        webfont: {
-            icons: {
-                src: 'src/img/*.svg',
-                dest: 'src/fonts',
-                destCss: 'src/sass',
-                options: {
-                    font: 'share-icon',
-                    hashes: false,
-                    htmlDemo: false,
-                    stylesheet: 'scss',
-                    embed: ['woff', 'ttf'],
-                    templateOptions: {
-                        baseClass: 'share-font',
-                        classPrefix: 'ico-share-',
-                        mixinPrefix: 'ico-share-'
-                    },
-                    types: 'woff,ttf'
-                }
-            }
-        },
-
         buddyjs: {
             src: ['<%= concat.js.src %>'],
             options: {}
@@ -238,7 +217,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jslint');
-    grunt.loadNpmTasks('grunt-webfont');
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-svgmin');
@@ -247,7 +225,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-coveralls');
 
     // Custom tasks
-    grunt.registerTask('icon', ['svgstore', 'webfont', 'svgmin', 'string-replace']);
+    grunt.registerTask('icon', ['svgstore', 'svgmin', 'string-replace']);
     grunt.registerTask('jstest', ['jslint', 'buddyjs', 'jasmine']);
     grunt.registerTask('js', ['concat:js', 'string-replace', 'uglify']);
     grunt.registerTask('css', ['compass', 'concat:css', 'cssmin']);

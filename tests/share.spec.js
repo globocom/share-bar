@@ -580,16 +580,6 @@ describe('ShareBar - Methods Test Case', function () {
             expect(result).toContain('<svg viewBox="0 0 100 100" class="share-icon">');
             expect(result).toContain('<span>test</span>');
         });
-
-        it('should return icon element when SVG is disabled', function () {
-            var result;
-
-            this.newBar.supportSvg = false;
-            result = this.newBar.createContentButton('test');
-
-            expect(result).toContain('<i class="share-font ico-share-test"></i>');
-            expect(result).toContain('<span>test</span>');
-        });
     });
 
     describe('createFacebookButton', function () {
