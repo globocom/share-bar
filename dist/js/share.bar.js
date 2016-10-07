@@ -1,4 +1,4 @@
-/*! ShareBar - v3.1.1 - 2016-08-26 - * Copyright (c) 2016 Globo.com; Licensed MIT */
+/*! ShareBar - v3.1.1 - 2016-10-07 - * Copyright (c) 2016 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -390,7 +390,7 @@ function ShareBar(options) {
                     FB.init({
                         appId: facebookAppId,
                         xfbml: true,
-                        version: 'v2.1'
+                        version: 'v2.8'
                     });
                 };
                 (function (d, s, id) {
