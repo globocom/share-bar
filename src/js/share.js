@@ -391,7 +391,7 @@ function ShareBar(options) {
                     FB.init({
                         appId: facebookAppId,
                         xfbml: true,
-                        version: 'v2.1'
+                        version: 'v2.8'
                     });
                 };
                 (function (d, s, id) {
