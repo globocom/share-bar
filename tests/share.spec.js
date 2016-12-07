@@ -846,4 +846,49 @@ describe('ShareBar - Methods Test Case', function () {
             expect(html.className).toEqual(' touch');
         });
     });
+    describe('define a specific campaign', function () {
+        describe('uses a custom campaign', function () {
+            it('should call with custom options', function () {
+                var customCampaign = 'custom-campaign',
+                    options = {
+                        'selector': '.share-bar',
+                        'campaign': customCampaign
+                    },
+                    data,
+                    expectedData;
+
+                this.newBar = createBar(options);
+                data = this.newBar.getMetadataFromElement(this.el);
+                expectedData = {
+                    'url': window.encodeURIComponent('http://globo.com?utm_source=#source#&utm_medium=share-bar-desktop&utm_campaign=' + customCampaign),
+                    'title': window.encodeURIComponent('Test title'),
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
+                    'hashtags': window.encodeURIComponent('#test #g1')
+                };
+
+                expect(data).toEqual(expectedData);
+            });
+        });
+        describe('using a unspecified campaign', function () {
+            it('should call with default options', function () {
+                var defaultCampaign = 'share-bar',
+                    options = {
+                        'selector': '.share-bar'
+                    },
+                    data,
+                    expectedData;
+
+                this.newBar = createBar(options);
+                data = this.newBar.getMetadataFromElement(this.el);
+                expectedData = {
+                    'url': window.encodeURIComponent('http://globo.com?utm_source=#source#&utm_medium=share-bar-desktop&utm_campaign=' + defaultCampaign),
+                    'title': window.encodeURIComponent('Test title'),
+                    'imageUrl': window.encodeURIComponent('http://g1.globo.com'),
+                    'hashtags': window.encodeURIComponent('#test #g1')
+                };
+
+                expect(data).toEqual(expectedData);
+            });
+        });
+    });
 });

@@ -1,4 +1,4 @@
-/*! ShareBar - v3.1.2 - 2016-10-26 - * Copyright (c) 2016 Globo.com; Licensed MIT */
+/*! ShareBar - v3.1.2 - 2016-12-02 - * Copyright (c) 2016 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -86,6 +86,7 @@ function ShareBar(options) {
                 defaultOptions = {
                     // Selector to open lightbox
                     selector: '.share-bar',
+                    campaign: 'share-bar',
                     classPopup: 'share-popup',
                     facebookAppId: '',
                     networks: [
@@ -282,7 +283,7 @@ function ShareBar(options) {
                 url = element.getAttribute('data-url') || '',
                 urlToShare,
                 splitUrl = url.split('#'),
-                queryString = '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=share-bar';
+                queryString = '?utm_source=#source#&utm_medium=share-bar-' + this.context + '&utm_campaign=' + this.campaign;
 
             if (splitUrl.length > 1) {
                 urlToShare = splitUrl[0] + queryString + '&#' + splitUrl[1];

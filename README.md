@@ -196,6 +196,17 @@ Default: ```desktop```
 </script>
 ```
 
+**campaign**
+
+Permite alterar o metadata campaign da barra, essa informação é enviada via parâmetro utm_campaign. Essa informação pode ser usada caso haja necessidade filtrar no google analytics visitas baseada nessa informação de campanha.
+
+Default: ```share-bar```
+```
+<script>
+    new ShareBar({'campaign': 'custom-campaign'});
+</script>
+```
+
 **onCreateBar**
 
 Callback que permite executar uma ação após a criação da barra. Ela recebe por parâmetro a barra que acabou de ser criada.
