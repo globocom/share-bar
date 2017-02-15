@@ -81,7 +81,7 @@ Default: ```.share-bar```
 
 **theme**
 
-Permite alterar o tema padrão utilizado no share, por padrão existem dois temas disponíveis: natural e dark. O tema dark abre o share com icones em preto e branco, e o natural com botões coloridos. Caso deseje criar um outro tema basta usar a classe .share-[SEU TEMA] para estilizar os botões e configurar o plugin com o tema criado.
+Permite alterar o tema padrão utilizado no share, por padrão existem quatro temas disponíveis: natural, dark, minimal e minimal light. O tema dark abre o share com ícones em preto e branco, o natural com botões coloridos, já o minimal e minimal light apresentam ícones minimalistas. Caso deseje criar um outro tema basta usar a classe .share-[SEU TEMA] para estilizar os botões e configurar o plugin com o tema criado.
 
 Default: ```natural```
 ```
@@ -196,6 +196,17 @@ Default: ```desktop```
 </script>
 ```
 
+**campaign**
+
+Permite alterar o metadata campaign da barra, essa informação é enviada via parâmetro utm_campaign. Essa informação pode ser usada caso haja necessidade filtrar no google analytics visitas baseada nessa informação de campanha.
+
+Default: ```share-bar```
+```
+<script>
+    new ShareBar({'campaign': 'custom-campaign'});
+</script>
+```
+
 **onCreateBar**
 
 Callback que permite executar uma ação após a criação da barra. Ela recebe por parâmetro a barra que acabou de ser criada.
@@ -283,7 +294,6 @@ Para gerar uma nova versão (tag) do plugin basta rodar o comando de bump:
 ```
 $ grunt bump
 ```
-
 
 License
 ----
