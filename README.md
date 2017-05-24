@@ -46,7 +46,7 @@ Como usar
 
 Para utilizar o share, basta inserir na página os arquivos JS e CSS e instanciar o plugin:
 
-```
+```html
 <link rel="stylesheet" href="path_to_css/share.bar.min.css">
 <script src="path_to_js/share.bar.min.js"></script>
 <script>
@@ -57,7 +57,7 @@ Para utilizar o share, basta inserir na página os arquivos JS e CSS e instancia
 * Caso não seja informado o APP_ID do facebook, o mesmo será obtido da página via [meta tag open graph](https://developers.facebook.com/docs/sharing/webmasters#basic) do facebook. Uma vez sem APP_ID, o share funcionará somente com a inicialização de outra barra com APP_ID na mesma página. De qualquer forma, é recomendado passar a APP_ID do facebook se esta rede social estiver incluida na barra.
 
 O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
-```
+```html
 <div class="share-bar" data-title="Teste do lightbox para imagem" data-url="Vale a pena testar de novo" data-image-url="http://lorempixel.com/1080/700/" data-hashtags="#example #sharebar"></div>
 ```
 
@@ -73,7 +73,7 @@ O plugin permite algumas customizações e configurações afim de flexibilizar 
 Permite alterar o seletor padrão utilizado para instanciar o share.
 
 Default: ```.share-bar```
-```
+```html
 <script>
     new ShareBar({'selector': '.meu-seletor'});
 </script>
@@ -84,7 +84,7 @@ Default: ```.share-bar```
 Permite alterar o tema padrão utilizado no share, por padrão existem quatro temas disponíveis: natural, dark, minimal e minimal light. O tema dark abre o share com ícones em preto e branco, o natural com botões coloridos, já o minimal e minimal light apresentam ícones minimalistas. Caso deseje criar um outro tema basta usar a classe .share-[SEU TEMA] para estilizar os botões e configurar o plugin com o tema criado.
 
 Default: ```natural```
-```
+```html
 <script>
     new ShareBar({'theme': 'dark'});
 </script>
@@ -95,7 +95,7 @@ Default: ```natural```
 Permite alterar a classe utilizada para abrir as redes sociais em popup. Só é necessário mudar essa configuração caso a classe default já esteja sendo utilizada em seu projeto com outro objetivo.
 
 Default: ```share-popup```
-```
+```html
 <script>
     new ShareBar({'classPopup': 'class-popup'});
 </script>
@@ -106,7 +106,7 @@ Default: ```share-popup```
 Permite alterar a largura reservada para um botão em tamanho reduzido. Essa propriedade não afeta na largura do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado a largura de botões através do css.
 
 Default: ```34```
-```
+```html
 <script>
     new ShareBar({'buttonWidth': 50});
 </script>
@@ -117,7 +117,7 @@ Default: ```34```
 Permite alterar a largura reservada para um botão em tamanho expandido. Essa propriedade não afeta na largura do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado a largura de botões expandidos através do css.
 
 Default: ```110```
-```
+```html
 <script>
     new ShareBar({'buttonFullWidth': 150});
 </script>
@@ -128,7 +128,7 @@ Default: ```110```
 Permite alterar o padding esquerdo reservada para um botão. Essa propriedade não afeta no padding do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado o padding dos botões através do css.
 
 Default: ```4```
-```
+```html
 <script>
     new ShareBar({'buttonPadding': 4});
 </script>
@@ -139,7 +139,7 @@ Default: ```4```
 Permite alterar a quantidade máxima de redes sociais a serem exibidas na barra. Só altere essa propriedade caso deseje exibir mais do que 6 botões na barra. O plugin usa essa propriedade apenas como limitador máximo, para exibir menos basta passar menos redes sociais.
 
 Default: ```6```
-```
+```html
 <script>
     new ShareBar({'maxSocialButtons': 10});
 </script>
@@ -150,7 +150,7 @@ Default: ```6```
 Permite alterar as redes sociais habilitadas na barra de share. É através dessa configuração que se pode adicionar ou remover botões das redes sociais na barra de share.
 
 Default:
-```
+```javascript
 [
     facebook,
     twitter,
@@ -161,7 +161,7 @@ Default:
 ]
 ```
 
-```
+```html
 <script>
     new ShareBar({
         'networks': [
@@ -190,7 +190,7 @@ Ps: Uma nota importante com relação ao ícone do whatsapp. Seu aparecimento se
 Permite alterar o contexto de renderização da barra, essa informação é enviada via parâmetro utm_medium. Essa informação pode ser usada caso haja diferentes templates onde a barra é renderizada e existe a necessidade de filtrar no google analytics visitas baseada nessa informação de contexto.
 
 Default: ```desktop```
-```
+```html
 <script>
     new ShareBar({'context': 'mobile'});
 </script>
@@ -201,7 +201,7 @@ Default: ```desktop```
 Permite alterar o metadata campaign da barra, essa informação é enviada via parâmetro utm_campaign. Essa informação pode ser usada caso haja necessidade filtrar no google analytics visitas baseada nessa informação de campanha.
 
 Default: ```share-bar```
-```
+```html
 <script>
     new ShareBar({'campaign': 'custom-campaign'});
 </script>
@@ -212,7 +212,7 @@ Default: ```share-bar```
 Callback que permite executar uma ação após a criação da barra. Ela recebe por parâmetro a barra que acabou de ser criada.
 
 Default: ```function (bar) { return false; }```
-```
+```html
 <script>
     new ShareBar({'onCreateBar': function (bar) { alert(bar.innerHTML); }});
 </script>
@@ -223,7 +223,7 @@ Default: ```function (bar) { return false; }```
 Callback que permite executar uma ação após a criação de um botão de share. Ela recebe por parâmetro o botão que acabou de ser criadao. Essa callback é chamada na criação de cada um dos botões que compõem a barra.
 
 Default: ```function (button) { return false; }```
-```
+```html
 <script>
     new ShareBar({'onCreateBar': function (button) { alert(button.innerHTML); }});
 </script>
@@ -234,7 +234,7 @@ Default: ```function (button) { return false; }```
 Callback que permite executar uma ação após o click em algum botão de share. Ela recebe por parâmetro o botão que foi clicado.
 
 Default: ```function (button) { return false; }```
-```
+```html
 <script>
     new ShareBar({'onShare': function (button) { alert(button.innerHTML); }});
 </script>
@@ -244,7 +244,7 @@ Default: ```function (button) { return false; }```
 É possivel chamar diretamente o método createBar para criar uma barra quando quiser.
 
 Exemplo:
-```
+```javascript
 var la = new ShareBar({'maxSocialButtons': 10});
 la.createBar(document.querySelector('.minha-barra'));
 ```
