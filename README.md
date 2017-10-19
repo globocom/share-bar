@@ -23,7 +23,6 @@ bower install share-bar
 ```
 
 ## How to Use
-----
 
 Once you added the CSS and JS from the plugin on the page, you can simply do:
 
