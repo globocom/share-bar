@@ -808,14 +808,18 @@ describe('ShareBar - Methods Test Case', function () {
     });
 
     describe('createSVG', function () {
-        it('should create svg container', function () {
+        it('should only create one svg container', function () {
             var element = '',
                 elements = [];
 
             this.newBar.createSVG();
-            elements = document.querySelectorAll('div');
+            this.newBar.createSVG();
+            this.newBar.createSVG();
+
+            elements = document.querySelectorAll('div.sharebar-svg-container');
             element = elements[elements.length - 1];
 
+            expect(elements.length).toEqual(1);
             expect(element.style.display).toEqual('none');
             expect(element.innerHTML).toEqual('[[X_SVG_X]]');
         });

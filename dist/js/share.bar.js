@@ -1,4 +1,4 @@
-/*! ShareBar - v3.1.3 - 2016-12-07 - * Copyright (c) 2016 Globo.com; Licensed MIT */
+/*! ShareBar - v3.1.3 - 2017-10-19 - * Copyright (c) 2017 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -17,7 +17,8 @@ function ShareBar(options) {
         BUTTON_FULL_WIDTH = 110,
         BUTTON_PADDING = 4,
         MAX_SOCIAL_BUTTONS = 6,
-        SHARE_BUTTON = 'share-button';
+        SHARE_BUTTON = 'share-button',
+        SVG_CONTAINER = 'sharebar-svg-container';
 
     function preventDefault(e) {
         if (e && e.preventDefault) {
@@ -75,10 +76,17 @@ function ShareBar(options) {
         },
 
         createSVG: function createSVG() {
-            var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><symbol viewBox="0 0 500 500" id="icon-email"><title>email</title><path d="M1 387c0 27 23 50 50 50h398c28 0 50-23 50-50V138L300 286c-28 17-70 18-99 0L1 138v249zm228-158c10 5 33 6 42 0 98-71 117-86 209-155-7-6-19-11-31-11H51c-12 0-23 5-31 12l209 154z"/></symbol><symbol viewBox="0 0 500 500" id="icon-facebook"><title>facebook</title><path d="M471 1H29C13 1 1 13 1 29v442c0 16 12 28 28 28h238V306h-65v-75h65v-55c0-65 39-100 97-100 27 0 51 2 58 3v67h-40c-31 0-37 15-37 37v48h74l-10 75h-64v193h126c16 0 28-12 28-28V29c0-16-12-28-28-28z"/></symbol><symbol viewBox="0 0 500 500" id="icon-googleplus"><title>googleplus</title><path d="M333 2H186C88 2 35 47 35 127c0 65 60 109 131 99-17 33 2 57 14 69C82 295 2 338 2 401c0 56 47 97 142 97 102 0 175-56 175-124 0-23-8-43-26-64-32-36-71-46-71-72 0-23 22-34 40-49 27-24 36-54 34-83-3-41-27-65-44-78l37 1 44-27zm-70 364c26 36 7 104-86 104-52 0-117-21-117-81 0-70 103-75 141-75 23 17 46 30 62 52zm-64-162c-45 18-82-10-99-68-15-48-4-94 29-106 44-15 79 10 99 63 21 60 7 95-29 111zm240 10v-59h-35v59h-59v36h59v59h35v-59h60v-36h-60z"/></symbol><symbol viewBox="0 0 500 500" id="icon-pinterest"><title>pinterest</title><path d="M250 1a248 249 0 0 0-100 476 218 218 0 0 1 4-57l33-135s-8-16-8-39c0-37 21-64 48-64 23 0 34 17 34 37 0 23-15 57-22 88-6 26 13 48 39 48 47 0 79-61 79-132 0-55-37-95-104-95-75 0-122 56-122 119 0 22 6 37 16 49 5 5 5 8 4 14l-5 20c-2 6-7 9-13 6-35-14-51-52-51-95 0-71 60-155 178-155 95 0 157 69 157 142 0 98-54 170-134 170-27 0-52-15-61-31 0 0-15 57-18 68a209 209 0 0 1-25 53 249 249 0 0 0 319-238A249 249 0 0 0 250 1z"/></symbol><symbol viewBox="0 0 500 500" id="icon-twitter"><title>twitter</title><path d="M499 96c-19 8-38 14-59 16 21-12 37-32 45-56-20 12-42 20-65 25a102 102 0 0 0-174 93c-84-5-160-45-210-107a101 101 0 0 0 32 136c-17 0-33-5-47-12v1c0 49 36 90 82 100a102 102 0 0 1-46 2c13 40 51 70 95 70A205 205 0 0 1 1 407c46 29 99 45 157 45a288 288 0 0 0 290-303c20-14 37-32 51-53z"/></symbol><symbol viewBox="0 0 500 500" id="icon-whatsapp"><title>whatsapp</title><path d="M255 1A243 243 0 0 0 46 368L2 498l135-43a245 245 0 0 0 362-212C499 109 389 1 255 1zm0 444c-42 0-80-13-112-34l-78 25 25-75c-24-33-39-74-39-118 0-111 92-201 204-201s203 90 203 201-91 202-203 202zm114-147l-42-22c-5-2-10-3-14 3s-17 19-21 23c-3 4-7 5-13 1-6-3-26-10-49-32-18-17-30-38-33-44-4-6 0-10 3-13l10-10 6-10c3-4 2-8 0-11l-17-47c-5-12-10-10-14-10l-12-1c-4-1-11 1-17 7s-22 20-23 50c-1 31 20 61 23 65 3 5 40 70 103 98 62 27 62 18 74 18 11-1 37-14 43-28s6-27 5-29c-2-3-6-5-12-8z"/></symbol></svg>';
-            svgContainer.style.display = 'none';
-            document.body.appendChild(svgContainer);
+            var hasSvg = document.querySelector('.sharebar-svg-container'),
+                svg;
+
+            if (!hasSvg) {
+                svg = document.createElement('div');
+                svg.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><symbol viewBox="0 0 500 500" id="icon-email"><title>email</title><path d="M1 387c0 27 23 50 50 50h398c28 0 50-23 50-50V138L300 286c-28 17-70 18-99 0L1 138v249zm228-158c10 5 33 6 42 0 98-71 117-86 209-155-7-6-19-11-31-11H51c-12 0-23 5-31 12l209 154z"/></symbol><symbol viewBox="0 0 500 500" id="icon-facebook"><title>facebook</title><path d="M471 1H29C13 1 1 13 1 29v442c0 16 12 28 28 28h238V306h-65v-75h65v-55c0-65 39-100 97-100 27 0 51 2 58 3v67h-40c-31 0-37 15-37 37v48h74l-10 75h-64v193h126c16 0 28-12 28-28V29c0-16-12-28-28-28z"/></symbol><symbol viewBox="0 0 500 500" id="icon-googleplus"><title>googleplus</title><path d="M333 2H186C88 2 35 47 35 127c0 65 60 109 131 99-17 33 2 57 14 69C82 295 2 338 2 401c0 56 47 97 142 97 102 0 175-56 175-124 0-23-8-43-26-64-32-36-71-46-71-72 0-23 22-34 40-49 27-24 36-54 34-83-3-41-27-65-44-78l37 1 44-27zm-70 364c26 36 7 104-86 104-52 0-117-21-117-81 0-70 103-75 141-75 23 17 46 30 62 52zm-64-162c-45 18-82-10-99-68-15-48-4-94 29-106 44-15 79 10 99 63 21 60 7 95-29 111zm240 10v-59h-35v59h-59v36h59v59h35v-59h60v-36h-60z"/></symbol><symbol viewBox="0 0 500 500" id="icon-pinterest"><title>pinterest</title><path d="M250 1a248 249 0 0 0-100 476 218 218 0 0 1 4-57l33-135s-8-16-8-39c0-37 21-64 48-64 23 0 34 17 34 37 0 23-15 57-22 88-6 26 13 48 39 48 47 0 79-61 79-132 0-55-37-95-104-95-75 0-122 56-122 119 0 22 6 37 16 49 5 5 5 8 4 14l-5 20c-2 6-7 9-13 6-35-14-51-52-51-95 0-71 60-155 178-155 95 0 157 69 157 142 0 98-54 170-134 170-27 0-52-15-61-31 0 0-15 57-18 68a209 209 0 0 1-25 53 249 249 0 0 0 319-238A249 249 0 0 0 250 1z"/></symbol><symbol viewBox="0 0 500 500" id="icon-twitter"><title>twitter</title><path d="M499 96c-19 8-38 14-59 16 21-12 37-32 45-56-20 12-42 20-65 25a102 102 0 0 0-174 93c-84-5-160-45-210-107a101 101 0 0 0 32 136c-17 0-33-5-47-12v1c0 49 36 90 82 100a102 102 0 0 1-46 2c13 40 51 70 95 70A205 205 0 0 1 1 407c46 29 99 45 157 45a288 288 0 0 0 290-303c20-14 37-32 51-53z"/></symbol><symbol viewBox="0 0 500 500" id="icon-whatsapp"><title>whatsapp</title><path d="M255 1A243 243 0 0 0 46 368L2 498l135-43a245 245 0 0 0 362-212C499 109 389 1 255 1zm0 444c-42 0-80-13-112-34l-78 25 25-75c-24-33-39-74-39-118 0-111 92-201 204-201s203 90 203 201-91 202-203 202zm114-147l-42-22c-5-2-10-3-14 3s-17 19-21 23c-3 4-7 5-13 1-6-3-26-10-49-32-18-17-30-38-33-44-4-6 0-10 3-13l10-10 6-10c3-4 2-8 0-11l-17-47c-5-12-10-10-14-10l-12-1c-4-1-11 1-17 7s-22 20-23 50c-1 31 20 61 23 65 3 5 40 70 103 98 62 27 62 18 74 18 11-1 37-14 43-28s6-27 5-29c-2-3-6-5-12-8z"/></symbol></svg>';
+                svg.classList.add(SVG_CONTAINER);
+                svg.style.display = 'none';
+
+                document.body.appendChild(svg);
+            }
         },
 
         mergeOptions: function mergeOptions(options) {
