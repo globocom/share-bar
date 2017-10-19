@@ -43,7 +43,7 @@ Also, place the following markup where you want the share-bar to be:
 </div>
 ```
 
-Take a look at the `demo/index.html` for an example.
+Take a look at our [demo](https://globocom.github.io/share-bar/).
 
 ## Options
 
