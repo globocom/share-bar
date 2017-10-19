@@ -18,7 +18,8 @@ function ShareBar(options) {
         BUTTON_FULL_WIDTH = 110,
         BUTTON_PADDING = 4,
         MAX_SOCIAL_BUTTONS = 6,
-        SHARE_BUTTON = 'share-button';
+        SHARE_BUTTON = 'share-button',
+        SVG_CONTAINER = 'sharebar-svg-container';
 
     function preventDefault(e) {
         if (e && e.preventDefault) {
@@ -76,10 +77,17 @@ function ShareBar(options) {
         },
 
         createSVG: function createSVG() {
-            var svgContainer = document.createElement('div');
-            svgContainer.innerHTML = '[[X_SVG_X]]';
-            svgContainer.style.display = 'none';
-            document.body.appendChild(svgContainer);
+            var hasSvg = document.querySelector('.sharebar-svg-container'),
+                svg;
+
+            if (!hasSvg) {
+                svg = document.createElement('div');
+                svg.innerHTML = '[[X_SVG_X]]';
+                svg.classList.add(SVG_CONTAINER);
+                svg.style.display = 'none';
+
+                document.body.appendChild(svg);
+            }
         },
 
         mergeOptions: function mergeOptions(options) {
