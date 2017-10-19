@@ -3,300 +3,289 @@
 [![Dev Dependencies Status](https://david-dm.org/globocom/share-bar/dev-status.svg)](https://david-dm.org/globocom/share-bar#info=devDependencies)
 [![Coverage Status](https://img.shields.io/coveralls/globocom/share-bar.svg)](https://coveralls.io/r/globocom/share-bar)
 
-ShareBar
-========
+share-bar
+=========
 
-Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas. O ShareBar não depende de nenhuma lib JS e já conta com todos os recursos necessários embedados em seu próprios estáticos. Além disso ele é totalmente responsive, baseando-se no tamanho da área onde está sendo aplicado e também no device onde está sendo exibido.
+> A pure JS plugin to generate a share bar for social media, used by Globo.com.
 
-[demo](http://globocom.github.io/share-bar/)
+## Browser Support
 
-Compatibilidade
-----
+| ![](http://raphamorim.io/assets/images/browser-support/chrome.png) | ![](http://raphamorim.io/assets/images/browser-support/firefox.png) | ![](http://raphamorim.io/assets/images/browser-support/ie.png) | ![](http://raphamorim.io/assets/images/browser-support/opera.png) | ![](http://raphamorim.io/assets/images/browser-support/safari.png) |
+|:---:|:---:|:---:|:---:|:---:|
+| All ✔ | 3.6+ ✔ | 9+ ✔ | 29+ ✔ |  5+ ✔ |
 
-| Browser           | Versão         |
-| ----------------- |:--------------:|
-| Chrome            | Todas          |
-| Firefox           | 3.6+           |
-| Safari            | 5+             |
-| IE                | 9+             |
+## How to Install
 
-| Devices                            |
-| ---------------------------------- |
-| Windows Surface                    |
-| Android 2.3+                       |
-| IOS                                |
+Install through NPM:
 
-
-Como instalar
-----
-
-Você pode instalar o plugin através do bower, usando o comando abaixo:
 ```
 bower install share-bar
 ```
 
-ou, pode instalar manualmente fazendo download dos arquivos abaixo e colocando-os em seu projeto:
-
-https://raw.githubusercontent.com/globocom/share-bar/master/dist/css/share.bar.min.css
-https://raw.githubusercontent.com/globocom/share-bar/master/dist/js/share.bar.min.js
-
-
-Como usar
+## How to Use
 ----
 
-Para utilizar o share, basta inserir na página os arquivos JS e CSS e instanciar o plugin:
+Once you added the CSS and JS from the plugin on the page, you can simply do:
 
-```html
-<link rel="stylesheet" href="path_to_css/share.bar.min.css">
-<script src="path_to_js/share.bar.min.js"></script>
-<script>
-    new ShareBar({'facebookAppId': 'APP_ID'});
-</script>
+```javascript
+new ShareBar({'facebookAppId': 'APP_ID'});
 ```
 
-* Caso não seja informado o APP_ID do facebook, o mesmo será obtido da página via [meta tag open graph](https://developers.facebook.com/docs/sharing/webmasters#basic) do facebook. Uma vez sem APP_ID, o share funcionará somente com a inicialização de outra barra com APP_ID na mesma página. De qualquer forma, é recomendado passar a APP_ID do facebook se esta rede social estiver incluida na barra.
+> `APP_ID` can be automatically pulled from the page if you're using Facebook meta tags ([meta tag open graph](https://developers.facebook.com/docs/sharing/webmasters#basic)), but we strongly recommend you to pass it manually.
 
-O elemento que deverá instanciar o share deverá seguir o exemplo abaixo
+Also, place the following markup where you want the share-bar to be:
+
 ```html
-<div class="share-bar" data-title="Teste do lightbox para imagem" data-url="Vale a pena testar de novo" data-image-url="http://lorempixel.com/1080/700/" data-hashtags="#example #sharebar"></div>
+<div class="share-bar" 
+    data-title="Content Title" 
+    data-url="Content URL" 
+    data-image-url="http://lorempixel.com/1080/700/" 
+    data-hashtags="#example #sharebar">
+</div>
 ```
 
-Um exemplo de utilização do plugin pode ser visto no arquivo "demo/index.html".
+Take a look at the `demo/index.html` for an example.
 
-Opções de inicialização do plugin
-----
+## Options
 
-O plugin permite algumas customizações e configurações afim de flexibilizar seu funcionamento.
+The plugin also offer a few options for customization.
 
-**selector**
+### Selector
 
-Permite alterar o seletor padrão utilizado para instanciar o share.
+Allows to alter the default selector.
 
-Default: ```.share-bar```
-```html
-<script>
-    new ShareBar({'selector': '.meu-seletor'});
-</script>
+Default: `.share-bar`
+
+```javascript
+new ShareBar({selector: '.meu-seletor'});
 ```
 
-**theme**
+### Theme
 
-Permite alterar o tema padrão utilizado no share, por padrão existem quatro temas disponíveis: natural, dark, minimal e minimal light. O tema dark abre o share com ícones em preto e branco, o natural com botões coloridos, já o minimal e minimal light apresentam ícones minimalistas. Caso deseje criar um outro tema basta usar a classe .share-[SEU TEMA] para estilizar os botões e configurar o plugin com o tema criado.
+Allows to alter the default theme, using these options: `natural`, `dark`, `minimal` and `minimal light`.
 
-Default: ```natural```
-```html
-<script>
-    new ShareBar({'theme': 'dark'});
-</script>
+Default: `'natural'`
+
+```javascript
+new ShareBar({theme: 'dark'});
 ```
 
-**classPopup**
+### classPopup
 
-Permite alterar a classe utilizada para abrir as redes sociais em popup. Só é necessário mudar essa configuração caso a classe default já esteja sendo utilizada em seu projeto com outro objetivo.
+Allows to alter the CSS class when opening the share popup windows. This is only necessary when the default class is already in use.
 
-Default: ```share-popup```
-```html
-<script>
-    new ShareBar({'classPopup': 'class-popup'});
-</script>
+Default: `'share-popup'`
+
+```javascript
+new ShareBar({classPopup: 'class-popup'});
 ```
 
-**buttonWidth**
+### buttonWidth
 
-Permite alterar a largura reservada para um botão em tamanho reduzido. Essa propriedade não afeta na largura do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado a largura de botões através do css.
+Allows to alter the reserved width for small buttons. This property does not change the actual button width, it only uses it to calculate how many buttons can fit in the share bar.
 
-Default: ```34```
-```html
-<script>
-    new ShareBar({'buttonWidth': 50});
-</script>
+Default: `34`
+
+```javascript
+new ShareBar({buttonWidth: 50});
 ```
 
-**buttonFullWidth**
+### buttonFullWidth
 
-Permite alterar a largura reservada para um botão em tamanho expandido. Essa propriedade não afeta na largura do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado a largura de botões expandidos através do css.
+Allows to alter the reserved width for expanded buttons. This property does not change the actual button width, it only uses it to calculate how many buttons can fit in the share bar.
 
-Default: ```110```
-```html
-<script>
-    new ShareBar({'buttonFullWidth': 150});
-</script>
+Default: `110`
+
+```javascript
+new ShareBar({buttonFullWidth: 150});
 ```
 
-**buttonPadding**
+### buttonPadding
 
-Permite alterar o padding esquerdo reservada para um botão. Essa propriedade não afeta no padding do botão, o plugin apenas utiliza essa informação para calcular quantos botões cabem na barra. Só altere essa propriedade se já tiver alterado o padding dos botões através do css.
+Allows to alter the reserved left padding for buttons. This property does not change the actual button width, it only uses it to calculate how many buttons can fit in the share bar.
 
-Default: ```4```
-```html
-<script>
-    new ShareBar({'buttonPadding': 4});
-</script>
+Default: `4`
+
+```javascript
+new ShareBar({buttonPadding: 4});
 ```
 
-**maxSocialButtons**
+### maxSocialButtons
 
-Permite alterar a quantidade máxima de redes sociais a serem exibidas na barra. Só altere essa propriedade caso deseje exibir mais do que 6 botões na barra. O plugin usa essa propriedade apenas como limitador máximo, para exibir menos basta passar menos redes sociais.
+Allows to alter the maximum quantity of social networks visible in the share bar. This is only necessary if you want to show more than 6 social networks in the bar.
 
-Default: ```6```
-```html
-<script>
-    new ShareBar({'maxSocialButtons': 10});
-</script>
+Default: `6`
+
+```javascript
+new ShareBar({maxSocialButtons: 10});
 ```
 
-**networks**
+### networks
 
-Permite alterar as redes sociais habilitadas na barra de share. É através dessa configuração que se pode adicionar ou remover botões das redes sociais na barra de share.
+Allows to alter the visible social networks in the share bar. This is the property you use to show or hide social network buttons in the share bar.
 
 Default:
+
 ```javascript
 [
-    facebook,
-    twitter,
-    whatsapp,
-    google,
-    pinterest,
-    email
+  'facebook',
+  'twitter',
+  'whatsapp',
+  'google',
+  'pinterest',
+  'email'
 ]
 ```
 
-```html
-<script>
-    new ShareBar({
-        'networks': [
-            'facebook',
-            'twitter',
-            function createSampleButton(container, buttonClass) {
-                var data = this.getMetadataFromElement(container);
-                buttonClass = buttonClass || '';
+Customize it like this:
 
-                this.createButton(
-                    container, 'sample', buttonClass,
-                    'http://www.sample.com/sample-sharer.php?u=' + data['url']
-                );
-            }
-        ]
-    });
-</script>
-```
-
-```
-Ps: Uma nota importante com relação ao ícone do whatsapp. Seu aparecimento se dá em devices com telas menores que 768px e que possuem touch(seja o sistema operacional Android ou Ios).
-```
-
-**context**
-
-Permite alterar o contexto de renderização da barra, essa informação é enviada via parâmetro utm_medium. Essa informação pode ser usada caso haja diferentes templates onde a barra é renderizada e existe a necessidade de filtrar no google analytics visitas baseada nessa informação de contexto.
-
-Default: ```desktop```
-```html
-<script>
-    new ShareBar({'context': 'mobile'});
-</script>
-```
-
-**campaign**
-
-Permite alterar o metadata campaign da barra, essa informação é enviada via parâmetro utm_campaign. Essa informação pode ser usada caso haja necessidade filtrar no google analytics visitas baseada nessa informação de campanha.
-
-Default: ```share-bar```
-```html
-<script>
-    new ShareBar({'campaign': 'custom-campaign'});
-</script>
-```
-
-**onCreateBar**
-
-Callback que permite executar uma ação após a criação da barra. Ela recebe por parâmetro a barra que acabou de ser criada.
-
-Default: ```function (bar) { return false; }```
-```html
-<script>
-    new ShareBar({'onCreateBar': function (bar) { alert(bar.innerHTML); }});
-</script>
-```
-
-**onCreateButton**
-
-Callback que permite executar uma ação após a criação de um botão de share. Ela recebe por parâmetro o botão que acabou de ser criadao. Essa callback é chamada na criação de cada um dos botões que compõem a barra.
-
-Default: ```function (button) { return false; }```
-```html
-<script>
-    new ShareBar({'onCreateBar': function (button) { alert(button.innerHTML); }});
-</script>
-```
-
-**onShare**
-
-Callback que permite executar uma ação após o click em algum botão de share. Ela recebe por parâmetro o botão que foi clicado.
-
-Default: ```function (button) { return false; }```
-```html
-<script>
-    new ShareBar({'onShare': function (button) { alert(button.innerHTML); }});
-</script>
-```
-**createBar**
-
-É possivel chamar diretamente o método createBar para criar uma barra quando quiser.
-
-Exemplo:
 ```javascript
-var la = new ShareBar({'maxSocialButtons': 10});
-la.createBar(document.querySelector('.minha-barra'));
+new ShareBar({
+  'networks': [
+    'facebook',
+    'twitter',
+    function createSampleButton(container, buttonClass) {
+      var data = this.getMetadataFromElement(container);
+      buttonClass = buttonClass || '';
+
+      this.createButton(
+        container, 'sample', buttonClass,
+        'http://www.sample.com/sample-sharer.php?u=' + data['url']
+      );
+    }
+  ]
+});
 ```
 
-PS: para funcionar, o elemento que será utilizado para colocar a barra precisa conter todos os data-attributes já descritos anteriormente.
+> Note: The WhatsApp icon is only visible on screens with less than 768px of width and are touch capable.
 
-Instalação
-----
-Esse projeto depende do npm.
+### context
 
-Para instalar o projeto em sua máquina afim de fazer modificações basta seguir o passo abaixo:
+Allows to alter the render context of the bar. This information is sent via `utm_medium` in the URL. This is useful when you have more than one sharebar on the page and you want to filter the actions on Google Analytics.
+
+Default: `'desktop'`
+
+```javascript
+new ShareBar({context: 'mobile'});
+```
+
+### campaign
+
+Allows to alter the campaign metadata of the bar. This information is sent via `utm_campaign` in the URL. This is useful when you have more than one sharebar on the page and you want to filter the actions on Google Analytics.
+
+Default: `'share-bar'`
+
+```javascript
+new ShareBar({campaign: 'custom-campaign'});
+```
+
+### onCreateBar
+
+A callback that fires when you create the bar. It receives the created bar as a parameter.
+
+Default: `function (bar) { return false; }`
+
+```javascript
+new ShareBar({
+  onCreateBar: function (bar) { 
+    alert(bar.innerHTML); 
+  }
+});
+```
+
+### onCreateButton
+
+A callback that fires after a share button is created. It receives the created button as a parameter.
+
+Default: `function (button) { return false; }`
+
+```javascript
+new ShareBar({
+  onCreateBar: function (button) { 
+    alert(button.innerHTML); 
+  }
+});
+```
+
+### onShare
+
+A callback that fires after a share button is clicked. It receives the clicked button as a parameter.
+
+Default: `function (button) { return false; }`
+
+```javascript
+new ShareBar({
+  onShare: function (button) { 
+    alert(button.innerHTML); 
+  }
+});
+```
+
+### createBar
+
+It's possible to call `createBar` to create the bar manually anytime you want.
+
+```javascript
+const sharebar = new ShareBar({maxSocialButtons: 10});
+sharebar.createBar(document.querySelector('.minha-barra'));
+```
+
+> Note: For this to work, you need to have the HTML element shown above with the data-attributes already set.
+
+## Contributing
+
+This project depends on NodeJS and NPM.
+
+To install the project dependencies use:
+
 ```
 $ make setup
 ```
 
-Para verificar se a instalação funcionou corretamente, basta rodar os testes:
+To run the tests:
+
 ```
 $ make test
 ```
 
-Para iniciar um servidor localhost e permitir abrir o arquivo demonstração, basta rodar o comando run:
+To run a local server for local development use:
+
 ```
 $ make run
 ```
 
-**ícones**
+### Icons
 
-Os ícones hoje utilizados no projeto são svg's embedados junto ao javascript.
+The icones used in this project are SVGs embbededs in the JavaScript.
 
-Adicionando ícones svg ao projeto:
-1 - Adicione o seu svg ao path de imagens
+Adding more icons to the project:
+
+1 - Add your SVG to the image path
+
 ```
 $ mv ~/caminho/da/imagem.svg caminho/do/share/src/img/
 ```
-2 - Regere o svg embeded
+
+2 - Generate the SVG icons again with Grunt
+
 ```
 $ grunt icon
 ```
-3 - Altere os temas( css ) para o svg e a fonte se comportarem da maneira desejada
 
-4 - Caso queira adicione a função de callback de criação de botão
+3 - Alter the CSS and Fonts to accomplish the desired look
+
+4 - If you want, add a callback function to the button
 
 
-**Versão**
+## Version
 
-Para gerar uma nova versão (tag) do plugin basta rodar o comando de bump:
+To generate a new tag version, use this:
+
 ```
 $ grunt bump
 ```
 
-License
-----
+## License
 
 The MIT License (MIT)
 
