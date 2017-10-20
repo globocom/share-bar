@@ -3,10 +3,34 @@
 [![Dev Dependencies Status](https://david-dm.org/globocom/share-bar/dev-status.svg)](https://david-dm.org/globocom/share-bar#info=devDependencies)
 [![Coverage Status](https://img.shields.io/coveralls/globocom/share-bar.svg)](https://coveralls.io/r/globocom/share-bar)
 
-share-bar
-=========
+# share-bar
 
 > A pure JS plugin to generate a share bar for social media, used by Globo.com.
+
+## Table of Contents
+
+- [Browser Support](#browser-support)
+- [How to Install](#how-to-install)
+- [How to Use](#how-to-use)
+- [Options](#options)
+  * [Selector](#selector)
+  * [Theme](#theme)
+  * [classPopup](#classpopup)
+  * [buttonWidth](#buttonwidth)
+  * [buttonFullWidth](#buttonfullwidth)
+  * [buttonPadding](#buttonpadding)
+  * [maxSocialButtons](#maxsocialbuttons)
+  * [networks](#networks)
+  * [context](#context)
+  * [campaign](#campaign)
+  * [onCreateBar](#oncreatebar)
+  * [onCreateButton](#oncreatebutton)
+  * [onShare](#onshare)
+  * [createBar](#createbar)
+- [Contributing](#contributing)
+  * [Icons](#icons)
+- [Version](#version)
+- [License](#license)
 
 ## Browser Support
 

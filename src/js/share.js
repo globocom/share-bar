@@ -24,18 +24,25 @@ function ShareBar(options) {
     function preventDefault(e) {
         if (e && e.preventDefault) {
             e.preventDefault();
-        } else if (window.event) {
-            window.event.returnValue = false;
         }
     }
 
+    function supportsPassive() {
+        var supportsPassive = false;
+        try {
+            var opts = Object.defineProperty({}, 'passive', {
+                get: function() {
+                    supportsPassive = true;
+                }
+            });
+            window.addEventListener("test", null, opts);
+        } catch (e) {}
+
+        return supportsPassive;
+    }
+
     function addEventListener(element, event, handler) {
-        if (element.addEventListener) {
-            return element.addEventListener(event, handler, false);
-        }
-        if (element.attachEvent) {
-            return element.attachEvent('on' + event, function () { handler.call(element); });
-        }
+        return element.addEventListener(event, handler, supportsPassive() ? { passive: true } : false);
     }
 
     ShareBar.prototype = {
