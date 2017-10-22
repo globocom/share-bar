@@ -27,22 +27,24 @@ function ShareBar(options) {
         }
     }
 
-    function supportsPassive() {
-        var supportsPassive = false;
-        try {
-            var opts = Object.defineProperty({}, 'passive', {
-                get: function() {
-                    supportsPassive = true;
-                }
+    function supportPassiveEvents() {
+        if (typeof window !== 'undefined' &&
+          typeof window.addEventListener === 'function') {
+            var support = false;
+            var options = Object.defineProperty({}, 'passive', {
+              get: function() { support = true; },
             });
-            window.addEventListener("test", null, opts);
-        } catch (e) {}
 
-        return supportsPassive;
+            var noop = Function();
+            window.addEventListener('testPassiveEventSupport', noop, options);
+            window.removeEventListener('testPassiveEventSupport', noop, options);
+            return support
+        }
     }
 
     function addEventListener(element, event, handler) {
-        return element.addEventListener(event, handler, supportsPassive() ? { passive: true } : false);
+        var useCapture = supportPassiveEvents() ? { passive: true } : false;
+        return element.addEventListener(event, handler, useCapture);
     }
 
     ShareBar.prototype = {
