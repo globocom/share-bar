@@ -43,7 +43,7 @@
 Install through NPM:
 
 ```
-npm install share-bar
+npm install @globocom/share-bar
 ```
 
 ## How to Use
