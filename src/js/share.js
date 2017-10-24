@@ -28,17 +28,16 @@ function ShareBar(options) {
     }
 
     function supportPassiveEvents() {
-        if (typeof window !== 'undefined' &&
-          typeof window.addEventListener === 'function') {
-            var support = false;
-            var options = Object.defineProperty({}, 'passive', {
-              get: function() { support = true; },
-            });
+        if (window === undefined && typeof window.addEventListener === 'function') {
+            var support = false,
+                noop = Function,
+                options = Object.defineProperty({}, 'passive', {
+                    get: function () { support = true; }
+                });
 
-            var noop = Function();
             window.addEventListener('testPassiveEventSupport', noop, options);
             window.removeEventListener('testPassiveEventSupport', noop, options);
-            return support
+            return support;
         }
     }
 

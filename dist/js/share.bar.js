@@ -1,4 +1,4 @@
-/*! ShareBar - v3.1.3 - 2017-10-19 - * Copyright (c) 2017 Globo.com; Licensed MIT */
+/*! ShareBar - v3.1.50 - 2017-10-24 - * Copyright (c) 2017 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -23,18 +23,26 @@ function ShareBar(options) {
     function preventDefault(e) {
         if (e && e.preventDefault) {
             e.preventDefault();
-        } else if (window.event) {
-            window.event.returnValue = false;
+        }
+    }
+
+    function supportPassiveEvents() {
+        if (window === undefined && typeof window.addEventListener === 'function') {
+            var support = false,
+                noop = Function,
+                options = Object.defineProperty({}, 'passive', {
+                    get: function () { support = true; }
+                });
+
+            window.addEventListener('testPassiveEventSupport', noop, options);
+            window.removeEventListener('testPassiveEventSupport', noop, options);
+            return support;
         }
     }
 
     function addEventListener(element, event, handler) {
-        if (element.addEventListener) {
-            return element.addEventListener(event, handler, false);
-        }
-        if (element.attachEvent) {
-            return element.attachEvent('on' + event, function () { handler.call(element); });
-        }
+        var useCapture = supportPassiveEvents() ? { passive: true } : false;
+        return element.addEventListener(event, handler, useCapture);
     }
 
     ShareBar.prototype = {
