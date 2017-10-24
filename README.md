@@ -43,7 +43,7 @@
 Install through NPM:
 
 ```
-bower install share-bar
+npm install share-bar
 ```
 
 ## How to Use
