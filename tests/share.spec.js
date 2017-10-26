@@ -117,6 +117,7 @@ describe('ShareBar - Methods Test Case', function () {
                 'twitter',
                 'whatsapp',
                 'google',
+                'linkedin',
                 'pinterest',
                 'email'
             ]);
@@ -161,7 +162,7 @@ describe('ShareBar - Methods Test Case', function () {
             expect(
                 function () {self.newBar.validateNetworks(['facebrrk']); }
             ).toThrow(
-                new Error('The list of networks passed on initialization is wrong [Network name "facebrrk" is wrong, should be facebook or twitter or whatsapp or google or pinterest or email]')
+                new Error('The list of networks passed on initialization is wrong [Network name "facebrrk" is wrong, should be facebook or twitter or whatsapp or google or linkedin or pinterest or email]')
             );
         });
 

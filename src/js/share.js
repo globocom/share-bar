@@ -12,6 +12,7 @@ function ShareBar(options) {
         TWITTER = 'twitter',
         WHATSAPP = 'whatsapp',
         GOOGLE = 'google',
+        LINKEDIN = 'linkedin',
         PINTEREST = 'pinterest',
         EMAIL = 'email',
         BUTTON_WIDTH = 34,
@@ -107,7 +108,7 @@ function ShareBar(options) {
                     classPopup: 'share-popup',
                     facebookAppId: '',
                     networks: [
-                        FACEBOOK, TWITTER, WHATSAPP, GOOGLE, PINTEREST, EMAIL
+                        FACEBOOK, TWITTER, WHATSAPP, GOOGLE, LINKEDIN, PINTEREST, EMAIL
                     ],
                     theme: 'natural',
                     buttonWidth: BUTTON_WIDTH,
@@ -150,7 +151,7 @@ function ShareBar(options) {
                     if (method) {
                         networks[i] = method;
                     } else {
-                        throw new Error(msg + ' [Network name "' + networks[i] + '" is wrong, should be ' + FACEBOOK + ' or ' + TWITTER + ' or ' + WHATSAPP + ' or ' + GOOGLE + ' or ' + PINTEREST + ' or ' + EMAIL + ']');
+                        throw new Error(msg + ' [Network name "' + networks[i] + '" is wrong, should be ' + FACEBOOK + ' or ' + TWITTER + ' or ' + WHATSAPP + ' or ' + GOOGLE + ' or ' + LINKEDIN + ' or ' + PINTEREST + ' or ' + EMAIL + ']');
                     }
 
                 } else if (typeof networks[i] !== 'function') {
@@ -452,6 +453,18 @@ function ShareBar(options) {
                 buttonClass,
                 'https://plus.google.com/share?url=' + data.url,
                 GOOGLE + '+'
+            );
+        },
+
+        createLinkedinButton: function createLinkedinButton(container, buttonClass) {
+            var data = this.getMetadataFromElement(container);
+
+            this.createButton(
+                container,
+                LINKEDIN,
+                buttonClass,
+                'http://www.linkedin.com/shareArticle?mini=true&url=' + data.url,
+                LINKEDIN + '+'
             );
         },
 
