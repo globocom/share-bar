@@ -1,5 +1,5 @@
 {
-  "name": "@globocom/share-bar",
+  "name": "share.bar",
   "title": "ShareBar",
   "version": "3.1.5",
   "description": "Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas.",
