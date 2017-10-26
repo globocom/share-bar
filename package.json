@@ -1,7 +1,7 @@
 {
   "name": "share.bar",
   "title": "ShareBar",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description": "Plugin js que automatiza a criação de barra de share de acordo com as redes sociais desejadas.",
   "main": "dist/share.bar.js",
   "author": {
