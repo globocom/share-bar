@@ -280,7 +280,7 @@ $ make run
 
 ### Icons
 
-The icones used in this project are SVGs embbededs in the JavaScript.
+The icons used in this project are SVGs embbededs in the JavaScript.
 
 Adding more icons to the project:
 
