@@ -1,4 +1,4 @@
-/*! ShareBar - v3.1.5 - 2017-10-26 - * Copyright (c) 2017 Globo.com; Licensed MIT */
+/*! ShareBar - v3.2.0 - 2017-10-27 - * Copyright (c) 2017 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -462,8 +462,7 @@ function ShareBar(options) {
                 container,
                 LINKEDIN,
                 buttonClass,
-                'http://www.linkedin.com/shareArticle?mini=true&url=' + data.url,
-                LINKEDIN + '+'
+                'http://www.linkedin.com/shareArticle?mini=true&url=' + data.url
             );
         },
 

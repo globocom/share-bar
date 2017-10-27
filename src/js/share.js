@@ -463,8 +463,7 @@ function ShareBar(options) {
                 container,
                 LINKEDIN,
                 buttonClass,
-                'http://www.linkedin.com/shareArticle?mini=true&url=' + data.url,
-                LINKEDIN + '+'
+                'http://www.linkedin.com/shareArticle?mini=true&url=' + data.url
             );
         },
 
