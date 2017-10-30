@@ -181,6 +181,11 @@ describe('ShareBar - Methods Test Case', function () {
                 new Error('The list of networks passed on initialization is wrong [Should be string or function]')
             );
         });
+
+        it('should keep available networks in an instance var activeNetworks', function () {
+            this.newBar.validateNetworks(['facebook', 'twitter']);
+            expect(this.newBar.activeNetworks).toEqual(['facebook', 'twitter']);
+        });
     });
 
     describe('bindOpenPopup', function () {

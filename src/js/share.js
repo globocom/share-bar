@@ -49,6 +49,7 @@ function ShareBar(options) {
 
     ShareBar.prototype = {
         init: function init(options) {
+            this.activeNetworks = [];
             this.eventName = this.getActionName();
             this.verifyTouch();
             this.createSVG();
@@ -149,6 +150,10 @@ function ShareBar(options) {
                     method = ShareBar.prototype['create' + networkName + 'Button'];
 
                     if (method) {
+                        if (this.activeNetworks.indexOf(networks[i]) === -1) {
+                            this.activeNetworks.push(networks[i]);
+                        }
+
                         networks[i] = method;
                     } else {
                         throw new Error(msg + ' [Network name "' + networks[i] + '" is wrong, should be ' + FACEBOOK + ' or ' + TWITTER + ' or ' + WHATSAPP + ' or ' + GOOGLE + ' or ' + LINKEDIN + ' or ' + PINTEREST + ' or ' + EMAIL + ']');
