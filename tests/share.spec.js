@@ -562,6 +562,11 @@ describe('ShareBar - Methods Test Case', function () {
             expect(this.el.querySelector('.share-test a').getAttribute("title")).toEqual('Compartilhar via Test');
         });
 
+        it('should set data-social-network', function () {
+            this.newBar.createButton(this.el, 'test', '', 'urltest');
+            expect(this.el.querySelector('.share-test a').getAttribute("data-social-network")).toEqual('test');
+        });
+
         it('should set rel=external', function () {
             this.newBar.createButton(this.el, 'test', '', 'urltest');
             expect(this.el.querySelector('.share-test a').getAttribute("rel")).toEqual('external');

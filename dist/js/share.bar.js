@@ -1,4 +1,4 @@
-/*! ShareBar - v3.2.0 - 2017-10-27 - * Copyright (c) 2017 Globo.com; Licensed MIT */
+/*! ShareBar - v3.2.0 - 2017-10-30 - * Copyright (c) 2017 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -336,7 +336,7 @@ function ShareBar(options) {
             }
 
             shareContainer.innerHTML = [
-                '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '" target="_blank" rel="external">',
+                '<a class="' + classPopup + '" href="' + url + '" title="Compartilhar via ' + socialNetworkTitle + '" data-social-network="' + socialNetworkClass + '" target="_blank" rel="external">',
                 this.createContentButton(socialNetworkClass, socialNetworkTitle),
                 '</a>'
             ].join('');
