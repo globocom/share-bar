@@ -1,4 +1,4 @@
-/*! ShareBar - v3.2.0 - 2017-10-30 - * Copyright (c) 2017 Globo.com; Licensed MIT */
+/*! ShareBar - v3.2.0 - 2018-10-13 - * Copyright (c) 2018 Globo.com; Licensed MIT */
 function ShareBar(options) {
     'use strict';
     return this.init(options);
@@ -55,6 +55,21 @@ function ShareBar(options) {
             this.mergeOptions(options);
             this.containers = document.querySelectorAll(this.selector);
             this.createBars();
+        },
+
+        destroy: function destroy() {
+            this.containers.forEach(function (container) {
+                container.classList.remove('share-bar-container');
+                container.classList.forEach(function (item) {
+                    if (item.indexOf('share-theme') !== -1) {
+                        container.setAttribute('data-theme', item.split('-')[2]);
+                        container.classList.remove(item);
+                    }
+                });
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+            });
         },
 
         getActionName: function getActionName() {
