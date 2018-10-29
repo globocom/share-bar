@@ -155,7 +155,7 @@ Default:
   'twitter',
   'whatsapp',
   'google',
-  'linkedin'
+  'linkedin',
   'pinterest',
   'email'
 ]
