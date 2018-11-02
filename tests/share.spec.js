@@ -116,6 +116,7 @@ describe('ShareBar - Methods Test Case', function () {
                 'facebook',
                 'twitter',
                 'whatsapp',
+                'telegram',
                 'google',
                 'linkedin',
                 'pinterest',
