@@ -30,6 +30,10 @@
     .share-whatsapp a {
         background-color: #58ad15;
     }
+
+    .share-telegram a {
+        background-color: #2da4d7;
+    }
 }
 
 .no-touch .share-theme-natural {
@@ -60,5 +64,9 @@
 
     .share-whatsapp a:hover {
         background-color: #469d11;
+    }
+
+    .share-telegram a:hover {
+        background-color: #45abcc;
     }
 }

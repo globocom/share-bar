@@ -11,6 +11,7 @@ function ShareBar(options) {
     var FACEBOOK = 'facebook',
         TWITTER = 'twitter',
         WHATSAPP = 'whatsapp',
+        TELEGRAM = 'telegram',
         GOOGLE = 'google',
         LINKEDIN = 'linkedin',
         PINTEREST = 'pinterest',
@@ -109,7 +110,7 @@ function ShareBar(options) {
                     classPopup: 'share-popup',
                     facebookAppId: '',
                     networks: [
-                        FACEBOOK, TWITTER, WHATSAPP, GOOGLE, LINKEDIN, PINTEREST, EMAIL
+                        FACEBOOK, TWITTER, WHATSAPP, TELEGRAM, GOOGLE, LINKEDIN, PINTEREST, EMAIL
                     ],
                     theme: 'natural',
                     buttonWidth: BUTTON_WIDTH,
@@ -495,6 +496,19 @@ function ShareBar(options) {
                 WHATSAPP,
                 buttonClass,
                 'whatsapp://send?text=' + data.title + '%20' + data.url,
+                '',
+                true
+            );
+        },
+
+        createTelegramButton: function createTelegramButton(container, buttonClass) {
+            var data = this.getMetadataFromElement(container);
+
+            this.createButton(
+                container,
+                TELEGRAM,
+                buttonClass,
+                'https://telegram.me/share/url?url=' + data.url + '&text=' + data.title,
                 '',
                 true
             );
