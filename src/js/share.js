@@ -61,12 +61,13 @@ function ShareBar(options) {
         destroy: function destroy() {
             this.containers.forEach(function (container) {
                 container.classList.remove('share-bar-container');
-                container.classList.forEach(function (item) {
+                for(var i = 0; i < container.classList.length; i++) {
+                    var item = container.classList.item(i); 
                     if (item.indexOf('share-theme') !== -1) {
                         container.setAttribute('data-theme', item.split('-')[2]);
                         container.classList.remove(item);
                     }
-                });
+                }
                 while (container.firstChild) {
                     container.removeChild(container.firstChild);
                 }
