@@ -59,6 +59,26 @@ function ShareBar(options) {
             this.createBars();
         },
 
+        destroy: function destroy() {
+            this.containers.forEach(function (container) {
+                var i = 0, item;
+
+                container.classList.remove('share-bar-container');
+
+                for (i; i < container.classList.length; i++) {
+                    item = container.classList.item(i);
+
+                    if (item.indexOf('share-theme') !== -1) {
+                        container.setAttribute('data-theme', item.split('-')[2]);
+                        container.classList.remove(item);
+                    }
+                }
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+            });
+        },
+
         getActionName: function getActionName() {
             return this.isTouch() ? 'mouseup' : 'click';
         },
