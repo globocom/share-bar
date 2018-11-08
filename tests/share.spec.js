@@ -106,17 +106,18 @@ describe('ShareBar - Methods Test Case', function () {
     });
 
     describe('destroy', function () {
-        it('should call destroy function', function () {
-            var spy = spyOn(this.newBar, 'destroy');
-            this.newBar.destroy();
-            expect(spy).toHaveBeenCalled();
-        });
-
         it('should remove class \'share-bar-container\' and \'share-theme\' ', function () {
             this.newBar.containers = [this.el];
             this.newBar.createBars();
             this.newBar.destroy();
             expect(this.newBar.containers[0].classList.toString()).toEqual('share-bar');
+        });
+
+        it('should remove all childdren from container', function () {
+            this.newBar.containers = [this.el];
+            this.newBar.createBars();
+            this.newBar.destroy();
+            expect(this.newBar.containers[0].childElementCount).toEqual(0);
         });
     });
 
