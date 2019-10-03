@@ -9,28 +9,30 @@
 
 ## Table of Contents
 
-- [Browser Support](#browser-support)
-- [How to Install](#how-to-install)
-- [How to Use](#how-to-use)
-- [Options](#options)
-  * [Selector](#selector)
-  * [Theme](#theme)
-  * [classPopup](#classpopup)
-  * [buttonWidth](#buttonwidth)
-  * [buttonFullWidth](#buttonfullwidth)
-  * [buttonPadding](#buttonpadding)
-  * [maxSocialButtons](#maxsocialbuttons)
-  * [networks](#networks)
-  * [context](#context)
-  * [campaign](#campaign)
-  * [onCreateBar](#oncreatebar)
-  * [onCreateButton](#oncreatebutton)
-  * [onShare](#onshare)
-  * [createBar](#createbar)
-- [Contributing](#contributing)
-  * [Icons](#icons)
-- [Version](#version)
-- [License](#license)
+- [share-bar](#share-bar)
+  - [Table of Contents](#table-of-contents)
+  - [Browser Support](#browser-support)
+  - [How to Install](#how-to-install)
+  - [How to Use](#how-to-use)
+  - [Options](#options)
+    - [Selector](#selector)
+    - [Theme](#theme)
+    - [classPopup](#classpopup)
+    - [buttonWidth](#buttonwidth)
+    - [buttonFullWidth](#buttonfullwidth)
+    - [buttonPadding](#buttonpadding)
+    - [maxSocialButtons](#maxsocialbuttons)
+    - [networks](#networks)
+    - [context](#context)
+    - [campaign](#campaign)
+    - [onCreateBar](#oncreatebar)
+    - [onCreateButton](#oncreatebutton)
+    - [onShare](#onshare)
+    - [createBar](#createbar)
+  - [Contributing](#contributing)
+    - [Icons](#icons)
+  - [Version](#version)
+  - [License](#license)
 
 ## Browser Support
 
@@ -42,7 +44,7 @@
 
 Install through NPM:
 
-```
+```bash
 npm install @globocom/share-bar
 ```
 
@@ -262,19 +264,19 @@ This project depends on NodeJS and NPM.
 
 To install the project dependencies use:
 
-```
+```bash
 $ make setup
 ```
 
 To run the tests:
 
-```
+```bash
 $ make test
 ```
 
 To run a local server for local development use:
 
-```
+```bash
 $ make run
 ```
 
@@ -286,13 +288,13 @@ Adding more icons to the project:
 
 1 - Add your SVG to the image path
 
-```
+```bash
 $ mv ~/caminho/da/imagem.svg caminho/do/share/src/img/
 ```
 
 2 - Generate the SVG icons again with Grunt
 
-```
+```bash
 $ grunt icon
 ```
 
@@ -305,7 +307,7 @@ $ grunt icon
 
 To generate a new tag version, use this:
 
-```
+```bash
 $ grunt bump
 ```
 
