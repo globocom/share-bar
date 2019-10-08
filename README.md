@@ -71,7 +71,7 @@ Take a look at our [demo](https://globocom.github.io/share-bar/).
 
 ## Options
 
-The plugin also offer a few options for customization.
+The plugin also offers a few options for customization.
 
 ### Selector
 
@@ -280,7 +280,7 @@ $ make run
 
 ### Icons
 
-The icons used in this project are SVGs embbededs in the JavaScript.
+The icons used in this project are SVGs embedded in the JavaScript.
 
 Adding more icons to the project:
 
@@ -313,7 +313,7 @@ $ grunt bump
 
 The MIT License (MIT)
 
-Copyright (c) 2016 globo.com
+Copyright (c) 2019 globo.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
