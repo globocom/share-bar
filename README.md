@@ -1,6 +1,4 @@
 [![Travis Build Status](https://travis-ci.org/globocom/share-bar.svg)](https://travis-ci.org/globocom/share-bar)
-[![Dependencies Status](https://david-dm.org/globocom/share-bar.svg)](https://david-dm.org/globocom/share-bar#info=dependencies)
-[![Dev Dependencies Status](https://david-dm.org/globocom/share-bar/dev-status.svg)](https://david-dm.org/globocom/share-bar#info=devDependencies)
 [![Coverage Status](https://img.shields.io/coveralls/globocom/share-bar.svg)](https://coveralls.io/r/globocom/share-bar)
 
 # share-bar
